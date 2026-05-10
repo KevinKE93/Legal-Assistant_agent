@@ -1,6 +1,6 @@
 # SKILLS.md
 
-本文件定义每个阶段 skill 的触发条件、必须落盘的文件、`skill_outputs.md` 记忆字段和最终报告章节映射。每个 `skills/*/SKILL.md` 只保留阶段操作细节；本文件提供跨技能统一约束。
+本文件定义每个阶段 skill 的触发条件、必须落盘的文件、`skill_outputs.md` 记忆字段和最终报告章节映射。每个 `skills/*/SKILL.md` 只保留阶段操作细节；本文件提供跨技能统一约束。哪些 skill 必跑、可选或可跳过，以 `CAPABILITIES.md` 的事项类型矩阵为准。
 
 ## 1. 统一执行要求
 
@@ -15,6 +15,8 @@
 | 字段 | 要求 |
 |---|---|
 | Skill | skill 名称，例如 `timeline_evidence_ledger` |
+| Required / Optional | 来自 `CAPABILITIES.md` 的必跑或可选判断 |
+| Status | `done / pending / blocked / skipped` |
 | Trigger | 为什么调用本 skill |
 | Files Read | 读取了哪些工作文件 |
 | Files Updated | 写入或更新了哪些工作文件 |
@@ -23,7 +25,7 @@
 | Sources Used | 使用了哪些来源；未使用写“未检索/不适用/待核验” |
 | Report Section | 最终报告中必须出现的位置 |
 
-如果 skill 未实际执行，不能在最终报告中声称执行过。如果执行但信息不足，必须记录缺口、影响和下一步。
+如果 skill 未实际执行，不能在最终报告中声称执行过。如果执行但信息不足，必须记录缺口、影响和下一步。必跑 skill 为 `pending`、`blocked` 或没有执行记录时，最终报告必须标记为 `draft` 或 `incomplete`；只有内容 gate 全部通过且仅 PDF gate 阻塞时，才可标记为 `complete_except_pdf`。
 
 ## 2. Skill 到文件和报告章节映射
 
@@ -47,13 +49,31 @@
 | `contract_drafting` | 起草合同、补充协议、和解协议、条款清单 | `term_sheet.md`、`contract_draft.md`、`advice.md`、`skill_outputs.md` | 合同草案与条款选择 |
 | `final_synthesis` | 阶段完成、用户要总结/报告/PDF、复杂事项收口 | 专业报告 `.md`、专业报告 `.pdf`、`plan.md`、`skill_outputs.md` | 全部章节 |
 
-## 3. skill_outputs.md 写入模板
+## 3. 必跑、可选和跳过规则
+
+- `required`：来自 `CAPABILITIES.md` 的必跑 skill。必须执行；若无法执行，状态写为 `blocked`，说明原因、影响和下一步。
+- `optional`：来自 `CAPABILITIES.md` 的可选 skill。可根据材料、目标和风险选择执行；若跳过，状态写为 `skipped` 并说明理由。
+- `derived`：执行过程中因新信息触发的额外 skill。必须记录触发原因和产物。
+- `not applicable`：明显不适用的 skill，不必写入执行索引；但如果用户特别要求或会影响结论，应写入 `skipped`。
+
+状态含义：
+
+| Status | 含义 | 对交付影响 |
+|---|---|---|
+| done | 已执行并写入主题文件 | 可以进入完整报告 |
+| pending | 已识别但尚未执行 | 报告只能是阶段性草稿 |
+| blocked | 因缺证据、缺权限、无法联网、缺 PDF 能力等阻塞 | 报告必须说明不完整或 PDF blocked |
+| skipped | 判断不适用或用户暂不需要 | 可以交付，但必须说明理由 |
+
+## 4. skill_outputs.md 写入模板
 
 每次 skill 执行后，在 `skill_outputs.md` 写入：
 
 ```markdown
 ### <Seq>. <skill_name>
 - Trigger:
+- Required / optional:
+- Status: done / pending / blocked / skipped
 - User goal:
 - Files read:
 - Files updated:
@@ -67,17 +87,19 @@
 
 `Execution Index` 表必须同步更新，便于最终汇总逐项覆盖。
 
-## 4. 最终汇总覆盖规则
+## 5. 最终汇总覆盖规则
 
 调用 `final_synthesis` 时：
 
+- 先读取 `CAPABILITIES.md` 和 `plan.md`，确认事项类型、必跑 skill 和 gate 状态。
 - 先读取 `skill_outputs.md`，确定哪些 skill 实际执行过。
 - 再逐项读取 `plan.md`、`case.md`、`timeline.md`、`evidence.md`、`sources.md`、`analysis.md`、`advice.md` 和其他存在的主题文件。
 - 专业报告必须为 `Execution Index` 中每个已执行 skill 提供对应章节或子章节。
+- 专业报告必须展示必跑 skill 的执行完整性；必跑 skill 未执行、`pending` 或 `blocked` 时，报告状态不能标记为 `complete`，并应根据影响标记为 `draft` 或 `incomplete`。
 - 如果某个 skill 的关键发现没有进入报告，必须在报告附录说明未纳入原因。
 - 会话回复必须展示实质汇总内容，不能只列“已生成文件路径”。
 
-## 5. 来源使用规则
+## 6. 来源使用规则
 
 `case_reference_research` 不是唯一能写来源的 skill。任何 skill 只要引用外部法律、案例、政策、网页或权威资料，都必须更新 `sources.md`，并在 `skill_outputs.md` 的 `Sources used` 字段记录：
 
@@ -92,10 +114,11 @@
 Sources used: 未联网检索；当前规则仅为待核验法律分析假设，最终报告不得表述为已核验。
 ```
 
-## 6. 质量门槛
+## 7. 质量门槛
 
 - 不把待证明事实写成已证明事实。
 - 不把法律研究结果留在对话里而不写入 `sources.md`。
 - 不把 skill 产物留在零散对话里而不写入事项文件夹。
 - 不把最终报告写成短摘要。
+- 不跳过 `CAPABILITIES.md` 中的必跑 skill；确实不能执行时必须写明 blocked/skipped 和影响。
 - 不交付乱码或无法阅读的 PDF。

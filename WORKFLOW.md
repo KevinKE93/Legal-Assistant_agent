@@ -1,6 +1,6 @@
 # WORKFLOW.md
 
-本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准。
+本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `CAPABILITIES.md` 为准。
 
 ## 1. 事项文件夹
 
@@ -16,7 +16,7 @@ work/<date>_<本地化事项名>/
 - `<本地化事项名>` 使用用户输入的主语言命名。中文输入必须使用中文名；英文输入使用英文名；混合输入按主语言命名。
 - 名称用 2-6 个关键词概括法律主题，不写真实姓名、身份证号、完整公司名、地址等敏感信息。
 - 同一事项只维护一个文件夹；后续输入新事实、新证据、新合同版本或新程序进展时，继续更新旧文件夹。
-- 禁止创建 `work/cases/` 或在 `work/` 下再套 `cases/`。
+- 禁止在 `work/` 下再套 `cases/` 层。
 - 不提交 `work/` 下真实案件数据。
 
 示例：
@@ -81,19 +81,58 @@ contract_draft.md
 | `term_sheet.md` | 合同起草前的交易要点和条款结构 |
 | `contract_draft.md` | 合同、补充协议或和解协议草案 |
 
-## 5. plan.md 标准结构
+## 5. 路由与 gate 规则
+
+复杂事项不能直接进入最终汇总。必须先完成：
+
+```text
+识别事项类型
+→ 查 CAPABILITIES.md
+→ 确定必跑 skill / 可选 skill / 必备文件 / 工具要求
+→ 写入 plan.md 和 skill_outputs.md
+→ 执行必跑 skill
+→ 检查 gates
+→ final_synthesis
+```
+
+`plan.md` 必须记录：
+
+- 主事项类型和子任务类型。
+- 必跑 skill 清单。
+- 可选 skill 清单。
+- 每个 gate 的状态：`pass / pending / blocked / skipped`。
+- 专业报告状态：`complete / complete_except_pdf / draft / incomplete`。
+
+`skill_outputs.md` 必须记录每个必跑 skill 的状态：`done / pending / blocked / skipped`。必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。
+
+## 6. plan.md 标准结构
 
 ```markdown
 # Plan
 
 - Matter folder:
 - Matter type:
+- Required skills:
+- Optional skills:
 - Output language:
 - Professional report Markdown:
 - Professional report PDF:
 - PDF status: pending / ready / blocked
+- Report status: complete / complete_except_pdf / draft / incomplete
 - Current stage:
 - Updated at:
+
+## Gate Status
+| Gate | Status | Reason / Evidence | Next Step |
+|---|---|---|---|
+| Routing Gate |  |  |  |
+| Folder Gate |  |  |  |
+| Skill Gate |  |  |  |
+| Source Gate |  |  |  |
+| Evidence Gate |  |  |  |
+| Report Gate |  |  |  |
+| Conversation Gate |  |  |  |
+| PDF Gate |  |  |  |
 
 ## Done
 -
@@ -114,7 +153,7 @@ contract_draft.md
 
 每完成一个主要阶段，都更新 `plan.md`。下一步必须有责任方：`user`、`agent`、`lawyer`、`court/arbitrator`、`agency`、`opponent`。
 
-## 6. case.md 标准结构
+## 7. case.md 标准结构
 
 ```markdown
 # Case
@@ -153,19 +192,21 @@ contract_draft.md
 |---|---|---|---|
 ```
 
-## 7. skill_outputs.md 标准结构
+## 8. skill_outputs.md 标准结构
 
 ```markdown
 # Skill Outputs
 
 ## Execution Index
-| Seq | Skill | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
-|---:|---|---|---|---|---|---|---|---|
+| Seq | Skill | Required / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
+|---:|---|---|---|---|---|---|---|---|---|---|
 
 ## Detailed Notes
 
 ### <Seq>. <skill_name>
 - Trigger:
+- Required / optional:
+- Status: done / pending / blocked / skipped
 - User goal:
 - Inputs read:
 - Files updated:
@@ -179,11 +220,11 @@ contract_draft.md
 规则：
 
 - 每执行一个 skill，必须追加或更新一条记录。
-- 如果某个 skill 被跳过，不能在最终报告中声称已经执行。
+- 如果必跑 skill 被跳过或阻塞，必须说明理由、影响和下一步，不能在最终报告中声称已经完成。
 - 如果执行时信息不足，仍要记录“信息不足、影响、下一步补充”。
 - 最终报告必须覆盖 `Execution Index` 中所有已执行 skill 的关键发现。
 
-## 8. 来源记录规则
+## 9. 来源记录规则
 
 需要法律条文、司法解释、案例、判决、行政规则、合同监管规则、网页或最新政策时：
 
@@ -194,22 +235,24 @@ contract_draft.md
 - 若本轮未联网检索，必须在 `sources.md` 写明“未检索/待核验/原因/影响”。
 - 最终报告和会话回复必须展示来源数量、来源类型、核心可用规则和引用风险。
 
-## 9. 默认阶段流程
+## 10. 默认阶段流程
 
 1. 隐私与范围守门。
 2. 语言与事项类型路由。
-3. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
-4. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
-5. 时间线、条款、证据台账。
-6. 争议焦点、条款风险、请求权基础、证明责任。
-7. 矛盾、因果、对方视角、裁判视角。
-8. 官方或权威来源检索，写入 `sources.md`。
-9. 策略行动、文书或合同草案。
-10. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown 和 PDF。
-11. 会话界面展示实质汇总。
-12. 后续新信息触发复盘，更新既有事项文件夹。
+3. 查 `CAPABILITIES.md`，确定必跑 skill、可选 skill、必备文件和 gate。
+4. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
+5. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
+6. 时间线、条款、证据台账。
+7. 争议焦点、条款风险、请求权基础、证明责任。
+8. 矛盾、因果、对方视角、裁判视角。
+9. 官方或权威来源检索，写入 `sources.md`。
+10. 策略行动、文书或合同草案。
+11. Gate 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
+12. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown 和 PDF。
+13. 会话界面展示实质汇总。
+14. 后续新信息触发复盘，更新既有事项文件夹。
 
-## 10. 信息不足时如何处理
+## 11. 信息不足时如何处理
 
 只在缺口会明显影响结论、金额、期限、管辖、证明责任或行动选择时提问。用户暂时无法补充时，继续分析，但必须把缺口写入 `plan.md`、`case.md` 和 `skill_outputs.md`。
 

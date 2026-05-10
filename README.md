@@ -4,6 +4,7 @@
 ![Agent](https://img.shields.io/badge/type-Legal%20Workflow%20Agent-green)
 ![Output](https://img.shields.io/badge/output-Markdown%20%7C%20PDF-orange)
 ![Memory](https://img.shields.io/badge/memory-Skill%20Outputs-purple)
+![Gates](https://img.shields.io/badge/gates-Capability%20Matrix-black)
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
@@ -19,8 +20,9 @@
 
 **法律助手智能体 Legal-Assistant_agent** 是一个以 `AGENTS.md` 为主入口的法律事项工作台型 Agent。它不是传统代码包，也不是律师替代品；它是一套可被 AI 助手遵循的专业工作流，用来把复杂法律事项拆解成可持续更新的事实、证据、争点、法律依据、策略行动和专业最终报告。
 
-v0.3 强化了两个核心能力：
+v0.3+ 强化了三项核心能力：
 
+- **能力覆盖矩阵**：先识别法律工作场景，再确定角色、必跑 skill、可选 skill、工具和 gate。
 - **Skill 产物记忆**：每个被调用的阶段 skill 都必须在事项文件夹中留下记录，避免分析过程散落在对话里。
 - **专业报告交付**：最终输出不再是简短概述，而是读取所有工作底稿和 skill 记忆后生成完整报告，并输出 Markdown 和 PDF。
 
@@ -29,6 +31,7 @@ v0.3 强化了两个核心能力：
 | 能力 | 说明 |
 |---|---|
 | 事项工作台 | 同一法律事项只维护一个 `work/<日期>_<本地化事项名>/` 文件夹 |
+| 能力矩阵 | `CAPABILITIES.md` 定义不同法律场景的角色、必跑 skill、工具和 gate |
 | Skill 记忆 | `skill_outputs.md` 记录每个 skill 的触发原因、输入、产出、关键发现和报告章节 |
 | 事实与证据 | 区分已证事实、待证事实、争议事实、推测和法律结论 |
 | 争点与证明责任 | 建立争议焦点、请求权基础、证明责任和证据缺口矩阵 |
@@ -44,6 +47,7 @@ v0.3 强化了两个核心能力：
 用户输入
 → 隐私与范围守门
 → 语言与事项类型识别
+→ CAPABILITIES.md 能力矩阵与 gate
 → 创建或读取事项文件夹
 → plan.md 任务计划
 → case.md 事项记忆
@@ -74,7 +78,7 @@ work/2026-05-10_劳动争议_拆分发薪加班费/
 work/2026-05-10_service-agreement-review/
 ```
 
-中文输入必须保留中文事项名，不默认翻译成英文 slug。不要使用 `work/cases/`。
+中文输入必须保留中文事项名，不默认翻译成英文 slug。不要在 `work/` 下再套 `cases/` 层。
 
 默认文件：
 
@@ -112,6 +116,7 @@ PDF 必须真实存在且基本可读。若当前环境无法导出合格 PDF，
 - 执行摘要
 - 报告范围、假设与材料清单
 - Skill 产物索引
+- 能力覆盖与执行完整性
 - 事项地图与程序状态
 - 事实时间线
 - 核心争议焦点矩阵
@@ -151,6 +156,8 @@ PDF 必须真实存在且基本可读。若当前环境无法导出合格 PDF，
 | 合同起草 | 已支持 | 条款结构、合同草案、可谈判条款、签署清单 |
 | 法律研究 | 已支持 | 官方来源、规则摘要、引用风险、研究报告 |
 | 文书准备 | 已支持 | 沟通函、投诉材料、仲裁/诉讼框架 |
+| 谈判/和解 | 已支持 | 筹码、底线、让步顺序、话术、和解文本 |
+| 庭审/听证准备 | 已支持 | 庭审主线、证据使用、质证意见、发问清单 |
 | 高风险专业领域 | 谨慎支持 | 需要用户核验和专业律师审阅 |
 
 ### 安全边界
@@ -181,6 +188,7 @@ It is not a lawyer replacement and does not promise legal outcomes. It helps AI 
 | Capability | Description |
 |---|---|
 | Matter workspace | Keeps one folder per legal matter under `work/<date>_<localized-matter-name>/` |
+| Capability matrix | Maps legal work scenarios to roles, required skills, optional skills, tools, and gates |
 | Skill memory | Tracks executed skills, inputs, outputs, findings, sources, and report sections in `skill_outputs.md` |
 | Fact and evidence discipline | Separates proven facts, alleged facts, disputed facts, assumptions, and legal conclusions |
 | Issue and burden mapping | Connects claims, defenses, proof burdens, evidence gaps, and procedural risks |
@@ -195,6 +203,7 @@ It is not a lawyer replacement and does not promise legal outcomes. It helps AI 
 User input
 → Privacy and scope guard
 → Language and matter-type routing
+→ CAPABILITIES.md capability matrix and gates
 → Create or read matter folder
 → plan.md task plan
 → case.md matter memory

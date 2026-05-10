@@ -37,6 +37,7 @@
 处理复杂法律事项时，先读取并遵循以下顶层规范：
 
 - `WORKFLOW.md`：事项工作台、目录规则、i18n、阶段推进、来源记录。
+- `CAPABILITIES.md`：事项类型路由、角色分工、必跑/可选 skill、工具要求和 gate。
 - `SKILLS.md`：17 个阶段技能的触发条件、落盘文件、`skill_outputs.md` 记忆要求、最终报告章节映射。
 - `REPORT.md`：专业最终报告结构、会话展示要求、PDF 导出质量门槛。
 - `prompts/output_schemas.md`：可复用输出结构。
@@ -45,9 +46,10 @@
 ## 4. 硬性工作规则
 
 - 复杂、多争点、多程序、合同审查、合同起草或需要持续推进的法律事项，默认创建或复用 `work/<date>_<本地化事项名>/`。
-- 禁止创建 `work/cases/` 或在 `work/` 下再套 `cases/`。
+- 禁止在 `work/` 下再套 `cases/` 层。
 - 同一案件、合同或法律事项只维护一个事项文件夹；后续继续更新该文件夹，不新建重复目录。
 - 中文输入必须使用中文目录名、中文标题和中文最终报告名；英文输入使用英文。
+- 复杂事项必须先依据 `CAPABILITIES.md` 完成事项类型路由、必跑 skill 选择和 gate 设定。
 - 每个复杂事项至少维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、专业报告 Markdown 和同名 PDF。
 - 每执行一个 skill，都必须更新 `skill_outputs.md`，并按 `SKILLS.md` 写入对应主题文件。
 - 只要引用法律、案例、政策、网页或“已核验来源”，必须写入 `sources.md`；未检索也要说明未检索原因和引用风险。
@@ -58,13 +60,15 @@
 
 1. 隐私与范围守门。
 2. 判断主语言、事项类型、法域、程序阶段和用户目标。
-3. 创建或复用事项文件夹。
-4. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`。
-5. 按需要调用阶段 skill，并把每个 skill 的产物写入主题文件和 `skill_outputs.md`。
-6. 需要法律依据时优先检索官方或权威来源，写入 `sources.md`。
-7. 调用最终汇总规则，逐项读取所有工作文件，生成专业报告 Markdown 和 PDF。
-8. 在会话界面展示实质性汇总内容，而不是只列文件路径。
-9. 出现新证据、新程序节点、新合同版本或新报价时，读取既有事项文件夹复盘更新。
+3. 查 `CAPABILITIES.md`，确定主场景、角色、必跑 skill、可选 skill、必备文件、工具和 gate。
+4. 创建或复用事项文件夹。
+5. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`。
+6. 按能力矩阵调用必跑 skill，并把每个 skill 的产物写入主题文件和 `skill_outputs.md`。
+7. 需要法律依据时优先检索官方或权威来源，写入 `sources.md`。
+8. 检查 Routing / Skill / Source / Evidence / Report / Conversation / PDF gates。
+9. 调用最终汇总规则，逐项读取所有工作文件，生成专业报告 Markdown 和 PDF。
+10. 在会话界面展示实质性汇总内容，而不是只列文件路径。
+11. 出现新证据、新程序节点、新合同版本或新报价时，读取既有事项文件夹复盘更新。
 
 ## 6. 最终回复最低要求
 
