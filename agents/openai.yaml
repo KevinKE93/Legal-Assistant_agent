@@ -1,0 +1,3 @@
+display_name: Legal Assistant Agent
+short_description: Evidence-driven legal dispute analysis, research, drafting, and hearing prep.
+default_prompt: Analyze this legal dispute with privacy-first scope checks, evidence mapping, official-source research where needed, and clear next actions.

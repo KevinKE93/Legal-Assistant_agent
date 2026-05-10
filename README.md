@@ -1,7 +1,7 @@
 # Legal Assistant Agent Skill Pack
 
 ![Language](https://img.shields.io/badge/language-zh--CN%20%7C%20English-blue)
-![Status](https://img.shields.io/badge/status-skill--pack--draft-orange)
+![Status](https://img.shields.io/badge/status-installable--skill-green)
 ![Safety](https://img.shields.io/badge/safety-privacy--first-green)
 ![Agent](https://img.shields.io/badge/agent-legal--analysis-purple)
 
@@ -17,7 +17,7 @@ Author: **Kevin KE / [laoke.ai](https://laoke.ai)**
 
 ### Overview
 
-Legal Assistant Agent Skill Pack is a modular workflow system for legal dispute analysis. It turns user-provided facts, evidence, claims, constraints, and procedural context into structured issue maps, evidence ledgers, contradiction analysis, causation chains, opponent-view simulations, judge-view reviews, and practical next steps.
+Legal Assistant Agent Skill Pack is a modular workflow system for legal dispute analysis. It turns user-provided facts, evidence, claims, constraints, and procedural context into structured issue maps, evidence ledgers, contradiction analysis, causation chains, official-source research logs, opponent-view simulations, judge-view reviews, and practical next steps.
 
 It does **not** replace a licensed lawyer, promise legal outcomes, or generate unverified legal conclusions. It is designed to help users reason more clearly, preserve evidence discipline, and prepare better questions, documents, and action plans.
 
@@ -33,6 +33,7 @@ It does **not** replace a licensed lawyer, promise legal outcomes, or generate u
 - Strategy planning for negotiation, complaints, mediation, litigation, and hearings
 - Drafting support for confirmation messages, demand letters, complaints, pleadings, evidence lists, and hearing outlines
 - Iteration loop for new evidence, new statements, and new procedural events
+- Installable Codex skill entrypoint, validation scripts, and case-workspace output tooling
 
 ### Method Wheel
 
@@ -85,6 +86,19 @@ Every round should preserve:
 ├── METHOD_WHEEL.md
 ├── CODEX_SKILL_CREATOR_PROMPT.md
 ├── agent_manifest.yaml
+├── SKILL.md
+├── Makefile
+├── install.sh
+├── agents/
+│   └── openai.yaml
+├── references/
+│   ├── official_source_registry.json
+│   └── research_workflow.md
+├── scripts/
+│   ├── legal_research.py
+│   ├── write_analysis_output.py
+│   ├── validate_skill.py
+│   └── install.sh
 ├── prompts/
 │   ├── system_prompt.md
 │   ├── developer_prompt.md
@@ -118,6 +132,18 @@ Every round should preserve:
 ```
 
 ### Quick Start
+
+Install this repository as a local Codex skill:
+
+```bash
+./scripts/install.sh
+```
+
+Validate the package:
+
+```bash
+make test
+```
 
 Use the files in `prompts/` as the instruction layer:
 
@@ -156,6 +182,46 @@ privacy_scope_guard
 
 See `examples/generic_demo.md` for a privacy-safe demo.
 
+### Networked Legal Research
+
+For statutes, cases, judgments, and procedural rules, use `scripts/legal_research.py`. The script prioritizes jurisdiction-specific official sources from `references/official_source_registry.json`, supports external providers through environment variables, and writes auditable output files.
+
+```bash
+python3 scripts/legal_research.py \
+  --jurisdiction US-FEDERAL \
+  --query "late delivery contract damages" \
+  --case-type contract \
+  --out-dir work/research/us-contract \
+  --max-results 8
+```
+
+Supported providers:
+
+- `auto`: tries source-native public endpoints first, then configured API providers, then Bing RSS and DuckDuckGo
+- `official`: uses source-native public endpoints where available, currently UK Legislation Atom feeds and The National Archives Find Case Law Atom feed
+- `bing`: no API key required; filters returned URLs back to the official source domain
+- `duckduckgo`: no API key required, but may return automated-traffic challenges in some environments
+- `brave`: requires `BRAVE_SEARCH_API_KEY`
+- `tavily`: requires `TAVILY_API_KEY`
+- `serpapi`: requires `SERPAPI_API_KEY`
+
+Outputs include `research_log.md`, `results.json`, and optional retrieved snippets. Search results are filtered against the selected official source domain; if no official-domain result is returned, the log records a `not_found_or_unverified` entry with a manual search URL.
+
+### Case Workspace Outputs
+
+To save an analysis bundle to a folder:
+
+```bash
+python3 scripts/write_analysis_output.py \
+  --out-dir work/cases \
+  --case-slug demo-contract \
+  --analysis-file analysis.md \
+  --metadata jurisdiction=CN \
+  --metadata case_type=contract
+```
+
+The bundle contains `INDEX.md`, `analysis.md`, `metadata.json`, and any additional artifacts passed with `--artifact`.
+
 ### Safety Model
 
 The assistant must not:
@@ -175,7 +241,7 @@ For jurisdiction-specific law, limitation periods, procedural deadlines, evidenc
 
 ### 项目概览
 
-Legal Assistant Agent Skill Pack 是一套模块化法律纠纷分析工作流。它把用户提供的事实、证据、主张、约束条件和程序阶段，转化为结构化争点地图、证据台账、矛盾分析、因果链、对方视角、法官视角和下一步行动方案。
+Legal Assistant Agent Skill Pack 是一套模块化法律纠纷分析工作流。它把用户提供的事实、证据、主张、约束条件和程序阶段，转化为结构化争点地图、证据台账、矛盾分析、因果链、官方来源检索记录、对方视角、法官视角和下一步行动方案。
 
 它**不是律师替代品**，不承诺案件结果，也不输出未经核验的确定法律结论。它的定位是帮助用户更清楚地组织事实、更严格地管理证据、更稳妥地准备问题、文书和行动路径。
 
@@ -191,6 +257,7 @@ Legal Assistant Agent Skill Pack 是一套模块化法律纠纷分析工作流�
 - 生成谈判、投诉、调解、诉讼、庭审等路径的策略方案
 - 支持事实确认消息、催告函、投诉材料、起诉状/答辩状框架、证据目录和庭审提纲
 - 在出现新证据、新陈述、新程序节点后进行复盘迭代
+- 支持本地安装、校验测试、联网官方来源检索和输出到指定工作目录
 
 ### 方法轮
 
@@ -237,6 +304,18 @@ Legal Assistant Agent Skill Pack 是一套模块化法律纠纷分析工作流�
 
 ### 使用方式
 
+安装为本地 Codex skill：
+
+```bash
+./scripts/install.sh
+```
+
+运行校验和测试：
+
+```bash
+make test
+```
+
 将 `prompts/` 目录作为基础指令层：
 
 - `prompts/system_prompt.md`：定义助手角色和法律安全边界
@@ -282,6 +361,46 @@ privacy_scope_guard
 
 可查看 `examples/generic_demo.md` 获取无隐私的抽象演示。
 
+### 联网法律检索
+
+法规、案例、判决和程序规则检索使用 `scripts/legal_research.py`。脚本会根据 `references/official_source_registry.json` 优先选择对应法域的官方来源，并将检索记录写入可审计文件。
+
+```bash
+python3 scripts/legal_research.py \
+  --jurisdiction CN \
+  --query "合同 迟延履行 退款 催告" \
+  --case-type "合同纠纷" \
+  --out-dir work/research/cn-contract \
+  --max-results 8
+```
+
+可选外部检索工具：
+
+- `auto`：优先使用官方来源公开接口，再使用已配置的 API provider，最后回退到 Bing RSS 和 DuckDuckGo
+- `official`：优先调用官方来源公开接口；当前支持 UK Legislation Atom feeds 和 The National Archives Find Case Law Atom feed
+- `bing`：不需要 API key；会把结果过滤回对应官方来源域名
+- `duckduckgo`：不需要 API key，但某些环境可能触发自动流量验证
+- `brave`：需要 `BRAVE_SEARCH_API_KEY`
+- `tavily`：需要 `TAVILY_API_KEY`
+- `serpapi`：需要 `SERPAPI_API_KEY`
+
+输出包括 `research_log.md`、`results.json` 和可选网页摘要。检索结果会按官方来源域名过滤；如果没有返回官方域名内的结果，日志会写入 `not_found_or_unverified` 记录和人工检索 URL。
+
+### 输出到案件工作目录
+
+将分析结果保存到指定目录：
+
+```bash
+python3 scripts/write_analysis_output.py \
+  --out-dir work/cases \
+  --case-slug demo-contract \
+  --analysis-file analysis.md \
+  --metadata jurisdiction=CN \
+  --metadata case_type=contract
+```
+
+输出包包含 `INDEX.md`、`analysis.md`、`metadata.json`，以及通过 `--artifact` 指定的其他文件。
+
 ### 安全边界
 
 助手不得：
@@ -299,15 +418,14 @@ privacy_scope_guard
 
 ## Project Status / 项目状态
 
-This repository is currently a skill-pack draft. The content layer is ready for prompt/workflow use, while the following engineering tasks remain open.
+This repository is now an installable skill-pack with validation, official-source research tooling, and workspace output support. The content layer is ready for prompt/workflow use, while the following engineering tasks remain open.
 
-本仓库目前是 Skill Pack 草案。内容层已可作为提示词和工作流材料使用，后续还可以继续工程化。
+本仓库现在已经具备可安装 skill 入口、校验测试、官方来源检索工具和工作目录输出能力。内容层已可作为提示词和工作流材料使用，后续还可以继续工程化。
 
-- Add a top-level installable Codex `SKILL.md`.
-- Add automated validation for skill frontmatter and internal links.
 - Add more privacy-safe examples across contract, labor, consumer, leasing, tort, and company disputes.
-- Add jurisdiction-specific research adapters without hardcoding unverified legal conclusions.
-- Add a test harness for expected output structure and safety refusals.
+- Add deeper jurisdiction-specific research adapters without hardcoding unverified legal conclusions.
+- Add document ingestion and redaction helpers for PDFs, DOCX, screenshots, and chat exports.
+- Add structured citation objects across every downstream analysis artifact.
 
 ## Author / 作者
 

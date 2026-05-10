@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.0",
+  "updated": "2026-05-10",
+  "jurisdictions": {
+    "CN": {
+      "label": "China Mainland",
+      "aliases": ["china", "mainland china", "中国", "中国大陆", "cn"],
+      "sources": [
+        {
+          "name": "National Database of Laws and Regulations",
+          "domain": "flk.npc.gov.cn",
+          "base_url": "https://flk.npc.gov.cn/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Primary official source for laws and regulations."
+        },
+        {
+          "name": "Supreme People's Court",
+          "domain": "www.court.gov.cn",
+          "base_url": "https://www.court.gov.cn/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official Supreme People's Court releases, guidance, and court news."
+        },
+        {
+          "name": "China Judgments Online",
+          "domain": "wenshu.court.gov.cn",
+          "base_url": "https://wenshu.court.gov.cn/",
+          "type": "judgment",
+          "authority": "official",
+          "notes": "Official judgment database; access and search availability can vary."
+        }
+      ]
+    },
+    "HK": {
+      "label": "Hong Kong",
+      "aliases": ["hong kong", "香港", "hk"],
+      "sources": [
+        {
+          "name": "Hong Kong e-Legislation",
+          "domain": "www.elegislation.gov.hk",
+          "base_url": "https://www.elegislation.gov.hk/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official Hong Kong legislation database."
+        },
+        {
+          "name": "Hong Kong Judiciary",
+          "domain": "www.judiciary.hk",
+          "base_url": "https://www.judiciary.hk/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official judiciary site for judgments and court information."
+        }
+      ]
+    },
+    "US-FEDERAL": {
+      "label": "United States Federal",
+      "aliases": ["united states", "us", "usa", "美国", "美国联邦", "u.s."],
+      "sources": [
+        {
+          "name": "GovInfo",
+          "domain": "www.govinfo.gov",
+          "base_url": "https://www.govinfo.gov/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official U.S. Government Publishing Office access to federal legal materials."
+        },
+        {
+          "name": "Congress.gov",
+          "domain": "www.congress.gov",
+          "base_url": "https://www.congress.gov/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official U.S. federal legislative information."
+        },
+        {
+          "name": "Supreme Court of the United States",
+          "domain": "www.supremecourt.gov",
+          "base_url": "https://www.supremecourt.gov/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official opinions, orders, and docket information."
+        }
+      ]
+    },
+    "UK": {
+      "label": "United Kingdom",
+      "aliases": ["uk", "united kingdom", "england", "wales", "英国"],
+      "sources": [
+        {
+          "name": "Legislation.gov.uk",
+          "domain": "www.legislation.gov.uk",
+          "base_url": "https://www.legislation.gov.uk/",
+          "type": "legislation",
+          "authority": "official",
+          "search_adapter": "legislation_gov_uk_atom",
+          "notes": "Official UK legislation platform."
+        },
+        {
+          "name": "Find Case Law",
+          "domain": "caselaw.nationalarchives.gov.uk",
+          "base_url": "https://caselaw.nationalarchives.gov.uk/",
+          "type": "case_law",
+          "authority": "official",
+          "search_adapter": "find_case_law_atom",
+          "notes": "The National Archives official Find Case Law service."
+        }
+      ]
+    },
+    "EU": {
+      "label": "European Union",
+      "aliases": ["eu", "european union", "欧盟"],
+      "sources": [
+        {
+          "name": "EUR-Lex",
+          "domain": "eur-lex.europa.eu",
+          "base_url": "https://eur-lex.europa.eu/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official EU law database."
+        },
+        {
+          "name": "Court of Justice of the European Union",
+          "domain": "curia.europa.eu",
+          "base_url": "https://curia.europa.eu/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official CJEU case-law and court materials."
+        }
+      ]
+    },
+    "CA": {
+      "label": "Canada Federal",
+      "aliases": ["canada", "加拿大", "ca"],
+      "sources": [
+        {
+          "name": "Justice Laws Website",
+          "domain": "laws-lois.justice.gc.ca",
+          "base_url": "https://laws-lois.justice.gc.ca/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official consolidated Acts and regulations of Canada."
+        },
+        {
+          "name": "Supreme Court of Canada",
+          "domain": "www.scc-csc.ca",
+          "base_url": "https://www.scc-csc.ca/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official judgments and case information."
+        }
+      ]
+    },
+    "AU": {
+      "label": "Australia Federal",
+      "aliases": ["australia", "澳大利亚", "au"],
+      "sources": [
+        {
+          "name": "Federal Register of Legislation",
+          "domain": "www.legislation.gov.au",
+          "base_url": "https://www.legislation.gov.au/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official Australian federal legislation platform."
+        },
+        {
+          "name": "High Court of Australia",
+          "domain": "www.hcourt.gov.au",
+          "base_url": "https://www.hcourt.gov.au/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official High Court judgments and case information."
+        },
+        {
+          "name": "Federal Court of Australia",
+          "domain": "www.fedcourt.gov.au",
+          "base_url": "https://www.fedcourt.gov.au/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official Federal Court judgments and case information."
+        }
+      ]
+    },
+    "SG": {
+      "label": "Singapore",
+      "aliases": ["singapore", "新加坡", "sg"],
+      "sources": [
+        {
+          "name": "Singapore Statutes Online",
+          "domain": "sso.agc.gov.sg",
+          "base_url": "https://sso.agc.gov.sg/",
+          "type": "legislation",
+          "authority": "official",
+          "notes": "Official Singapore legislation platform."
+        },
+        {
+          "name": "Singapore Judiciary",
+          "domain": "www.judiciary.gov.sg",
+          "base_url": "https://www.judiciary.gov.sg/",
+          "type": "case_law",
+          "authority": "official",
+          "notes": "Official judiciary guidance, judgments, and hearing information."
+        },
+        {
+          "name": "Singapore Law Watch Judgments",
+          "domain": "www.elitigation.sg",
+          "base_url": "https://www.elitigation.sg/",
+          "type": "judgment",
+          "authority": "official",
+          "notes": "Official eLitigation judgment access surface."
+        }
+      ]
+    }
+  }
+}

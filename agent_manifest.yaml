@@ -1,9 +1,33 @@
 name: general_legal_dispute_analysis_agent
-version: 1.0.0
-language: zh-CN
+version: 1.1.0
+language: zh-CN/en
 purpose: 通用法律分析、纠纷维权、证据整理、矛盾分析、法官视角和策略行动助手。
 privacy: 默认脱敏，不保存或复用个人隐私。
 not_legal_advice: true
+entrypoint: SKILL.md
+install:
+  script: scripts/install.sh
+  default_target: "${CODEX_HOME:-$HOME/.codex}/skills/legal-assistant-agent"
+validation:
+  command: python3 scripts/validate_skill.py
+tests:
+  command: python3 -m unittest discover -s tests
+outputs:
+  writer: scripts/write_analysis_output.py
+research:
+  script: scripts/legal_research.py
+  source_registry: references/official_source_registry.json
+  priority: official_sources_first
+  providers:
+    - official
+    - brave
+    - tavily
+    - serpapi
+    - bing
+    - duckduckgo
+  official_adapters:
+    - legislation_gov_uk_atom
+    - find_case_law_atom
 method_wheel:
   - 范围约束
   - 事实还原
