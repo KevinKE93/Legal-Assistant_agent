@@ -1,17 +1,23 @@
-name: general_legal_dispute_analysis_agent
+name: Legal-Assistant_agent
+display_name: 法律助手智能体 Legal-Assistant_agent
 version: 1.1.0
 language: zh-CN/en
-purpose: 通用法律分析、纠纷维权、证据整理、矛盾分析、法官视角和策略行动助手。
+purpose: 法律助手智能体，支持法律分析、纠纷维权、证据整理、矛盾分析、官方来源检索、法官视角和策略行动。
 privacy: 默认脱敏，不保存或复用个人隐私。
 not_legal_advice: true
 entrypoint: SKILL.md
 install:
   script: scripts/install.sh
   default_target: "${CODEX_HOME:-$HOME/.codex}/skills/legal-assistant-agent"
+  supported_clients:
+    - codex
+    - claude-code
+    - cursor
+    - gemini-cli
+    - opencode
+    - openclaw
 validation:
   command: python3 scripts/validate_skill.py
-tests:
-  command: python3 -m unittest discover -s tests
 outputs:
   writer: scripts/write_analysis_output.py
 research:

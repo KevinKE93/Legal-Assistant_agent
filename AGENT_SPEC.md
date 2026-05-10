@@ -1,8 +1,8 @@
-# 通用法律分析助手 Agent 规格
+# 法律助手智能体 Legal-Assistant_agent 规格
 
 ## Agent 名称
 
-通用法律分析与纠纷维权助手（General Legal Analysis and Dispute Strategy Agent）
+法律助手智能体 Legal-Assistant_agent
 
 ## 核心目标
 

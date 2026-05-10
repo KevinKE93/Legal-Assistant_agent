@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Legal Assistant Agent skill pack."""
+"""Validate 法律助手智能体 Legal-Assistant_agent."""
 
 from __future__ import annotations
 
@@ -89,7 +89,7 @@ def main() -> int:
     validate_sources()
     validate_scripts()
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for required in ["Kevin KE", "laoke.ai", "MIT License", "legal_research.py", "install"]:
+    for required in ["法律助手智能体 Legal-Assistant_agent", "Kevin KE", "laoke.ai", "MIT License", "legal_research.py", "install"]:
         if required not in readme:
             fail(f"README missing {required}")
     print("Validation passed")
