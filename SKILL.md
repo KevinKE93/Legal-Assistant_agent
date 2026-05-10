@@ -1,6 +1,6 @@
 ---
 name: legal-assistant-agent
-description: Use 法律助手智能体 Legal-Assistant_agent for privacy-first legal dispute analysis, evidence mapping, issue spotting, official-source legal research, strategy planning, legal-related drafting, hearing preparation, and writing structured outputs to a case workspace. Trigger when the user asks to analyze a legal dispute, find relevant laws or cases, organize evidence, draft legal-related documents, prepare for mediation/arbitration/hearing, or save analysis artifacts to a folder.
+description: Use 法律助手智能体 Legal-Assistant_agent for privacy-first legal dispute analysis, evidence mapping, issue spotting, official-source legal research, local case workspace memory, strategy planning, legal-related drafting, hearing preparation, and structured outputs. Trigger when the user asks to analyze a legal dispute, find relevant laws or cases, organize evidence, draft legal-related documents, prepare for mediation/arbitration/hearing, continue a prior case, record checkpoints, or save analysis artifacts to a folder.
 ---
 
 # 法律助手智能体 Legal-Assistant_agent
@@ -16,17 +16,37 @@ This skill turns a legal-dispute request into structured, privacy-conscious work
 - For jurisdiction-specific law, limitation periods, procedural deadlines, evidence rules, current regulations, and case law, verify through official or authoritative sources before relying on them.
 - Minimize personal identifiers in outputs. Use party labels and evidence IDs unless the user explicitly needs formal document text.
 
+## Case Workspace Discipline
+
+For complex, multi-issue, or multi-stage matters, create or read a local case workspace before giving conclusions. Use `references/case_workspace_protocol.md` for the protocol and `scripts/case_workspace.py` for deterministic state updates.
+
+Default runtime memory path:
+
+```text
+work/cases/<safe-case-slug>/
+```
+
+Complex cases must start with structure before conclusions:
+
+```text
+case summary -> procedural status -> issue map -> claim/legal-elements/burden matrix -> evidence matrix -> opponent view -> judge view -> strategy tracks
+```
+
+After each completed stage, append an activity record and update `case_state.json` with current stage, open questions, next actions, responsible parties, issues, and evidence status. Save durable stage reasoning as checkpoints under `checkpoints/`.
+
+If the user provides new evidence or a new procedural event, first run the review loop: read current status, compare old and new information, update state, then revise the affected outputs. Do not restart from a blank analysis unless no workspace exists.
+
 ## Default Workflow
 
-1. Scope and privacy guard: use `skills/01_privacy_scope_guard/SKILL.md`.
-2. Intake and issue map: use `skills/02_case_intake_issue_map/SKILL.md`.
-3. Timeline and evidence ledger: use `skills/03_timeline_evidence_ledger/SKILL.md`.
-4. Elements and burden matrix: use `skills/04_elements_burden_matrix/SKILL.md`.
+1. Scope and privacy guard: use `skills/01_privacy_scope_guard/SKILL.md`, then initialize or update the case workspace for complex matters.
+2. Intake and issue map: use `skills/02_case_intake_issue_map/SKILL.md`; checkpoint the issue map.
+3. Timeline and evidence ledger: use `skills/03_timeline_evidence_ledger/SKILL.md`; checkpoint the evidence ledger.
+4. Elements and burden matrix: use `skills/04_elements_burden_matrix/SKILL.md`; every key conclusion must bind facts, evidence status, legal basis or verification need, burden of proof, opponent attack, uncertainty, and next action.
 5. Contradiction analysis: use `skills/05_contradiction_analysis/SKILL.md`.
 6. Causation chain: use `skills/06_causation_chain/SKILL.md`.
 7. Opponent and judge perspectives: use `skills/08_opponent_perspective/SKILL.md` and `skills/09_judge_perspective/SKILL.md`.
-8. If laws, cases, judgments, or rules are needed, use the research workflow below.
-9. Strategy, drafting, hearing prep, or review loop as needed.
+8. If laws, cases, judgments, or rules are needed, use the research workflow below and store research artifacts in the case workspace.
+9. Strategy, drafting, hearing prep, or review loop as needed; checkpoint durable outputs.
 
 Skip steps when the user asks for a narrow artifact, but keep the safety boundary active.
 
@@ -56,7 +76,15 @@ If a source is inaccessible, report the access problem and use a narrower offici
 
 ## Output To A Workspace
 
-When the user asks to save analysis, write files, or output to a specified folder, use `scripts/write_analysis_output.py` or its `write_analysis_bundle()` function.
+When the user asks to save analysis, write files, or output to a specified folder, use the case workspace first for complex matters:
+
+```bash
+python3 scripts/case_workspace.py init --case-slug demo-contract --stage scope-guard
+python3 scripts/case_workspace.py checkpoint --case-slug demo-contract --stage issue-map --title issue-map --content-file issue_map.md
+python3 scripts/case_workspace.py status --case-slug demo-contract
+```
+
+Use `scripts/write_analysis_output.py` or its `write_analysis_bundle()` function for final user-facing report bundles.
 
 CLI example:
 
@@ -83,21 +111,24 @@ Validate the repository:
 
 ```bash
 python3 scripts/validate_skill.py
-python3 -m unittest discover -s tests
 ```
 
 ## Output Shape
 
-Prefer concise sections:
+For complex matters, use the professional report structure in `prompts/output_schemas.md` and do not skip these sections:
 
 - Scope and assumptions
+- Case summary and procedural status
 - Confirmed facts / facts requiring proof
-- Issues and burden of proof
+- Core issue map
+- Claims, legal elements, and burden of proof
 - Evidence matrix and gaps
 - Contradictions and causation
 - Opponent perspective
 - Judge perspective
+- Procedure tracks and strategy
+- Amount/risk ranges when requested
 - Research citations and source risks, when applicable
-- Strategy and next smallest useful action
+- Next actions with responsible party
 
 When writing files, also include a short console/chat summary with the output path and artifact list.

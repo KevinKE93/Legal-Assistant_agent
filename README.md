@@ -28,6 +28,7 @@
 - **视角模拟**：对方视角、法官视角、调解/仲裁视角风险评估
 - **官方检索**：优先检索对应法域的官方法规、案例、判决和程序规则
 - **文书辅助**：事实确认函、催告函、投诉材料、诉讼/答辩框架、证据目录、庭审提纲
+- **本地记忆**：复杂案件默认形成案件工作台，持续记录阶段日志、checkpoint、责任方和下一步
 - **结果落盘**：把分析结果、元数据和补充材料输出到案件工作目录
 
 ### 🧭 Agent Workflow
@@ -41,6 +42,7 @@
 → 官方来源检索
 → 对方视角与法官视角评估
 → 策略、文书或庭审准备
+→ 本地案件工作台记录与 checkpoint
 → 输出到案件工作目录
 → 新证据/新程序节点后的复盘迭代
 ```
@@ -53,6 +55,7 @@
 | 法律分析 | 要件矩阵、证明责任、抗辩入口、不确定性 |
 | 压力测试 | 矛盾点、因果风险、对方攻击路径、法官视角弱点 |
 | 官方检索 | 检索记录、官方 URL、访问状态、来源风险 |
+| 本地记忆 | 阶段日志、checkpoint、责任方、下一步、案件状态 |
 | 行动输出 | 策略方案、问题清单、文书草稿、庭审提纲、工作目录 |
 
 ### 🚀 快速安装
@@ -114,6 +117,39 @@ python3 scripts/legal_research.py \
 
 ### 📁 输出到案件工作目录
 
+复杂案件可以先创建本地案件工作台：
+
+```bash
+python3 scripts/case_workspace.py init \
+  --case-slug demo-contract \
+  --title "Demo Contract Dispute" \
+  --jurisdiction CN \
+  --case-type contract \
+  --procedural-stage negotiation \
+  --stage scope-guard \
+  --owner agent \
+  --next-action "agent: build issue map"
+```
+
+记录阶段进展：
+
+```bash
+python3 scripts/case_workspace.py record \
+  --case-slug demo-contract \
+  --stage issue-map \
+  --summary "Mapped factual, legal, evidence, causation, and procedural issues." \
+  --owner user \
+  --next-action "user: provide key contracts and payment records"
+```
+
+查看当前状态：
+
+```bash
+python3 scripts/case_workspace.py status --case-slug demo-contract
+```
+
+写入最终分析包：
+
 ```bash
 python3 scripts/write_analysis_output.py \
   --out-dir work/cases \
@@ -168,6 +204,7 @@ It does **not** replace a licensed lawyer, promise outcomes, or fabricate legal 
 - Opponent-view and judge-view review
 - Official-source research for laws, cases, judgments, and procedural rules
 - Legal-related drafting and hearing preparation
+- Local case workspace memory with stage logs, checkpoints, owners, and next actions
 - Structured workspace output
 
 ### 🧭 Agent Workflow
@@ -181,6 +218,7 @@ Intake
 → Official-source research
 → Opponent and judge perspective checks
 → Strategy, drafting, or hearing preparation
+→ Local case workspace records and checkpoints
 → Case workspace output
 → Review loop after new evidence or procedural events
 ```
@@ -229,6 +267,26 @@ python3 scripts/legal_research.py \
 Supported providers: `auto`, `official`, `bing`, `duckduckgo`, `brave`, `tavily`, and `serpapi`.
 
 ### 📁 Case Workspace Output
+
+For complex matters, initialize a local case workspace first:
+
+```bash
+python3 scripts/case_workspace.py init \
+  --case-slug demo-contract \
+  --title "Demo Contract Dispute" \
+  --jurisdiction CN \
+  --case-type contract \
+  --procedural-stage negotiation \
+  --stage scope-guard \
+  --owner agent \
+  --next-action "agent: build issue map"
+```
+
+Read current status:
+
+```bash
+python3 scripts/case_workspace.py status --case-slug demo-contract
+```
 
 ```bash
 python3 scripts/write_analysis_output.py \

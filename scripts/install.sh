@@ -87,6 +87,10 @@ Read and follow these package files when relevant:
 For official-source research, use:
 - $package_target/scripts/legal_research.py
 
+For local case workspace memory and checkpoints, use:
+- $package_target/scripts/case_workspace.py
+- $package_target/references/case_workspace_protocol.md
+
 For writing analysis output to a workspace, use:
 - $package_target/scripts/write_analysis_output.py
 
@@ -121,6 +125,11 @@ Read and follow the package entrypoint and supporting files when relevant:
 Use official-source research through:
 
 - $package_target/scripts/legal_research.py
+
+Use local case workspace memory and checkpoints through:
+
+- $package_target/scripts/case_workspace.py
+- $package_target/references/case_workspace_protocol.md
 
 Use workspace output through:
 
@@ -158,6 +167,11 @@ Follow these package files when relevant:
 For official-source research, use:
 
 - $package_target/scripts/legal_research.py
+
+For local case workspace memory and checkpoints, use:
+
+- $package_target/scripts/case_workspace.py
+- $package_target/references/case_workspace_protocol.md
 
 For writing analysis output to a workspace, use:
 

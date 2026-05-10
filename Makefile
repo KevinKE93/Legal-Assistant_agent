@@ -1,7 +1,10 @@
-.PHONY: validate install install-all install-codex install-claude install-gemini install-opencode install-openclaw research-demo output-demo
+.PHONY: validate workspace-smoke install install-all install-codex install-claude install-gemini install-opencode install-openclaw research-demo output-demo
 
 validate:
 	python3 scripts/validate_skill.py
+
+workspace-smoke:
+	python3 scripts/case_workspace.py self-test --cleanup
 
 install:
 	./scripts/install.sh

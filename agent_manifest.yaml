@@ -1,6 +1,6 @@
 name: Legal-Assistant_agent
 display_name: 法律助手智能体 Legal-Assistant_agent
-version: 1.1.0
+version: 1.2.0
 language: zh-CN/en
 purpose: 法律助手智能体，支持法律分析、纠纷维权、证据整理、矛盾分析、官方来源检索、法官视角和策略行动。
 privacy: 默认脱敏，不保存或复用个人隐私。
@@ -20,6 +20,11 @@ validation:
   command: python3 scripts/validate_skill.py
 outputs:
   writer: scripts/write_analysis_output.py
+  workspace:
+    script: scripts/case_workspace.py
+    protocol: references/case_workspace_protocol.md
+    default_dir: work/cases
+    default_policy: complex_cases_auto_record
 research:
   script: scripts/legal_research.py
   source_registry: references/official_source_registry.json
@@ -44,6 +49,7 @@ method_wheel:
   - 对方视角
   - 法官视角
   - 策略行动
+  - 本地记忆
   - 复盘迭代
 skills:
   - id: privacy_scope_guard

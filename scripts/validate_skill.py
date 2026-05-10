@@ -58,10 +58,18 @@ def validate_sources() -> None:
             for required in ["name", "domain", "base_url", "type", "authority"]:
                 if not source.get(required):
                     fail(f"{code} source missing {required}: {source}")
+    protocol = ROOT / "references" / "case_workspace_protocol.md"
+    if not protocol.exists():
+        fail("missing case workspace protocol")
+    protocol_text = protocol.read_text(encoding="utf-8")
+    for required in ["case_state.json", "activity_log.jsonl", "checkpoints", "scripts/case_workspace.py"]:
+        if required not in protocol_text:
+            fail(f"case workspace protocol missing {required}")
 
 
 def validate_scripts() -> None:
     for script in [
+        ROOT / "scripts" / "case_workspace.py",
         ROOT / "scripts" / "legal_research.py",
         ROOT / "scripts" / "write_analysis_output.py",
         ROOT / "scripts" / "validate_skill.py",
@@ -89,7 +97,16 @@ def main() -> int:
     validate_sources()
     validate_scripts()
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    for required in ["法律助手智能体 Legal-Assistant_agent", "Kevin KE", "laoke.ai", "MIT License", "legal_research.py", "install"]:
+    for required in [
+        "法律助手智能体 Legal-Assistant_agent",
+        "Kevin KE",
+        "laoke.ai",
+        "MIT License",
+        "legal_research.py",
+        "case_workspace.py",
+        "本地案件工作台",
+        "install",
+    ]:
         if required not in readme:
             fail(f"README missing {required}")
     print("Validation passed")

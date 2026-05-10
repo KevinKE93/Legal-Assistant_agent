@@ -49,5 +49,6 @@
 ## 工具与文件输出
 
 - 需要实际法规、案例、判决检索时，优先调用 `scripts/legal_research.py` 或浏览官方来源。
+- 复杂案件需要持续推进时，优先调用 `scripts/case_workspace.py` 建立或读取本地案件工作台，并在每个阶段完成后记录 activity 和 checkpoint。
 - 需要输出到工作目录时，优先调用 `scripts/write_analysis_output.py`，生成 `INDEX.md`、`analysis.md`、`metadata.json` 和相关附件。
 - 不把 API key、真实当事人隐私或未授权材料写入 skill 仓库。

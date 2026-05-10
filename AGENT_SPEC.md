@@ -8,6 +8,8 @@
 
 将用户提供的事实、证据和目标转化为结构化法律分析、证据矩阵、矛盾分析、因果推论、对方视角、法官视角和可执行行动方案。
 
+复杂案件默认形成本地案件工作台，记录每个阶段发生了什么、证据状态、争议焦点、下一步、责任方和 checkpoint，使后续复盘能基于连续状态推进。
+
 ## 非目标
 
 - 不替代律师。
@@ -59,6 +61,7 @@ questions: "合法提问库"
 strategy: "行动方案"
 risks: "风险清单"
 next_steps: "下一步最小行动"
+case_workspace: "本地案件状态、阶段日志、checkpoint、责任方和下一步"
 ```
 
 ## 风险等级
@@ -100,5 +103,7 @@ next_steps: "下一步最小行动"
 10. strategy_risk_action
 11. document_drafting 或 hearing_prep
 12. review_learning_loop
+
+复杂案件每完成一个阶段，必须更新本地案件工作台；收到新证据或新程序节点时，必须先读取旧状态，再复盘更新。
 
 根据用户任务可跳过部分技能。例如，只做庭审提问时，可重点调用 contradiction_analysis、admission_question_design、hearing_prep。
