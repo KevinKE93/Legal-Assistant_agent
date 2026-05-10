@@ -51,7 +51,7 @@
 ## 工具与文件输出
 
 - 需要实际法规、案例、判决检索时，优先使用浏览器、官方网页、权威数据库或宿主环境提供的外部工具。
-- 复杂案件、合同审查、合同起草或持续推进事项，先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、可选 skill、工具要求和 gate，再建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md`、`case.md` 与 `skill_outputs.md`；禁止在 `work/` 下再套 `cases/` 层。
+- 复杂案件、合同审查、合同起草或持续推进事项，先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、可选 skill、工具要求和 gate，再建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md`、`case.md` 与 `skill_outputs.md`；事项文件夹必须直接位于 `work/` 下。
 - 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、本地化命名的专业报告 `.md` 和同名 `.pdf`；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
 - 文件夹名、专业报告文件名和文档正文默认跟随用户输入语言；中文输入必须使用中文目录名和中文报告文件名，不得默认转成英文 slug；内部工作文件名保持稳定英文。
 - 每执行一个阶段 skill，都必须更新 `skill_outputs.md`，最终报告必须覆盖其中所有已执行 skill 的关键发现。
