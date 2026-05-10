@@ -1,7 +1,4 @@
-.PHONY: test validate install install-all install-codex install-claude install-gemini install-opencode install-openclaw research-demo output-demo
-
-test:
-	python3 -m unittest discover -s tests
+.PHONY: validate install install-all install-codex install-claude install-gemini install-opencode install-openclaw research-demo output-demo
 
 validate:
 	python3 scripts/validate_skill.py

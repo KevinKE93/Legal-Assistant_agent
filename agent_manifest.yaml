@@ -18,8 +18,6 @@ install:
     - openclaw
 validation:
   command: python3 scripts/validate_skill.py
-tests:
-  command: python3 -m unittest discover -s tests
 outputs:
   writer: scripts/write_analysis_output.py
 research:

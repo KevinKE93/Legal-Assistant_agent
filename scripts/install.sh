@@ -43,7 +43,6 @@ copy_package() {
   rsync -a \
     --exclude ".git/" \
     --exclude ".DS_Store" \
-    --exclude "tests/" \
     --exclude "work/" \
     --exclude "__pycache__/" \
     "$ROOT_DIR"/ "$target"/
