@@ -8,7 +8,7 @@
 - 复杂事项默认目录为 `work/<date>_<本地化事项名>/`，事项文件夹必须直接位于 `work/` 下。
 - 工作底稿文件名保持稳定英文，例如 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`。
 - 每执行一个 skill，必须更新对应主题文件，并在 `skill_outputs.md` 记录触发原因、读取文件、更新文件、关键发现、待补问题、来源使用和最终报告章节。
-- 复杂事项必须先依据 `CAPABILITIES.md` 确定事项类型、必跑 skill、可选 skill、必备文件、工具要求和 gate。
+- 复杂事项必须先依据 `CAPABILITIES.md` 确定事项类型、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具要求和 gate。
 - 引用法律、案例、政策、网页或“已核验来源”时，必须写入 `sources.md`；未检索时也要说明原因和引用风险。
 - 最终报告不是概述，必须逐项读取并串联工作文件和 skill 记忆。
 - 专业报告必须输出 `.md` 和同名 `.pdf`；若 PDF 无法生成或质量不合格，必须标记 blocked。
@@ -19,14 +19,14 @@
 # Skill Outputs
 
 ## Execution Index
-| Seq | Skill | Required / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
+| Seq | Skill | Required / Conditional / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
 |---:|---|---|---|---|---|---|---|---|---|---|
 
 ## Detailed Notes
 
 ### 1. <skill_name>
 - Trigger:
-- Required / optional:
+- Required / conditional / optional:
 - Status: done / pending / blocked / skipped
 - User goal:
 - Files read:
@@ -134,11 +134,15 @@
 | 主事项类型 |  |
 | 子任务类型 |  |
 | 报告状态 | complete / complete_except_pdf / draft / incomplete |
+| 当前 PDCA 阶段 | Plan / Do / Check / Act |
 
 | Gate | 状态 | 说明 | 对报告影响 |
 |---|---|---|---|
 
-| 必跑 skill | 状态 | 跳过/阻塞原因 | 对结论影响 |
+| 必跑/条件必跑 skill | 状态 | 跳过/阻塞原因 | 对结论影响 |
+|---|---|---|---|
+
+| PDCA | 本轮执行内容 | 检查结果 | 后续动作 |
 |---|---|---|---|
 
 ## 5. 事项地图与程序状态
@@ -184,7 +188,7 @@
 |---|---|---|---|
 
 ## 19. 附录 B：Skill 覆盖表
-| Skill | Required / Optional | Status | 是否进入报告 | 对应章节 |
+| Skill | Required / Conditional / Optional | Status | 是否进入报告 | 对应章节 |
 |---|---|---|---|---|
 
 ## 20. 附录 C：报告生成质量检查
@@ -220,6 +224,8 @@
 ### 执行完整性
 - 报告状态：
 - 未完成 gate：
+- PDCA 阶段：
+- 需要 Act 的事项：
 
 ### 最大风险
 -

@@ -20,9 +20,10 @@
 
 **法律助手智能体 Legal-Assistant_agent** 是一个以 `AGENTS.md` 为主入口的法律事项工作台型 Agent。它不是传统代码包，也不是律师替代品；它是一套可被 AI 助手遵循的专业工作流，用来把复杂法律事项拆解成可持续更新的事实、证据、争点、法律依据、策略行动和专业最终报告。
 
-v0.3+ 强化了三项核心能力：
+v0.3+ 强化了四项核心能力：
 
-- **能力覆盖矩阵**：先识别法律工作场景，再确定角色、必跑 skill、可选 skill、工具和 gate。
+- **能力覆盖矩阵**：先识别法律工作场景，再确定角色、必跑 skill、条件必跑 skill、可选 skill、工具和 gate。
+- **PDCA 闭环执行**：每轮事项推进都记录 Plan、Do、Check、Act，避免分析停在一次性回答。
 - **Skill 产物记忆**：每个被调用的阶段 skill 都必须在事项文件夹中留下记录，避免分析过程散落在对话里。
 - **专业报告交付**：最终输出不再是简短概述，而是读取所有工作底稿和 skill 记忆后生成完整报告，并输出 Markdown 和 PDF。
 
@@ -31,7 +32,8 @@ v0.3+ 强化了三项核心能力：
 | 能力 | 说明 |
 |---|---|
 | 事项工作台 | 同一法律事项只维护一个 `work/<日期>_<本地化事项名>/` 文件夹 |
-| 能力矩阵 | `CAPABILITIES.md` 定义不同法律场景的角色、必跑 skill、工具和 gate |
+| 能力矩阵 | `CAPABILITIES.md` 定义不同法律场景的角色、必跑 skill、条件必跑 skill、工具和 gate |
+| PDCA 控制 | `plan.md` 记录本轮 Plan、Do、Check、Act、gate 和下一步 |
 | Skill 记忆 | `skill_outputs.md` 记录每个 skill 的触发原因、输入、产出、关键发现和报告章节 |
 | 事实与证据 | 区分已证事实、待证事实、争议事实、推测和法律结论 |
 | 争点与证明责任 | 建立争议焦点、请求权基础、证明责任和证据缺口矩阵 |
@@ -49,7 +51,7 @@ v0.3+ 强化了三项核心能力：
 → 语言与事项类型识别
 → CAPABILITIES.md 能力矩阵与 gate
 → 创建或读取事项文件夹
-→ plan.md 任务计划
+→ plan.md PDCA 控制面板
 → case.md 事项记忆
 → skill_outputs.md 阶段产物索引
 → 时间线 / 条款 / 证据台账
@@ -58,6 +60,7 @@ v0.3+ 强化了三项核心能力：
 → 官方来源检索并写入 sources.md
 → analysis.md 工作底稿
 → advice.md 行动建议
+→ PDCA Check 与 Act
 → <主题>专业报告.md
 → <主题>专业报告.pdf
 → 新证据或新进展后的复盘更新
@@ -84,7 +87,7 @@ work/2026-05-10_service-agreement-review/
 
 | 文件 | 用途 |
 |---|---|
-| `plan.md` | 当前阶段、已完成事项、下一步、责任方、待补信息、PDF 状态 |
+| `plan.md` | 当前阶段、PDCA、已完成事项、下一步、责任方、待补信息、PDF 状态 |
 | `case.md` | 事项核心记忆、事实分层、争议焦点、程序进展和关键结论 |
 | `skill_outputs.md` | 每个阶段 skill 的执行记录和最终报告章节映射 |
 | `analysis.md` | 工作底稿型完整分析 |
@@ -117,6 +120,7 @@ PDF 必须真实存在且基本可读。若当前环境无法导出合格 PDF，
 - 报告范围、假设与材料清单
 - Skill 产物索引
 - 能力覆盖与执行完整性
+- PDCA 执行轨迹
 - 事项地图与程序状态
 - 事实时间线
 - 核心争议焦点矩阵
@@ -188,7 +192,8 @@ It is not a lawyer replacement and does not promise legal outcomes. It helps AI 
 | Capability | Description |
 |---|---|
 | Matter workspace | Keeps one folder per legal matter under `work/<date>_<localized-matter-name>/` |
-| Capability matrix | Maps legal work scenarios to roles, required skills, optional skills, tools, and gates |
+| Capability matrix | Maps legal work scenarios to roles, required skills, conditional required skills, optional skills, tools, and gates |
+| PDCA control | Tracks Plan, Do, Check, Act, gates, and next actions in `plan.md` |
 | Skill memory | Tracks executed skills, inputs, outputs, findings, sources, and report sections in `skill_outputs.md` |
 | Fact and evidence discipline | Separates proven facts, alleged facts, disputed facts, assumptions, and legal conclusions |
 | Issue and burden mapping | Connects claims, defenses, proof burdens, evidence gaps, and procedural risks |
@@ -205,7 +210,7 @@ User input
 → Language and matter-type routing
 → CAPABILITIES.md capability matrix and gates
 → Create or read matter folder
-→ plan.md task plan
+→ plan.md PDCA control panel
 → case.md matter memory
 → skill_outputs.md skill execution index
 → Timeline / clause / evidence ledger
@@ -214,6 +219,7 @@ User input
 → Official-source research into sources.md
 → analysis.md working analysis
 → advice.md action guidance
+→ PDCA Check and Act
 → <topic> Professional Report.md
 → <topic> Professional Report.pdf
 → Review loop after new evidence or procedural events

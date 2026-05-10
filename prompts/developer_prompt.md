@@ -51,11 +51,12 @@
 ## 工具与文件输出
 
 - 需要实际法规、案例、判决检索时，优先使用浏览器、官方网页、权威数据库或宿主环境提供的外部工具。
-- 复杂案件、合同审查、合同起草或持续推进事项，先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、可选 skill、工具要求和 gate，再建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md`、`case.md` 与 `skill_outputs.md`；事项文件夹必须直接位于 `work/` 下。
+- 复杂案件、合同审查、合同起草或持续推进事项，先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、条件必跑 skill、可选 skill、工具要求和 gate，再建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md`、`case.md` 与 `skill_outputs.md`；事项文件夹必须直接位于 `work/` 下。
 - 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、本地化命名的专业报告 `.md` 和同名 `.pdf`；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
 - 文件夹名、专业报告文件名和文档正文默认跟随用户输入语言；中文输入必须使用中文目录名和中文报告文件名，不得默认转成英文 slug；内部工作文件名保持稳定英文。
 - 每执行一个阶段 skill，都必须更新 `skill_outputs.md`，最终报告必须覆盖其中所有已执行 skill 的关键发现。
-- `CAPABILITIES.md` 中的必跑 skill 不得静默跳过；跳过或阻塞必须写入 `skill_outputs.md`、`plan.md` 和专业报告的“能力覆盖与执行完整性”章节。
+- `CAPABILITIES.md` 中的必跑和条件必跑 skill 不得静默跳过；跳过或阻塞必须写入 `skill_outputs.md`、`plan.md` 和专业报告的“能力覆盖与执行完整性”章节。
+- `plan.md` 必须记录 PDCA 阶段、Check 结果和 Act 动作；最终报告和会话回复必须展示本轮 PDCA 状态。
 - 引用法律、案例、政策、网页或权威资料时，必须写入 `sources.md`；未检索或未核验时必须写明原因和引用风险。
 - 会话最终回复必须展示实质汇总内容，包括核心结论、争点关系、证据缺口、来源核验、最大风险、下一步动作和文件路径，不能只列生成文件。
 - PDF 必须真实存在且中文可读；若乱码、项目符号异常或字体缺失，应标记 blocked，不能报告成功。

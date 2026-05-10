@@ -24,7 +24,8 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 - 事项文件夹路径，必须是 `work/<date>_<本地化事项名>/`。
 - 用户主语言和目标读者。
 - 已存在的工作文件。
-- `CAPABILITIES.md` 中的事项类型、必跑 skill、gate 和报告状态规则。
+- `CAPABILITIES.md` 中的事项类型、必跑 skill、条件必跑 skill、gate 和报告状态规则。
+- `plan.md` 中的 PDCA 阶段、Check 结果和 Act 动作。
 - `skill_outputs.md` 中的执行索引。
 - `sources.md` 中的来源记录。
 - 宿主环境是否具备可靠 PDF 导出能力。
@@ -80,17 +81,19 @@ contract_draft.md
 |---|---|---|---|
 | 主事项类型 |  |  |  |
 | 必跑 skill |  |  |  |
+| 条件必跑 skill |  |  |  |
 | 可选 skill |  |  |  |
 | Gate 状态 |  |  |  |
+| PDCA 阶段 | Plan / Do / Check / Act |  |  |
 | 报告状态 | complete / complete_except_pdf / draft / incomplete |  |  |
 
 并建立 skill 覆盖表：
 
-| Skill | Required / Optional | Status | 关键发现 | 待补问题 | 对应报告章节 | 是否已纳入 |
+| Skill | Required / Conditional / Optional | Status | 关键发现 | 待补问题 | 对应报告章节 | 是否已纳入 |
 |---|---|---|---|---|---|---|
 
 每个已执行 skill 至少进入一个章节或子章节。不能只列路径。
-必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容 gate 全部通过、仅 PDF gate 阻塞的情况。
+必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容 gate 全部通过、仅 PDF gate 阻塞的情况。
 
 ### 3. 来源核验表
 
@@ -112,8 +115,9 @@ contract_draft.md
 - `analysis.md` 的结论是否被 `sources.md` 或待核验规则支撑。
 - `advice.md` 的行动建议是否匹配证据强度和程序阶段。
 - `skill_outputs.md` 的关键发现是否全部进入报告。
-- `CAPABILITIES.md` 要求的必跑 skill 是否全部执行或说明阻塞/跳过原因。
+- `CAPABILITIES.md` 要求的必跑和条件必跑 skill 是否全部执行或说明阻塞/跳过原因。
 - gate 状态是否支持当前报告状态。
+- PDCA 是否完成本轮 Plan、Do、Check，并产生明确 Act。
 - 是否存在前后矛盾、金额矛盾、程序矛盾、i18n 命名错误或 PDF 交付风险。
 
 ### 5. 重写专业报告
@@ -125,7 +129,7 @@ contract_draft.md
 3. 执行摘要。
 4. 报告范围、假设与材料清单。
 5. Skill 产物索引。
-6. 能力覆盖与执行完整性。
+6. 能力覆盖与执行完整性，包含 PDCA 执行轨迹。
 7. 事项地图与程序状态。
 8. 关键事实时间线。
 9. 核心争议焦点矩阵。
@@ -193,6 +197,8 @@ contract_draft.md
 ### 执行完整性
 - 报告状态：
 - 未完成 gate：
+- PDCA 阶段：
+- 需要 Act 的事项：
 
 ### 最大风险
 -
@@ -210,7 +216,8 @@ contract_draft.md
 ## 质量检查
 
 - 不遗漏 `skill_outputs.md`。
-- 不遗漏 `CAPABILITIES.md` 的必跑 skill 和 gate 检查。
+- 不遗漏 `CAPABILITIES.md` 的必跑、条件必跑 skill 和 gate 检查。
+- 不遗漏 PDCA 阶段、Check 结果和 Act 动作。
 - 不遗漏已执行 skill 的关键发现。
 - 不把待证明事实写成已证明事实。
 - 不把工作底稿直接复制为最终报告。

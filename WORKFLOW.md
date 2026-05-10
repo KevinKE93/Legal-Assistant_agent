@@ -16,6 +16,7 @@ work/<date>_<本地化事项名>/
 - `<本地化事项名>` 使用用户输入的主语言命名。中文输入必须使用中文名；英文输入使用英文名；混合输入按主语言命名。
 - 名称用 2-6 个关键词概括法律主题，不写真实姓名、身份证号、完整公司名、地址等敏感信息。
 - 同一事项只维护一个文件夹；后续输入新事实、新证据、新合同版本或新程序进展时，继续更新旧文件夹。
+- 创建新文件夹前，先查看 `work/` 下是否已有同一事项文件夹。判断依据包括事项类型、关键词、当事人角色、合同主题、程序阶段和用户目标；不确定时在 `plan.md` 写 `Reuse check: uncertain`，并向用户确认或选择最保守的复用方案。
 - 事项文件夹必须直接位于 `work/` 下，不增加任何中间分类层。
 - 不提交 `work/` 下真实案件数据。
 
@@ -88,9 +89,9 @@ contract_draft.md
 ```text
 识别事项类型
 → 查 CAPABILITIES.md
-→ 确定必跑 skill / 可选 skill / 必备文件 / 工具要求
+→ 确定必跑 skill / 条件必跑 skill / 可选 skill / 必备文件 / 工具要求
 → 写入 plan.md 和 skill_outputs.md
-→ 执行必跑 skill
+→ 执行必跑和条件必跑 skill
 → 检查 gates
 → final_synthesis
 ```
@@ -99,13 +100,28 @@ contract_draft.md
 
 - 主事项类型和子任务类型。
 - 必跑 skill 清单。
+- 条件必跑 skill 清单。
 - 可选 skill 清单。
 - 每个 gate 的状态：`pass / pending / blocked / skipped`。
 - 专业报告状态：`complete / complete_except_pdf / draft / incomplete`。
+- 当前 PDCA 阶段和 Check 结论。
 
-`skill_outputs.md` 必须记录每个必跑 skill 的状态：`done / pending / blocked / skipped`。必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。
+`skill_outputs.md` 必须记录每个必跑和条件必跑 skill 的状态：`done / pending / blocked / skipped`。必跑或条件必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。
 
-## 6. plan.md 标准结构
+## 6. PDCA 闭环
+
+复杂事项必须通过 PDCA 传递：
+
+| PDCA | Agent 动作 | 文件落点 |
+|---|---|---|
+| Plan | 判断语言、法域、事项类型、复用文件夹、必跑/条件必跑 skill、gate、用户目标 | `plan.md`、`case.md` |
+| Do | 执行 skill，沉淀事实、时间线、证据、来源、分析、建议、文书或合同草案 | 主题文件、`skill_outputs.md` |
+| Check | 检查 skill 覆盖、来源、证据、报告、会话展示、PDF、i18n 和目录规则 | `plan.md`、专业报告 |
+| Act | 输出下一步、补证、重跑 skill、升级/降级报告状态，或触发 `review_learning_loop` | `plan.md`、`case.md`、相关主题文件 |
+
+`plan.md` 是 PDCA 控制面板。每次阶段推进后都要更新当前 PDCA 阶段、Check 结果和 Act 动作，不能只更新最终报告。
+
+## 7. plan.md 标准结构
 
 ```markdown
 # Plan
@@ -113,12 +129,15 @@ contract_draft.md
 - Matter folder:
 - Matter type:
 - Required skills:
+- Conditional required skills:
 - Optional skills:
 - Output language:
 - Professional report Markdown:
 - Professional report PDF:
 - PDF status: pending / ready / blocked
 - Report status: complete / complete_except_pdf / draft / incomplete
+- PDCA stage: Plan / Do / Check / Act
+- Reuse check: new folder / reused existing folder / uncertain
 - Current stage:
 - Updated at:
 
@@ -144,6 +163,10 @@ contract_draft.md
 | Priority | Owner | Action | Purpose | Due / Trigger | Output |
 |---|---|---|---|---|---|
 
+## PDCA Log
+| Cycle | Plan | Do | Check | Act | Status |
+|---|---|---|---|---|---|
+
 ## Open Questions For User
 1.
 
@@ -153,7 +176,7 @@ contract_draft.md
 
 每完成一个主要阶段，都更新 `plan.md`。下一步必须有责任方：`user`、`agent`、`lawyer`、`court/arbitrator`、`agency`、`opponent`。
 
-## 7. case.md 标准结构
+## 8. case.md 标准结构
 
 ```markdown
 # Case
@@ -192,20 +215,20 @@ contract_draft.md
 |---|---|---|---|
 ```
 
-## 8. skill_outputs.md 标准结构
+## 9. skill_outputs.md 标准结构
 
 ```markdown
 # Skill Outputs
 
 ## Execution Index
-| Seq | Skill | Required / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
+| Seq | Skill | Required / Conditional / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
 |---:|---|---|---|---|---|---|---|---|---|---|
 
 ## Detailed Notes
 
 ### <Seq>. <skill_name>
 - Trigger:
-- Required / optional:
+- Required / conditional / optional:
 - Status: done / pending / blocked / skipped
 - User goal:
 - Inputs read:
@@ -220,11 +243,11 @@ contract_draft.md
 规则：
 
 - 每执行一个 skill，必须追加或更新一条记录。
-- 如果必跑 skill 被跳过或阻塞，必须说明理由、影响和下一步，不能在最终报告中声称已经完成。
+- 如果必跑或条件必跑 skill 被跳过或阻塞，必须说明理由、影响和下一步，不能在最终报告中声称已经完成。
 - 如果执行时信息不足，仍要记录“信息不足、影响、下一步补充”。
 - 最终报告必须覆盖 `Execution Index` 中所有已执行 skill 的关键发现。
 
-## 9. 来源记录规则
+## 10. 来源记录规则
 
 需要法律条文、司法解释、案例、判决、行政规则、合同监管规则、网页或最新政策时：
 
@@ -235,11 +258,11 @@ contract_draft.md
 - 若本轮未联网检索，必须在 `sources.md` 写明“未检索/待核验/原因/影响”。
 - 最终报告和会话回复必须展示来源数量、来源类型、核心可用规则和引用风险。
 
-## 10. 默认阶段流程
+## 11. 默认阶段流程
 
 1. 隐私与范围守门。
 2. 语言与事项类型路由。
-3. 查 `CAPABILITIES.md`，确定必跑 skill、可选 skill、必备文件和 gate。
+3. 查 `CAPABILITIES.md`，确定必跑 skill、条件必跑 skill、可选 skill、必备文件和 gate。
 4. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
 5. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
 6. 时间线、条款、证据台账。
@@ -247,12 +270,12 @@ contract_draft.md
 8. 矛盾、因果、对方视角、裁判视角。
 9. 官方或权威来源检索，写入 `sources.md`。
 10. 策略行动、文书或合同草案。
-11. Gate 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
+11. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
 12. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown 和 PDF。
 13. 会话界面展示实质汇总。
-14. 后续新信息触发复盘，更新既有事项文件夹。
+14. 后续新信息触发 Act 和复盘，更新既有事项文件夹。
 
-## 11. 信息不足时如何处理
+## 12. 信息不足时如何处理
 
 只在缺口会明显影响结论、金额、期限、管辖、证明责任或行动选择时提问。用户暂时无法补充时，继续分析，但必须把缺口写入 `plan.md`、`case.md` 和 `skill_outputs.md`。
 

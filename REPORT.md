@@ -101,6 +101,7 @@ contract_draft.md
 | 主事项类型 |  |
 | 子任务类型 |  |
 | 报告状态 | complete / complete_except_pdf / draft / incomplete |
+| 当前 PDCA 阶段 | Plan / Do / Check / Act |
 
 | Gate | 状态 | 说明 | 对报告影响 |
 |---|---|---|---|
@@ -113,8 +114,15 @@ contract_draft.md
 | Conversation Gate |  |  |  |
 | PDF Gate |  |  |  |
 
-| 必跑 skill | 状态 | 跳过/阻塞原因 | 对结论影响 |
+| 必跑/条件必跑 skill | 状态 | 跳过/阻塞原因 | 对结论影响 |
 |---|---|---|---|
+
+| PDCA | 本轮执行内容 | 检查结果 | 后续动作 |
+|---|---|---|---|
+| Plan |  |  |  |
+| Do |  |  |  |
+| Check |  |  |  |
+| Act |  |  |  |
 
 ## 5. 事项地图与程序状态
 
@@ -162,7 +170,7 @@ contract_draft.md
 |---|---|---|---|
 
 ## 19. 附录 B：Skill 覆盖表
-| Skill | Required / Optional | Status | 是否进入报告 | 对应章节 |
+| Skill | Required / Conditional / Optional | Status | 是否进入报告 | 对应章节 |
 |---|---|---|---|---|
 
 ## 20. 附录 C：报告生成质量检查
@@ -226,6 +234,8 @@ contract_draft.md
 ### 执行完整性
 - 报告状态：
 - 未完成 gate：
+- PDCA 阶段：
+- 需要 Act 的事项：
 
 ### 最大风险
 -

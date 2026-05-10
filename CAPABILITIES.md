@@ -41,14 +41,15 @@
 ## 3. 路由规则
 
 1. 先判断主场景。如果用户请求同时包含多个场景，以最能决定交付物的场景为主场景，并把其他场景列为子任务。
-2. 读取本矩阵，列出必跑 skill、可选 skill、必备文件和工具要求。
-3. 创建或复用事项文件夹后，在 `plan.md` 记录事项类型、必跑 skill、可选 skill、gate 状态和下一步。
-4. 在 `skill_outputs.md` 记录每个必跑 skill 的执行状态：`done / skipped / blocked / pending`。
-5. 进入 `final_synthesis` 前，必须完成 gate 检查。
+2. 读取本矩阵，列出必跑 skill、可选 skill、必备文件和工具要求，并判断是否出现条件必跑触发。
+3. 如果可选 skill 的触发条件已经出现，将其提升为 `conditional_required`。例如：报告、文书、谈判策略或合同意见引用法律依据时，`case_reference_research` 必须执行或标记 blocked。
+4. 创建或复用事项文件夹后，在 `plan.md` 记录事项类型、必跑 skill、条件必跑 skill、可选 skill、gate 状态和下一步。
+5. 在 `skill_outputs.md` 记录每个必跑和条件必跑 skill 的执行状态：`done / skipped / blocked / pending`。
+6. 进入 `final_synthesis` 前，必须完成 gate 检查。
 
 ## 4. 跳过规则
 
-必跑 skill 不能静默跳过。若跳过，必须在 `skill_outputs.md` 和最终报告“能力覆盖与执行完整性”章节说明：
+必跑和条件必跑 skill 不能静默跳过。若跳过，必须在 `skill_outputs.md` 和最终报告“能力覆盖与执行完整性”章节说明：
 
 | 状态 | 含义 | 是否可交付完整报告 |
 |---|---|---|
@@ -59,14 +60,22 @@
 
 可选 skill 可以跳过，但如果跳过会影响结论深度，必须写入 `plan.md` 的 Next Actions。
 
+`conditional_required` 适用于原本可选、但因用户目标或报告内容而变成必须执行的 skill。常见触发：
+
+- 事项文件夹中缺少可用 `case.md`，或用户事实、角色、目标、程序阶段尚未结构化时，`case_intake_issue_map` 必须执行或标记 blocked。
+- 任何报告、文书、合同意见或谈判策略引用法律规则、案例、政策或网页。
+- 用户要求“查法条、找案例、引用来源、最新规定、官方依据”。
+- 新证据或新程序节点改变既有法律依据，需要重新核验。
+- 合同审查/起草涉及强制性规定、行业监管、格式条款、管辖或消费者/劳动/数据合规等不可只凭经验判断的事项。
+
 ## 5. Gate 机制
 
 | Gate | 通过条件 | 未通过处理 |
 |---|---|---|
-| Routing Gate | 已识别事项类型，并按本文件列出必跑/可选 skill | 不进入最终报告 |
+| Routing Gate | 已识别事项类型，并按本文件列出必跑/条件必跑/可选 skill | 不进入最终报告 |
 | Folder Gate | 已创建或复用 `work/<date>_<本地化事项名>/` | 不进入多文件交付 |
-| Skill Gate | 必跑 skill 已 `done`；确实不适用或无法执行的 skill 已标记 `skipped/blocked` 并说明影响 | `blocked/pending` 时报告标记为 incomplete 或 draft；`skipped` 时必须说明不适用理由 |
-| Source Gate | 涉及法律依据时，`sources.md` 已记录来源、待核验状态或未检索原因 | 不得声称已核验 |
+| Skill Gate | 必跑和条件必跑 skill 已 `done`；确实不适用或无法执行的 skill 已标记 `skipped/blocked` 并说明影响 | `blocked/pending` 时报告标记为 incomplete 或 draft；`skipped` 时必须说明不适用理由 |
+| Source Gate | 涉及法律依据时，`case_reference_research` 已执行或标记 blocked，且 `sources.md` 已记录来源、待核验状态或未检索原因 | 不得声称已核验；必要时将 research 提升为 conditional_required |
 | Evidence Gate | 关键结论绑定事实依据、证据状态、证明责任和不确定性 | 降级为待核验分析 |
 | Report Gate | 专业报告覆盖已执行 skill 和所有必备文件 | 不可只输出摘要 |
 | Conversation Gate | 会话回复展示核心结论、关系、缺口、来源、风险、下一步和路径 | 不可只列路径 |
@@ -88,9 +97,22 @@
 
 | 状态 | 使用条件 |
 |---|---|
-| complete | 必跑 skill、来源、证据、报告和 PDF gate 均通过 |
+| complete | 必跑和条件必跑 skill、来源、证据、报告和 PDF gate 均通过 |
 | complete_except_pdf | 除 PDF 外均通过，PDF 因环境能力 blocked |
 | draft | 事实、证据或来源仍有关键缺口，但已形成阶段性报告 |
-| incomplete | 必跑 skill 或关键 gate 未完成，不能作为完整分析交付 |
+| incomplete | 必跑或条件必跑 skill、关键 gate 未完成，不能作为完整分析交付 |
 
 状态必须出现在 `plan.md`、专业报告“能力覆盖与执行完整性”章节和会话最终回复中。
+
+## 8. PDCA 传递规则
+
+每个复杂事项都按 PDCA 传递：
+
+| 阶段 | 在本项目中的含义 | 必须更新 |
+|---|---|---|
+| Plan | 事项路由、目标、必跑/条件必跑 skill、gate、文件清单和待补信息 | `plan.md` |
+| Do | 执行各阶段 skill，写入主题文件和 `skill_outputs.md` | 主题文件、`skill_outputs.md` |
+| Check | 检查证据、来源、skill 覆盖、报告覆盖、PDF 和会话展示 gate | `plan.md`、专业报告 |
+| Act | 基于检查结果生成下一步、补证任务、重跑 skill 或复盘更新 | `plan.md`、`case.md`、相关主题文件 |
+
+最终报告必须说明当前处于哪个 PDCA 阶段，以及哪些 Check 结果触发了 Act。

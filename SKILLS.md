@@ -15,7 +15,7 @@
 | 字段 | 要求 |
 |---|---|
 | Skill | skill 名称，例如 `timeline_evidence_ledger` |
-| Required / Optional | 来自 `CAPABILITIES.md` 的必跑或可选判断 |
+| Required / Conditional / Optional | 来自 `CAPABILITIES.md` 的必跑、条件必跑或可选判断 |
 | Status | `done / pending / blocked / skipped` |
 | Trigger | 为什么调用本 skill |
 | Files Read | 读取了哪些工作文件 |
@@ -25,7 +25,7 @@
 | Sources Used | 使用了哪些来源；未使用写“未检索/不适用/待核验” |
 | Report Section | 最终报告中必须出现的位置 |
 
-如果 skill 未实际执行，不能在最终报告中声称执行过。如果执行但信息不足，必须记录缺口、影响和下一步。必跑 skill 为 `pending`、`blocked` 或没有执行记录时，最终报告必须标记为 `draft` 或 `incomplete`；只有内容 gate 全部通过且仅 PDF gate 阻塞时，才可标记为 `complete_except_pdf`。
+如果 skill 未实际执行，不能在最终报告中声称执行过。如果执行但信息不足，必须记录缺口、影响和下一步。必跑或条件必跑 skill 为 `pending`、`blocked` 或没有执行记录时，最终报告必须标记为 `draft` 或 `incomplete`；只有内容 gate 全部通过且仅 PDF gate 阻塞时，才可标记为 `complete_except_pdf`。
 
 ## 2. Skill 到文件和报告章节映射
 
@@ -52,6 +52,9 @@
 ## 3. 必跑、可选和跳过规则
 
 - `required`：来自 `CAPABILITIES.md` 的必跑 skill。必须执行；若无法执行，状态写为 `blocked`，说明原因、影响和下一步。
+- `conditional_required`：原本可选，但因用户目标、法律引用、最新规则、程序节点或报告内容而变成必须执行的 skill。执行和阻塞规则等同 required。
+- `case_intake_issue_map` 在事实、角色、目标或程序阶段尚未写入 `case.md` 时视为 conditional_required。
+- `case_reference_research` 在任何报告、文书、合同意见或策略引用法律依据时视为 conditional_required。
 - `optional`：来自 `CAPABILITIES.md` 的可选 skill。可根据材料、目标和风险选择执行；若跳过，状态写为 `skipped` 并说明理由。
 - `derived`：执行过程中因新信息触发的额外 skill。必须记录触发原因和产物。
 - `not applicable`：明显不适用的 skill，不必写入执行索引；但如果用户特别要求或会影响结论，应写入 `skipped`。
@@ -72,7 +75,7 @@
 ```markdown
 ### <Seq>. <skill_name>
 - Trigger:
-- Required / optional:
+- Required / conditional / optional:
 - Status: done / pending / blocked / skipped
 - User goal:
 - Files read:
@@ -91,11 +94,11 @@
 
 调用 `final_synthesis` 时：
 
-- 先读取 `CAPABILITIES.md` 和 `plan.md`，确认事项类型、必跑 skill 和 gate 状态。
+- 先读取 `CAPABILITIES.md` 和 `plan.md`，确认事项类型、必跑 skill、条件必跑 skill 和 gate 状态。
 - 先读取 `skill_outputs.md`，确定哪些 skill 实际执行过。
 - 再逐项读取 `plan.md`、`case.md`、`timeline.md`、`evidence.md`、`sources.md`、`analysis.md`、`advice.md` 和其他存在的主题文件。
 - 专业报告必须为 `Execution Index` 中每个已执行 skill 提供对应章节或子章节。
-- 专业报告必须展示必跑 skill 的执行完整性；必跑 skill 未执行、`pending` 或 `blocked` 时，报告状态不能标记为 `complete`，并应根据影响标记为 `draft` 或 `incomplete`。
+- 专业报告必须展示必跑和条件必跑 skill 的执行完整性；必跑或条件必跑 skill 未执行、`pending` 或 `blocked` 时，报告状态不能标记为 `complete`，并应根据影响标记为 `draft` 或 `incomplete`。
 - 如果某个 skill 的关键发现没有进入报告，必须在报告附录说明未纳入原因。
 - 会话回复必须展示实质汇总内容，不能只列“已生成文件路径”。
 
@@ -120,5 +123,5 @@ Sources used: 未联网检索；当前规则仅为待核验法律分析假设，
 - 不把法律研究结果留在对话里而不写入 `sources.md`。
 - 不把 skill 产物留在零散对话里而不写入事项文件夹。
 - 不把最终报告写成短摘要。
-- 不跳过 `CAPABILITIES.md` 中的必跑 skill；确实不能执行时必须写明 blocked/skipped 和影响。
+- 不跳过 `CAPABILITIES.md` 中的必跑或条件必跑 skill；确实不能执行时必须写明 blocked/skipped 和影响。
 - 不交付乱码或无法阅读的 PDF。

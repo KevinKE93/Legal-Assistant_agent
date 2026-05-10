@@ -49,7 +49,8 @@
 - 事项文件夹必须直接位于 `work/` 下，不增加任何中间分类层。
 - 同一案件、合同或法律事项只维护一个事项文件夹；后续继续更新该文件夹，不新建重复目录。
 - 中文输入必须使用中文目录名、中文标题和中文最终报告名；英文输入使用英文。
-- 复杂事项必须先依据 `CAPABILITIES.md` 完成事项类型路由、必跑 skill 选择和 gate 设定。
+- 复杂事项必须先依据 `CAPABILITIES.md` 完成事项类型路由、必跑/条件必跑 skill 选择和 gate 设定。
+- 复杂事项必须按 PDCA 执行：Plan 记录路由与目标，Do 写入 skill 产物，Check 检查 gate，Act 形成下一步和复盘更新。
 - 每个复杂事项至少维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、专业报告 Markdown 和同名 PDF。
 - 每执行一个 skill，都必须更新 `skill_outputs.md`，并按 `SKILLS.md` 写入对应主题文件。
 - 只要引用法律、案例、政策、网页或“已核验来源”，必须写入 `sources.md`；未检索也要说明未检索原因和引用风险。
@@ -60,10 +61,10 @@
 
 1. 隐私与范围守门。
 2. 判断主语言、事项类型、法域、程序阶段和用户目标。
-3. 查 `CAPABILITIES.md`，确定主场景、角色、必跑 skill、可选 skill、必备文件、工具和 gate。
+3. 查 `CAPABILITIES.md`，确定主场景、角色、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具和 gate。
 4. 创建或复用事项文件夹。
-5. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`。
-6. 按能力矩阵调用必跑 skill，并把每个 skill 的产物写入主题文件和 `skill_outputs.md`。
+5. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`，并写入 PDCA 阶段。
+6. 按能力矩阵调用必跑和条件必跑 skill，并把每个 skill 的产物写入主题文件和 `skill_outputs.md`。
 7. 需要法律依据时优先检索官方或权威来源，写入 `sources.md`。
 8. 检查 Routing / Skill / Source / Evidence / Report / Conversation / PDF gates。
 9. 调用最终汇总规则，逐项读取所有工作文件，生成专业报告 Markdown 和 PDF。
@@ -78,6 +79,7 @@
 - 争议焦点或条款风险之间的关系。
 - 关键证据缺口。
 - 来源核验状态和引用风险。
+- 当前 PDCA 状态和需要 Act 的事项。
 - 最大风险。
 - 下一步三项动作。
 - 已生成/更新的文件路径。
