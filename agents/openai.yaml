@@ -1,3 +1,0 @@
-display_name: 法律助手智能体 Legal-Assistant_agent
-short_description: Evidence-driven legal dispute analysis with local case workspace memory, official-source research, drafting, and hearing prep.
-default_prompt: Use 法律助手智能体 Legal-Assistant_agent to analyze this legal dispute with privacy-first scope checks, local case workspace memory for complex matters, evidence mapping, official-source research where needed, and clear next actions.

@@ -1,9 +1,9 @@
 ---
 name: review_learning_loop
-description: 在新证据、新陈述、新程序节点出现后，读取本地案件工作台，复盘并更新事实、证据、争点、风险、checkpoint 和下一步行动。
+description: 在新证据、新陈述、新程序节点出现后，读取案件文件夹中的 plan.md 和 case.md，复盘并更新事实、证据、争点、风险和下一步行动。
 ---
 
-# Skill：复盘、本地记忆与迭代学习
+# Skill：复盘、案件记忆与迭代学习
 
 ## 适用场景
 
@@ -11,15 +11,15 @@ description: 在新证据、新陈述、新程序节点出现后，读取本地�
 
 ## 目标
 
-1. 读取 `work/cases/<case-slug>/case_state.json` 和 `activity_log.jsonl`。
+1. 读取案件文件夹中的 `plan.md` 和 `case.md`。
 2. 判断新信息改变了哪些事实、争点、证明责任、证据强度和风险。
 3. 更新案件状态、下一步行动和责任方。
-4. 将本轮关键产物保存为 checkpoint。
+4. 将本轮关键分析写入对应 markdown 文件。
 5. 保持案件记忆连续，不从空白分析重新开始。
 
 ## 输入
 
-- 案件工作台路径或 case slug。
+- 案件文件夹路径。
 - 新增事实。
 - 新增证据。
 - 对方新表态。
@@ -28,22 +28,15 @@ description: 在新证据、新陈述、新程序节点出现后，读取本地�
 
 ## 工作流
 
-### 1. 读取本地案件状态
+### 1. 读取案件文件夹
 
-优先使用：
+先定位同一案件的文件夹，读取 `plan.md` 和 `case.md`。若不存在案件文件夹，先根据当前事项创建：
 
-```bash
-python3 scripts/case_workspace.py status --case-slug <case-slug>
+```text
+work/cases/<date>_<case-type>-<keywords>/
 ```
 
-若工作台不存在，先初始化：
-
-```bash
-python3 scripts/case_workspace.py init \
-  --case-slug <case-slug> \
-  --stage review-loop \
-  --summary "Initialized workspace during review loop."
-```
+并初始化 `plan.md` 与 `case.md`。
 
 ### 2. 新旧对比
 
@@ -73,29 +66,13 @@ python3 scripts/case_workspace.py init \
 - 法官视角。
 - 行动方案。
 
-### 5. 本地记忆更新
+### 5. 案件记忆更新
 
-每次复盘必须写入一条活动记录：
+每次复盘必须更新：
 
-```bash
-python3 scripts/case_workspace.py record \
-  --case-slug <case-slug> \
-  --stage review-loop \
-  --summary "<本轮发生了什么>" \
-  --owner agent \
-  --next-action "agent: <下一步>" \
-  --open-question "<仍缺什么>"
-```
-
-如果本轮形成了可复用分析，保存 checkpoint：
-
-```bash
-python3 scripts/case_workspace.py checkpoint \
-  --case-slug <case-slug> \
-  --stage review-loop \
-  --title review-update \
-  --content-file review_update.md
-```
+- `plan.md`：当前阶段、已完成、下一步、责任方、待用户补充信息。
+- `case.md`：新增事实、证据变化、争点变化、程序进展、关键结论变化。
+- 相关专题文件：例如 `analysis.md`、`advice.md`、`timeline.md`、`evidence.md`、`sources.md`。
 
 ### 6. 经验沉淀
 
@@ -111,10 +88,9 @@ python3 scripts/case_workspace.py checkpoint \
 
 ```markdown
 ## 版本信息
-- 版本：
 - 更新时间：
 - 新增信息来源：
-- Case workspace：
+- 案件文件夹：
 - 当前阶段：
 
 ## 新旧变化
@@ -137,20 +113,20 @@ python3 scripts/case_workspace.py checkpoint \
 
 ## 下一步最小行动
 
-## 本地记忆更新
-- 已写入 activity_log：
-- 已保存 checkpoint：
-- case_state 更新：
+## 案件文件夹更新
+- 已更新 plan.md：
+- 已更新 case.md：
+- 已更新其他文件：
 
 ## 经验记录
 ```
 
 ## 质量检查
 
-- 先读取本地案件状态，再复盘。
+- 先读取 `plan.md` 和 `case.md`，再复盘。
 - 不保留已被推翻的假设。
 - 不忽略新信息对风险的影响。
 - 每次复盘都给出下一步动作。
 - 每次复盘都记录责任方和下一步。
-- 不把 templates 当作案件记忆。
+- 不把聊天记录当作唯一记忆，必须更新案件文件夹。
 - 经验记录保持抽象，不包含隐私。

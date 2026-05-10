@@ -1,11 +1,11 @@
 # 法律助手智能体 Legal-Assistant_agent
 
 ![Language](https://img.shields.io/badge/language-中文%20%7C%20English-blue)
-![Package](https://img.shields.io/badge/package-Agent%20Skill-green)
+![Agent](https://img.shields.io/badge/type-Document%20Agent-green)
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 面向法律纠纷场景的可安装 Agent Package：把事实、证据、法律检索、策略和文书准备整理成可复用的专业工作流。
+> 一个干净、纯粹、可持续记录案件进展的法律助手 Agent 工作流。
 
 **作者：Kevin KE / [laoke.ai](https://laoke.ai)**
 
@@ -15,162 +15,117 @@
 
 ### ⚖️ 这是什么
 
-**法律助手智能体 Legal-Assistant_agent** 是一个隐私优先、证据驱动的法律分析智能体包。它用于辅助整理纠纷事实、建立证据台账、发现矛盾点、检索官方法律来源、生成策略方案，并将分析结果输出到指定工作目录。
+**法律助手智能体 Legal-Assistant_agent** 是一个面向法律纠纷场景的纯文档 Agent 工作流。它通过 `AGENTS.md` 指导 AI 助手逐层拆解案件：事实、证据、争议焦点、法律路径、证明责任、对方视角、法官视角、风险和行动方案。
 
-它不是律师替代品，不承诺案件结果，也不会编造法律依据。它更适合作为“法律问题整理、证据管理、文书准备和行动规划”的智能工作台。
+它不是律师替代品，不承诺案件结果，也不会编造法律依据。它适合作为“法律问题整理、证据管理、策略规划、文书准备和持续复盘”的工作流助手。
 
 ### ✨ 核心能力
 
-- **案件梳理**：法域、案件类型、角色、目标、期限、事实和证据归纳
-- **证据管理**：时间线、证据台账、证明对象、证据缺口和补强方向
-- **法律分析**：法律要件、证明责任、争点、抗辩入口和不确定性
-- **矛盾审查**：陈述、证据、时间线、金额和行为逻辑交叉校验
-- **视角模拟**：对方视角、法官视角、调解/仲裁视角风险评估
-- **官方检索**：优先检索对应法域的官方法规、案例、判决和程序规则
-- **文书辅助**：事实确认函、催告函、投诉材料、诉讼/答辩框架、证据目录、庭审提纲
-- **本地记忆**：复杂案件默认形成案件工作台，持续记录阶段日志、checkpoint、责任方和下一步
-- **结果落盘**：把分析结果、元数据和补充材料输出到案件工作目录
+- **案件梳理**：法域、案件类型、程序阶段、角色、目标、期限
+- **事实拆解**：区分事实、推测、评价和法律结论
+- **争点分析**：事实争点、法律争点、证据争点、因果争点、程序争点
+- **证据管理**：证据台账、证明对象、证据缺口和补强动作
+- **法律分析**：请求权基础、证明责任、抗辩入口和不确定性
+- **视角模拟**：对方视角、法官/仲裁员视角、调解视角
+- **行动建议**：谈判、补证、投诉、仲裁、诉讼、答辩、庭审准备
+- **案件记忆**：同一案件只维护一个文件夹，持续更新 `plan.md` 和 `case.md`
 
-### 🧭 Agent Workflow
+### 🧭 工作流
 
 ```text
-案件输入
-→ 范围与隐私守门
-→ 时间线和证据台账
-→ 法律要件与证明责任矩阵
-→ 矛盾分析与因果链审查
+用户输入
+→ 隐私与范围守门
+→ 案件文件夹创建或读取
+→ plan.md 任务计划
+→ case.md 案件记忆
+→ 时间线与证据台账
+→ 争议焦点与证明责任
+→ 矛盾、因果、对方视角、法官视角
 → 官方来源检索
-→ 对方视角与法官视角评估
-→ 策略、文书或庭审准备
-→ 本地案件工作台记录与 checkpoint
-→ 输出到案件工作目录
-→ 新证据/新程序节点后的复盘迭代
+→ analysis.md 分析报告
+→ advice.md 行动建议
+→ 新证据/新进展后的复盘更新
 ```
 
-| 阶段 | 产物 |
+### 📁 案件文件夹
+
+复杂案件默认输出到：
+
+```text
+work/cases/<date>_<case-type>-<keywords>/
+```
+
+示例：
+
+```text
+work/cases/2026-05-10_labor-dispute-wage-overtime/
+```
+
+默认文件：
+
+| 文件 | 用途 |
 |---|---|
-| 范围守门 | 法域、案件类型、风险等级、隐私脱敏要求 |
-| 事实整理 | 时间线、事实清单、争议事实、待证明事实 |
-| 证据映射 | 证据台账、证明对象、证据缺口、补证建议 |
-| 法律分析 | 要件矩阵、证明责任、抗辩入口、不确定性 |
-| 压力测试 | 矛盾点、因果风险、对方攻击路径、法官视角弱点 |
-| 官方检索 | 检索记录、官方 URL、访问状态、来源风险 |
-| 本地记忆 | 阶段日志、checkpoint、责任方、下一步、案件状态 |
-| 行动输出 | 策略方案、问题清单、文书草稿、庭审提纲、工作目录 |
+| `plan.md` | 当前阶段、已完成、进行中、下一步、责任方、待补信息 |
+| `case.md` | 案情摘要、事实分层、争议焦点、证据状态、程序进展、关键结论 |
+| `analysis.md` | 完整分析报告 |
+| `advice.md` | 行动建议、谈判策略、维权路径和禁忌动作 |
 
-### 🚀 快速安装
+按需增加：
 
-```bash
-git clone https://github.com/KevinKE93/Legal-Assistant_agent.git
-cd Legal-Assistant_agent
-./install.sh
+| 文件 | 用途 |
+|---|---|
+| `timeline.md` | 事件时间线 |
+| `evidence.md` | 证据台账 |
+| `sources.md` | 法规、案例、官方来源和引用风险 |
+| `drafts.md` | 沟通函、投诉材料、起诉/答辩框架、庭审提纲 |
+
+### 🚀 如何使用
+
+临时调用：
+
+```text
+请按照 Legal-Assistant_agent 的工作流分析下面这个案件，并把分析过程输出到案件文件夹。
 ```
 
-默认安装到 Codex。安装其他客户端：
+全局或 `/` 指令调用：
 
-```bash
-./scripts/install.sh --client codex
-./scripts/install.sh --client claude-code
-./scripts/install.sh --client gemini-cli
-./scripts/install.sh --client opencode
-./scripts/install.sh --client openclaw
-./scripts/install.sh --client cursor --project-dir /path/to/project
+```text
+/legal-assistant 分析这个案件……
 ```
 
-一次性安装到支持全局集成的客户端：
+如果你的 AI 客户端支持自定义命令，可以把命令内容配置为“读取并遵循本仓库的 `AGENTS.md`”。本仓库不提供安装器，保持纯文档工作流。
 
-```bash
-./scripts/install.sh --client all
+### 🧩 推荐输入格式
+
+```text
+法域：
+案件类型：
+当前阶段：
+我的身份：
+目标：
+关键时间：
+事实经过：
+已有证据：
+对方主张：
+期限或风险：
+希望输出到：
 ```
 
-查看支持项：
-
-```bash
-./scripts/install.sh --list-clients
-```
-
-### 🧩 支持的软件
-
-| 软件 | 安装命令 | 使用方式 |
-|---|---|---|
-| OpenAI Codex / Codex CLI / Codex App | `./scripts/install.sh --client codex` | 重启 Codex 后，直接提出法律分析类需求 |
-| Claude Code | `./scripts/install.sh --client claude-code` | 重启/刷新 Claude Code，可自动触发或使用 `/legal-assistant-agent` |
-| Cursor | `./scripts/install.sh --client cursor --project-dir /path/to/project` | 在目标项目中触发法律分析、检索或文书任务 |
-| Gemini CLI | `./scripts/install.sh --client gemini-cli` | 执行 `/commands reload` 后使用 `/legal-assistant <需求>` |
-| OpenCode | `./scripts/install.sh --client opencode` | 使用 `/legal-assistant <需求>` |
-| OpenClaw | `./scripts/install.sh --client openclaw` | 重启 OpenClaw 后触发法律分析类任务 |
+信息不完整也可以开始。Agent 会先标记缺口，再向你追问会影响结论的关键问题。
 
 ### 🔎 官方来源检索
 
-```bash
-python3 scripts/legal_research.py \
-  --jurisdiction CN \
-  --query "合同 迟延履行 退款 催告" \
-  --case-type "合同纠纷" \
-  --out-dir work/research/cn-contract \
-  --max-results 8
-```
+需要法律条文、案例、判决、司法解释或政策时，Agent 应优先使用官方或权威来源，并把来源写入 `sources.md`。
 
-支持 provider：`auto`、`official`、`bing`、`duckduckgo`、`brave`、`tavily`、`serpapi`。
+每条来源应记录：
 
-检索结果会写入 `research_log.md` 和 `results.json`。脚本会按官方来源域名过滤结果；如果没有返回官方域名内的结果，会记录 `not_found_or_unverified`，避免把泛搜索内容误当作法律依据。
-
-### 📁 输出到案件工作目录
-
-复杂案件可以先创建本地案件工作台：
-
-```bash
-python3 scripts/case_workspace.py init \
-  --case-slug demo-contract \
-  --title "Demo Contract Dispute" \
-  --jurisdiction CN \
-  --case-type contract \
-  --procedural-stage negotiation \
-  --stage scope-guard \
-  --owner agent \
-  --next-action "agent: build issue map"
-```
-
-记录阶段进展：
-
-```bash
-python3 scripts/case_workspace.py record \
-  --case-slug demo-contract \
-  --stage issue-map \
-  --summary "Mapped factual, legal, evidence, causation, and procedural issues." \
-  --owner user \
-  --next-action "user: provide key contracts and payment records"
-```
-
-查看当前状态：
-
-```bash
-python3 scripts/case_workspace.py status --case-slug demo-contract
-```
-
-写入最终分析包：
-
-```bash
-python3 scripts/write_analysis_output.py \
-  --out-dir work/cases \
-  --case-slug demo-contract \
-  --analysis-file analysis.md \
-  --metadata jurisdiction=CN \
-  --metadata case_type=contract
-```
-
-输出包包含：
-
-- `INDEX.md`
-- `analysis.md`
-- `metadata.json`
-- 通过 `--artifact` 指定的其他材料
-
-### ✅ 可用性检查
-
-```bash
-python3 scripts/validate_skill.py
-```
+- 标题
+- 发布机构或数据库
+- URL
+- 访问日期
+- 核验状态
+- 可用规则
+- 引用风险
 
 ### 🛡️ 安全边界
 
@@ -189,117 +144,29 @@ python3 scripts/validate_skill.py
 
 ## English
 
-### ⚖️ What It Is
+**Legal-Assistant_agent** is a document-first legal workflow agent. It uses `AGENTS.md` as the main instruction entrypoint and helps an AI assistant organize legal disputes into case folders, issue maps, evidence records, legal analysis, strategy notes, and review-ready files.
 
-**法律助手智能体 Legal-Assistant_agent** is an installable, privacy-first legal analysis agent package. It helps organize dispute facts, map evidence, identify contradictions, run official-source legal research, prepare strategy and drafting outputs, and save structured results into a case workspace.
+It is not a lawyer replacement and does not promise outcomes or fabricate legal authority.
 
-It does **not** replace a licensed lawyer, promise outcomes, or fabricate legal authority. It is designed as a practical workbench for legal issue organization, evidence discipline, drafting preparation, and action planning.
-
-### ✨ Capabilities
-
-- Case intake, jurisdiction and scope checks
-- Timeline reconstruction and evidence ledger generation
-- Legal elements, burden of proof, proof gaps, and defense mapping
-- Contradiction and causation analysis
-- Opponent-view and judge-view review
-- Official-source research for laws, cases, judgments, and procedural rules
-- Legal-related drafting and hearing preparation
-- Local case workspace memory with stage logs, checkpoints, owners, and next actions
-- Structured workspace output
-
-### 🧭 Agent Workflow
+Typical use:
 
 ```text
-Intake
-→ Scope and privacy guard
-→ Timeline and evidence ledger
-→ Legal elements and burden matrix
-→ Contradiction and causation review
-→ Official-source research
-→ Opponent and judge perspective checks
-→ Strategy, drafting, or hearing preparation
-→ Local case workspace records and checkpoints
-→ Case workspace output
-→ Review loop after new evidence or procedural events
+Use Legal-Assistant_agent to analyze this dispute and create a case folder with plan.md, case.md, analysis.md, and advice.md.
 ```
 
-### 🚀 Install
+For complex matters, the agent keeps one folder per case:
 
-```bash
-git clone https://github.com/KevinKE93/Legal-Assistant_agent.git
-cd Legal-Assistant_agent
-./install.sh
+```text
+work/cases/<date>_<case-type>-<keywords>/
 ```
 
-Install for a specific client:
+Core files:
 
-```bash
-./scripts/install.sh --client codex
-./scripts/install.sh --client claude-code
-./scripts/install.sh --client gemini-cli
-./scripts/install.sh --client opencode
-./scripts/install.sh --client openclaw
-./scripts/install.sh --client cursor --project-dir /path/to/project
-```
-
-### 🧩 Supported Clients
-
-| Client | Command | Usage |
-|---|---|---|
-| OpenAI Codex / Codex CLI / Codex App | `./scripts/install.sh --client codex` | Restart Codex and ask for legal-analysis help |
-| Claude Code | `./scripts/install.sh --client claude-code` | Restart/refresh Claude Code or use `/legal-assistant-agent` |
-| Cursor | `./scripts/install.sh --client cursor --project-dir /path/to/project` | Use legal analysis, research, or drafting requests in that project |
-| Gemini CLI | `./scripts/install.sh --client gemini-cli` | Run `/commands reload`, then `/legal-assistant <request>` |
-| OpenCode | `./scripts/install.sh --client opencode` | Use `/legal-assistant <request>` |
-| OpenClaw | `./scripts/install.sh --client openclaw` | Restart OpenClaw and ask for legal-analysis help |
-
-### 🔎 Official-Source Research
-
-```bash
-python3 scripts/legal_research.py \
-  --jurisdiction US-FEDERAL \
-  --query "late delivery contract damages" \
-  --case-type contract \
-  --out-dir work/research/us-contract \
-  --max-results 8
-```
-
-Supported providers: `auto`, `official`, `bing`, `duckduckgo`, `brave`, `tavily`, and `serpapi`.
-
-### 📁 Case Workspace Output
-
-For complex matters, initialize a local case workspace first:
-
-```bash
-python3 scripts/case_workspace.py init \
-  --case-slug demo-contract \
-  --title "Demo Contract Dispute" \
-  --jurisdiction CN \
-  --case-type contract \
-  --procedural-stage negotiation \
-  --stage scope-guard \
-  --owner agent \
-  --next-action "agent: build issue map"
-```
-
-Read current status:
-
-```bash
-python3 scripts/case_workspace.py status --case-slug demo-contract
-```
-
-```bash
-python3 scripts/write_analysis_output.py \
-  --out-dir work/cases \
-  --case-slug demo-contract \
-  --analysis-file analysis.md \
-  --metadata jurisdiction=CN \
-  --metadata case_type=contract
-```
-
-### 🛡️ Safety
-
-This agent must not fabricate legal authorities, promise outcomes, coach false statements, guide illegal evidence collection, or treat user allegations as proven facts without evidence review.
+- `plan.md`: task plan, current stage, next actions, owners, open questions
+- `case.md`: case memory, facts, issues, evidence status, procedural progress
+- `analysis.md`: structured legal analysis
+- `advice.md`: practical action strategy
+- `sources.md`: official or authoritative legal sources when research is needed
 
 ## 作者 / Author
 
