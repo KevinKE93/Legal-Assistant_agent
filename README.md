@@ -1,78 +1,83 @@
 # Legal Assistant Agent Skill Pack
 
-![Language](https://img.shields.io/badge/language-zh--CN-blue)
+![Language](https://img.shields.io/badge/language-zh--CN%20%7C%20English-blue)
 ![Status](https://img.shields.io/badge/status-skill--pack--draft-orange)
 ![Safety](https://img.shields.io/badge/safety-privacy--first-green)
+![Agent](https://img.shields.io/badge/agent-legal--analysis-purple)
 
-一套面向法律纠纷分析、证据整理、争点拆解和策略行动的通用 Agent Skill Pack。
+**A privacy-first, evidence-driven legal analysis agent skill pack for dispute strategy, document drafting, hearing preparation, and Codex-style skill workflows.**
 
-它不是律师替代品，也不输出未经核验的确定法律结论。它的目标是把用户提供的事实、证据、目标和程序阶段转化为可审查、可复盘、可执行的法律分析工作流。
+**一套隐私优先、证据驱动的法律分析 Agent Skill Pack，面向纠纷策略、文书起草、庭审准备和 Codex Skill 工作流。**
 
-## What It Does
+Author: **Kevin KE / [laoke.ai](https://laoke.ai)**
 
-Legal Assistant Agent Skill Pack 将常见纠纷处理拆成 14 个可组合技能，覆盖从初次案件摄入到文书起草、庭审准备和复盘迭代的完整流程。
+---
 
-核心能力包括：
+## English
 
-- 隐私脱敏、法域确认和高风险请求过滤
-- 案件事实整理、时间线重构和证据台账生成
-- 法律要件、证明责任、证据缺口和抗辩入口拆解
-- 陈述、证据、时间线、金额和行为逻辑的矛盾分析
-- 因果链、替代原因、损害范围和减损风险分析
-- 对方代理人视角、法官/仲裁员/调解员视角交叉评估
-- 合法、克制、可记录的事实确认问题设计
-- 协商、投诉、调解、诉讼、庭审等路径的行动方案
-- 法律相关沟通文本、投诉材料、起诉状/答辩状框架和证据目录起草
-- 新证据、新进展、新程序节点后的版本化复盘
+### Overview
 
-## Why This Project
+Legal Assistant Agent Skill Pack is a modular workflow system for legal dispute analysis. It turns user-provided facts, evidence, claims, constraints, and procedural context into structured issue maps, evidence ledgers, contradiction analysis, causation chains, opponent-view simulations, judge-view reviews, and practical next steps.
 
-法律纠纷中的真正难点通常不是“把事实讲一遍”，而是把事实、证据、法律要件、因果关系、程序动作和风险边界连接成一条能被第三方审查的证明链。
+It does **not** replace a licensed lawyer, promise legal outcomes, or generate unverified legal conclusions. It is designed to help users reason more clearly, preserve evidence discipline, and prepare better questions, documents, and action plans.
 
-这个项目提供的是一个通用方法框架：
+### Highlights
+
+- Privacy and scope guardrails before any legal analysis
+- Fact extraction, timeline reconstruction, and evidence ledger generation
+- Legal elements, burden of proof, proof gaps, and defense-entry mapping
+- Contradiction analysis across statements, records, timelines, amounts, and behavior logic
+- Causation-chain analysis with alternative causes and damage-scope review
+- Opponent perspective, judge perspective, and neutral decision-maker review
+- Lawful, restrained, and recordable question design for factual confirmation
+- Strategy planning for negotiation, complaints, mediation, litigation, and hearings
+- Drafting support for confirmation messages, demand letters, complaints, pleadings, evidence lists, and hearing outlines
+- Iteration loop for new evidence, new statements, and new procedural events
+
+### Method Wheel
 
 ```text
-范围约束
-→ 事实还原
-→ 争点拆解
-→ 证据映射
-→ 矛盾测试
-→ 因果推论
-→ 对方视角
-→ 法官视角
-→ 策略行动
-→ 复盘迭代
+Scope Guard
+→ Fact Reconstruction
+→ Issue Mapping
+→ Evidence Mapping
+→ Contradiction Testing
+→ Causation Analysis
+→ Opponent Perspective
+→ Judge Perspective
+→ Strategy And Action
+→ Review And Iteration
 ```
 
-每一轮分析都要求保留：
+Every round should preserve:
 
-- 已确认事实
-- 待证明事实
-- 证据来源
-- 对方可能抗辩
-- 风险等级
-- 下一步最小行动
+- confirmed facts
+- facts still requiring proof
+- evidence sources
+- likely opponent defenses
+- risk level
+- smallest useful next action
 
-## Skill Modules
+### Skill Modules
 
 | Module | Purpose |
 |---|---|
-| `privacy_scope_guard` | 隐私脱敏、法域确认、风险边界和高风险行为过滤 |
-| `case_intake_issue_map` | 将用户叙述转化为事实清单、程序信息、诉求目标和争点地图 |
-| `timeline_evidence_ledger` | 构建时间线、事实清单和证据台账 |
-| `elements_burden_matrix` | 拆解法律要件、证明责任、事实基础和证据缺口 |
-| `contradiction_analysis` | 识别陈述、证据、时间线和行为逻辑之间的矛盾 |
-| `causation_chain` | 分析行为、损害、替代原因和损害扩大因素 |
-| `admission_question_design` | 设计合法、克制、可记录的事实确认问题 |
-| `opponent_perspective` | 模拟对方抗辩、证据攻击和谈判筹码 |
-| `judge_perspective` | 从裁判者视角评估请求清晰度、证据闭环和可执行性 |
-| `case_reference_research` | 设计法规、案例和裁判观点的检索学习流程 |
-| `strategy_risk_action` | 生成谈判、投诉、调解、诉讼等路径的行动方案 |
-| `document_drafting` | 起草或审查法律相关沟通文本和程序材料框架 |
-| `hearing_prep` | 准备调解、仲裁、庭审、质证和发问 |
-| `review_learning_loop` | 在新证据或新进展后复盘并更新分析结论 |
+| `privacy_scope_guard` | Privacy redaction, jurisdiction check, scope boundary, and high-risk request filtering |
+| `case_intake_issue_map` | Converts user narratives into facts, procedural context, goals, and issue maps |
+| `timeline_evidence_ledger` | Builds timelines, fact tables, and evidence ledgers |
+| `elements_burden_matrix` | Maps legal elements, burden of proof, factual basis, and evidence gaps |
+| `contradiction_analysis` | Finds contradictions across statements, evidence, timelines, and logic |
+| `causation_chain` | Analyzes conduct, harm, alternative causes, and damage expansion |
+| `admission_question_design` | Designs lawful, restrained, recordable factual-confirmation questions |
+| `opponent_perspective` | Simulates opponent defenses, evidence attacks, and negotiation leverage |
+| `judge_perspective` | Reviews claim clarity, proof closure, credibility, and enforceability |
+| `case_reference_research` | Designs research workflows for statutes, cases, and reasoning patterns |
+| `strategy_risk_action` | Generates action plans across negotiation, complaints, mediation, and litigation |
+| `document_drafting` | Drafts or reviews legal-related messages, letters, complaints, pleadings, and evidence lists |
+| `hearing_prep` | Prepares mediation, arbitration, trial, cross-examination, and questioning |
+| `review_learning_loop` | Updates facts, issues, risks, and strategy after new evidence or events |
 
-## Repository Structure
+### Repository Structure
 
 ```text
 .
@@ -112,31 +117,15 @@ Legal Assistant Agent Skill Pack 将常见纠纷处理拆成 14 个可组合技�
     └── generic_demo.md
 ```
 
-## Quick Start
+### Quick Start
 
-### 1. Use It As A Prompt Pack
+Use the files in `prompts/` as the instruction layer:
 
-Use the files in `prompts/` as the base instruction layer:
+- `prompts/system_prompt.md` defines the assistant role and legal safety boundary.
+- `prompts/developer_prompt.md` defines behavior constraints and output quality rules.
+- `prompts/output_schemas.md` provides reusable response structures.
 
-- `prompts/system_prompt.md` for the assistant role and safety boundary
-- `prompts/developer_prompt.md` for behavior constraints and output quality
-- `prompts/output_schemas.md` for common analysis formats
-
-Then attach the relevant `skills/*/SKILL.md` file according to the user's task.
-
-### 2. Use It As A Manual Legal Analysis Workbench
-
-Start from the templates:
-
-1. Fill `templates/case_brief_template.md`.
-2. Build the timeline and evidence ledger.
-3. Complete the contradiction matrix and causation chain.
-4. Generate the judge-view report and strategy report.
-5. Re-run the review loop whenever new evidence or new statements appear.
-
-### 3. Convert It Into Codex Skills
-
-Use `CODEX_SKILL_CREATOR_PROMPT.md` to convert the package into independent Codex skills or a single multi-skill legal assistant.
+Then attach the relevant `skills/*/SKILL.md` module for the task.
 
 Recommended default flow:
 
@@ -155,45 +144,164 @@ privacy_scope_guard
 → review_learning_loop
 ```
 
-## Example Use Cases
+### Example Requests
+
+- "Turn this dispute into a timeline and evidence table."
+- "What evidence is currently missing?"
+- "Find contradictions in the other party's statements."
+- "Design lawful questions that ask the other party to confirm key facts."
+- "Review this dispute from a judge's perspective."
+- "Draft a factual confirmation letter, demand letter, or complaint."
+- "New evidence arrived. Re-evaluate the strategy."
+
+See `examples/generic_demo.md` for a privacy-safe demo.
+
+### Safety Model
+
+The assistant must not:
+
+- replace a licensed lawyer or promise an outcome
+- fabricate laws, cases, case numbers, courts, evidence, or authorities
+- forge, alter, hide, destroy, or misrepresent evidence
+- coach false statements or induce another person to make false statements
+- guide illegal evidence collection, account intrusion, tracking, harassment, threats, or privacy exposure
+- treat user-provided facts as proven without evidence review
+
+For jurisdiction-specific law, limitation periods, procedural deadlines, evidence rules, current regulations, and case law, users should verify against authoritative sources or consult a qualified local lawyer.
+
+---
+
+## 中文
+
+### 项目概览
+
+Legal Assistant Agent Skill Pack 是一套模块化法律纠纷分析工作流。它把用户提供的事实、证据、主张、约束条件和程序阶段，转化为结构化争点地图、证据台账、矛盾分析、因果链、对方视角、法官视角和下一步行动方案。
+
+它**不是律师替代品**，不承诺案件结果，也不输出未经核验的确定法律结论。它的定位是帮助用户更清楚地组织事实、更严格地管理证据、更稳妥地准备问题、文书和行动路径。
+
+### 核心能力
+
+- 在任何法律分析前进行隐私脱敏和范围守门
+- 提取事实、重构时间线、生成证据台账
+- 拆解法律要件、证明责任、证据缺口和抗辩入口
+- 分析陈述、记录、时间线、金额和行为逻辑中的矛盾
+- 梳理行为、损害、替代原因和损害扩大之间的因果关系
+- 从对方代理人、法官、仲裁员或调解员视角交叉评估
+- 设计合法、克制、可记录的事实确认问题
+- 生成谈判、投诉、调解、诉讼、庭审等路径的策略方案
+- 支持事实确认消息、催告函、投诉材料、起诉状/答辩状框架、证据目录和庭审提纲
+- 在出现新证据、新陈述、新程序节点后进行复盘迭代
+
+### 方法轮
+
+```text
+范围约束
+→ 事实还原
+→ 争点拆解
+→ 证据映射
+→ 矛盾测试
+→ 因果推论
+→ 对方视角
+→ 法官视角
+→ 策略行动
+→ 复盘迭代
+```
+
+每一轮分析都应保留：
+
+- 已确认事实
+- 待证明事实
+- 证据来源
+- 对方可能抗辩
+- 风险等级
+- 下一步最小行动
+
+### 技能模块
+
+| 模块 | 用途 |
+|---|---|
+| `privacy_scope_guard` | 隐私脱敏、法域确认、范围边界和高风险请求过滤 |
+| `case_intake_issue_map` | 将用户叙述转化为事实、程序信息、诉求目标和争点地图 |
+| `timeline_evidence_ledger` | 构建时间线、事实表和证据台账 |
+| `elements_burden_matrix` | 拆解法律要件、证明责任、事实基础和证据缺口 |
+| `contradiction_analysis` | 识别陈述、证据、时间线和行为逻辑之间的矛盾 |
+| `causation_chain` | 分析行为、损害、替代原因和损害扩大因素 |
+| `admission_question_design` | 设计合法、克制、可记录的事实确认问题 |
+| `opponent_perspective` | 模拟对方抗辩、证据攻击和谈判筹码 |
+| `judge_perspective` | 从裁判者视角评估请求清晰度、证据闭环和可执行性 |
+| `case_reference_research` | 设计法规、案例和裁判观点的检索学习流程 |
+| `strategy_risk_action` | 生成谈判、投诉、调解、诉讼等路径的行动方案 |
+| `document_drafting` | 起草或审查法律相关沟通文本和程序材料框架 |
+| `hearing_prep` | 准备调解、仲裁、庭审、质证和发问 |
+| `review_learning_loop` | 在新证据或新进展后复盘并更新事实、争点、风险和策略 |
+
+### 使用方式
+
+将 `prompts/` 目录作为基础指令层：
+
+- `prompts/system_prompt.md`：定义助手角色和法律安全边界
+- `prompts/developer_prompt.md`：定义行为约束和输出质量规则
+- `prompts/output_schemas.md`：提供常用输出结构
+
+然后根据任务选择对应的 `skills/*/SKILL.md` 模块。
+
+推荐默认流程：
+
+```text
+privacy_scope_guard
+→ case_intake_issue_map
+→ timeline_evidence_ledger
+→ elements_burden_matrix
+→ contradiction_analysis
+→ causation_chain
+→ opponent_perspective
+→ judge_perspective
+→ admission_question_design
+→ strategy_risk_action
+→ document_drafting / hearing_prep
+→ review_learning_loop
+```
+
+也可以把 `templates/` 作为人工法律分析工作台使用：
+
+1. 填写 `templates/case_brief_template.md`。
+2. 建立时间线和证据台账。
+3. 完成矛盾矩阵和因果链。
+4. 输出法官视角报告和策略报告。
+5. 每次出现新证据或新陈述后重新运行复盘流程。
+
+### 示例请求
 
 - “帮我把这个纠纷整理成时间线和证据表。”
 - “帮我看我现在最缺哪几类证据。”
 - “帮我找对方陈述里的矛盾点。”
 - “帮我设计几个合法、克制的问题，让对方确认关键事实。”
 - “从法官视角看，这个案子最容易被质疑的地方是什么？”
-- “帮我写一版事实确认函/催告函/投诉材料。”
+- “帮我写一版事实确认函、催告函或投诉材料。”
 - “有新证据了，帮我重新评估策略。”
 
-See `examples/generic_demo.md` for a privacy-safe demo.
+可查看 `examples/generic_demo.md` 获取无隐私的抽象演示。
 
-## Safety Model
+### 安全边界
 
-This project is designed around a conservative legal safety boundary.
+助手不得：
 
-The assistant must not:
+- 替代律师或承诺案件结果
+- 编造法条、案例、案号、法院、证据或法律依据
+- 伪造、篡改、隐藏、销毁或歪曲证据
+- 指导虚假陈述或诱导他人作虚假陈述
+- 指导非法取证、盗号、定位、跟踪、骚扰、威胁或公开隐私
+- 在未审查证据的情况下把用户单方陈述当作已证明事实
 
-- replace a licensed lawyer or promise a case outcome
-- fabricate laws, cases, case numbers, courts, evidence, or legal authorities
-- forge, alter, hide, destroy, or misrepresent evidence
-- coach false statements or induce another person to make false statements
-- guide illegal evidence collection, account intrusion, tracking, harassment, threats, or privacy exposure
-- treat user-provided facts as proven facts without evidence review
+涉及具体法域、诉讼时效、程序期限、证据规则、最新法规和案例时，应以权威来源核验，或咨询相关法域的合格律师。
 
-For jurisdiction-specific law, limitation periods, procedural deadlines, evidence rules, current regulations, and case law, the assistant must ask the user to verify against current authoritative sources or consult a qualified local lawyer.
+---
 
-## Design Principles
+## Project Status / 项目状态
 
-- Privacy first: minimize and redact personal identifiers by default.
-- Evidence before conclusion: separate facts, assumptions, legal issues, and proof gaps.
-- Structured uncertainty: every key judgment should include basis and uncertainty.
-- Opponent-aware: test every claim against possible defenses and evidence attacks.
-- Court-facing clarity: optimize for what a judge, arbitrator, mediator, or platform reviewer can verify.
-- Actionable next step: every analysis should end with the smallest useful next action.
+This repository is currently a skill-pack draft. The content layer is ready for prompt/workflow use, while the following engineering tasks remain open.
 
-## Current Status
-
-This repository is currently a skill-pack draft. The content layer is ready for use as prompt/workflow material, while the following engineering tasks are still open:
+本仓库目前是 Skill Pack 草案。内容层已可作为提示词和工作流材料使用，后续还可以继续工程化。
 
 - Add a top-level installable Codex `SKILL.md`.
 - Add automated validation for skill frontmatter and internal links.
@@ -201,19 +309,31 @@ This repository is currently a skill-pack draft. The content layer is ready for 
 - Add jurisdiction-specific research adapters without hardcoding unverified legal conclusions.
 - Add a test harness for expected output structure and safety refusals.
 
-## Disclaimer
+## Author / 作者
+
+**Kevin KE**  
+**laoke.ai**  
+Website: [https://laoke.ai](https://laoke.ai)
+
+## Disclaimer / 免责声明
 
 This project provides general legal analysis workflow support. It does not provide legal representation, does not create an attorney-client relationship, and does not replace advice from a qualified lawyer in the relevant jurisdiction.
 
-## Contributing
+本项目只提供通用法律分析工作流支持，不提供法律代理服务，不构成律师-客户关系，也不能替代相关法域合格律师的专业意见。
 
-Contributions should preserve the project's safety model. In particular:
+## Contributing / 贡献
+
+Contributions should preserve the safety model:
+
+贡献内容应保留本项目的安全边界：
 
 - Do not add fabricated legal authorities or unverifiable examples.
 - Keep examples privacy-safe and generic.
 - Mark jurisdiction-specific content clearly.
 - Prefer templates, checklists, and verification workflows over unsupported conclusions.
 
-## License
+## License / 许可证
 
 No license has been selected yet. Add a license before publishing this project for broad reuse.
+
+当前尚未选择开源许可证。如需开放给他人复用，建议先补充明确的许可证文件。
