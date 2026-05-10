@@ -95,24 +95,6 @@ work/cases/2026-05-10_labor-dispute-wage-overtime/
 
 如果你的 AI 客户端支持自定义命令，可以把命令内容配置为“读取并遵循本仓库的 `AGENTS.md`”。本仓库不提供安装器，保持纯文档工作流。
 
-### 🧩 推荐输入格式
-
-```text
-法域：
-案件类型：
-当前阶段：
-我的身份：
-目标：
-关键时间：
-事实经过：
-已有证据：
-对方主张：
-期限或风险：
-希望输出到：
-```
-
-信息不完整也可以开始。Agent 会先标记缺口，再向你追问会影响结论的关键问题。
-
 ### 🔎 官方来源检索
 
 需要法律条文、案例、判决、司法解释或政策时，Agent 应优先使用官方或权威来源，并把来源写入 `sources.md`。
@@ -144,29 +126,114 @@ work/cases/2026-05-10_labor-dispute-wage-overtime/
 
 ## English
 
-**Legal-Assistant_agent** is a document-first legal workflow agent. It uses `AGENTS.md` as the main instruction entrypoint and helps an AI assistant organize legal disputes into case folders, issue maps, evidence records, legal analysis, strategy notes, and review-ready files.
+### ⚖️ What It Is
 
-It is not a lawyer replacement and does not promise outcomes or fabricate legal authority.
+**Legal-Assistant_agent** is a document-first legal workflow agent for legal-dispute analysis. It uses `AGENTS.md` as the main instruction entrypoint and guides an AI assistant to break a matter down into facts, evidence, issues, legal theories, burden of proof, opponent perspective, adjudicator perspective, risk, and practical next actions.
 
-Typical use:
+It is not a lawyer replacement, does not promise outcomes, and must not fabricate legal authority. It is designed as a structured workflow for case organization, evidence discipline, legal research notes, drafting preparation, and iterative review.
+
+### ✨ Capabilities
+
+- **Case intake**: jurisdiction, case type, procedural stage, party role, goal, and deadlines
+- **Fact separation**: facts, assumptions, evaluations, and legal conclusions
+- **Issue mapping**: factual, legal, evidentiary, causation, and procedural issues
+- **Evidence work**: evidence ledger, proof targets, evidence gaps, and strengthening actions
+- **Legal analysis**: claim basis, burden of proof, defenses, uncertainty, and verification needs
+- **Perspective checks**: opponent view, judge/arbitrator view, mediation view
+- **Action planning**: negotiation, evidence collection, complaint, arbitration, litigation, response, and hearing preparation
+- **Case memory**: one folder per case, continuously updated through `plan.md` and `case.md`
+
+### 🧭 Workflow
 
 ```text
-Use Legal-Assistant_agent to analyze this dispute and create a case folder with plan.md, case.md, analysis.md, and advice.md.
+User input
+→ Privacy and scope guard
+→ Create or read case folder
+→ plan.md task plan
+→ case.md case memory
+→ Timeline and evidence ledger
+→ Issue map and burden of proof
+→ Contradiction, causation, opponent view, adjudicator view
+→ Official-source research
+→ analysis.md report
+→ advice.md action guidance
+→ Review loop after new evidence or procedural events
 ```
 
-For complex matters, the agent keeps one folder per case:
+### 📁 Case Folder
+
+Complex matters are written to:
 
 ```text
 work/cases/<date>_<case-type>-<keywords>/
 ```
 
+Example:
+
+```text
+work/cases/2026-05-10_labor-dispute-wage-overtime/
+```
+
 Core files:
 
-- `plan.md`: task plan, current stage, next actions, owners, open questions
-- `case.md`: case memory, facts, issues, evidence status, procedural progress
-- `analysis.md`: structured legal analysis
-- `advice.md`: practical action strategy
-- `sources.md`: official or authoritative legal sources when research is needed
+| File | Purpose |
+|---|---|
+| `plan.md` | Current stage, completed work, in-progress work, next actions, owners, open questions |
+| `case.md` | Case summary, fact layers, issue map, evidence status, procedural progress, key conclusions |
+| `analysis.md` | Full structured legal analysis |
+| `advice.md` | Practical action strategy, negotiation path, rights-protection routes, prohibited actions |
+
+Optional files:
+
+| File | Purpose |
+|---|---|
+| `timeline.md` | Event timeline |
+| `evidence.md` | Evidence ledger |
+| `sources.md` | Legal sources, official references, verification status, citation risk |
+| `drafts.md` | Letters, complaints, claim/response outlines, hearing notes |
+
+### 🚀 How To Use
+
+Temporary invocation:
+
+```text
+Use Legal-Assistant_agent to analyze this dispute and create a case folder with plan.md, case.md, analysis.md, and advice.md.
+```
+
+Global or slash-command invocation:
+
+```text
+/legal-assistant analyze this dispute...
+```
+
+If your AI client supports custom commands, configure the command to read and follow this repository's `AGENTS.md`. This repository intentionally does not ship an installer; it stays as a pure document workflow.
+
+### 🔎 Official-Source Research
+
+When statutes, cases, judgments, judicial interpretations, or policy rules are needed, the agent should prioritize official or authoritative sources and write them to `sources.md`.
+
+Each source should record:
+
+- Title
+- Publishing authority or database
+- URL
+- Access date
+- Verification status
+- Usable rule or holding
+- Citation risk
+
+### 🛡️ Safety
+
+Legal-Assistant_agent must not:
+
+- Replace a licensed lawyer or promise a case outcome
+- Fabricate laws, cases, case numbers, courts, evidence, or legal authority
+- Coach forged, altered, hidden, destroyed, or distorted evidence
+- Coach false statements or induce others to make false statements
+- Guide illegal evidence collection, account access, tracking, harassment, threats, or privacy exposure
+- Treat one-sided user statements as proven facts without evidence review
+
+For limitation periods, procedural deadlines, evidence rules, current law, and concrete case actions, verify with authoritative sources and consult a qualified lawyer in the relevant jurisdiction when needed.
 
 ## 作者 / Author
 
