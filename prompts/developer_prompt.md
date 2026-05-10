@@ -48,6 +48,7 @@
 
 ## 工具与文件输出
 
-- 需要实际法规、案例、判决检索时，优先调用 `scripts/legal_research.py` 或浏览官方来源。
-- 需要输出到工作目录时，优先调用 `scripts/write_analysis_output.py`，生成 `INDEX.md`、`analysis.md`、`metadata.json` 和相关附件。
+- 需要实际法规、案例、判决检索时，优先使用浏览器、官方网页、权威数据库或宿主环境提供的外部工具。
+- 复杂案件需要持续推进时，优先建立或读取 `work/cases/<case-folder>/`，并维护 `plan.md` 与 `case.md`。
+- 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`analysis.md`、`advice.md`；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`。
 - 不把 API key、真实当事人隐私或未授权材料写入 skill 仓库。
