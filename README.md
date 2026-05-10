@@ -334,6 +334,6 @@ Contributions should preserve the safety model:
 
 ## License / 许可证
 
-No license has been selected yet. Add a license before publishing this project for broad reuse.
+This project is released under the MIT License. See `LICENSE` for details.
 
-当前尚未选择开源许可证。如需开放给他人复用，建议先补充明确的许可证文件。
+本项目采用 MIT License。详情见 `LICENSE` 文件。
