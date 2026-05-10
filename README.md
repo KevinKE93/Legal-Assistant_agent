@@ -1,12 +1,11 @@
 # 法律助手智能体 Legal-Assistant_agent
 
 ![Language](https://img.shields.io/badge/language-中文%20%7C%20English-blue)
-![Agent](https://img.shields.io/badge/type-Legal%20Workflow%20Agent-green)
-![Output](https://img.shields.io/badge/output-Markdown%20%7C%20PDF-orange)
+![Agent](https://img.shields.io/badge/type-Legal%20Agent-green)
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 面向法律纠纷、合同审查、合同起草和法律研究的纯文档型法律助手 Agent 工作流。
+> 一个面向法律事项分析、合同工作、法律研究和专业报告交付的文档型 Legal Agent 工作流。
 
 **作者：Kevin KE / [laoke.ai](https://laoke.ai)**
 
@@ -14,54 +13,27 @@
 
 ## 中文
 
-### ⚖️ 项目定位
+### 项目简介
 
-**法律助手智能体 Legal-Assistant_agent** 是一个以 `AGENTS.md` 为主入口的法律事项工作台型 Agent。它不是一个传统代码包，也不是律师替代品；它是一套可被 AI 助手遵循的专业工作流，用来把复杂法律事项拆解成可持续更新的事实、证据、争点、法律依据、策略行动和最终总结文件。
+**法律助手智能体 Legal-Assistant_agent** 是一套纯文档型法律工作流 Agent。它以 `AGENTS.md` 为入口，让 AI 助手在处理法律事项时不只是即时回答，而是像一个可持续推进的法律事项工作台：先识别事项类型和法域，再整理事实、证据、争点、来源、风险和行动路径，最后生成可复盘、可更新、可交付的专业报告。
 
-它适合用于：
+它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂事项会在本地形成一个独立事项文件夹，用于持续记录案件事实、阶段计划、分析过程、参考来源和最终交付文件。
 
-- 劳动争议、合同纠纷、租赁纠纷、消费纠纷等法律事项分析
-- 合同审查、条款风险识别、合同起草和补充协议草拟
-- 法律法规、司法解释、案例和官方政策检索记录
-- 谈判、投诉、仲裁、诉讼、答辩、庭审准备前的结构化整理
-- 持续复盘同一事项，避免每次会话重新开始
+> 本项目不替代律师，不承诺案件结果。涉及诉讼时效、程序期限、关键证据、最新法规或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
 
-### ✨ 核心能力
-
-| 能力 | 说明 |
-|---|---|
-| 事项工作台 | 同一法律事项只维护一个 `work/<日期>_<本地化事项名>/` 文件夹 |
-| 事实与证据 | 区分已证事实、待证事实、争议事实、推测和法律结论 |
-| 争点与证明责任 | 建立争议焦点、请求权基础、证明责任和证据缺口矩阵 |
-| 合同工作 | 支持合同审查、条款风险、缺失条款、谈判点和合同草案 |
-| 官方来源 | 优先检索官方法规、法院、政府、权威数据库或公开政策来源 |
-| 多视角推理 | 模拟对方视角、法官/仲裁员视角、调解视角和审稿律师视角 |
-| 最终汇总 | 读取工作底稿，生成面向用户的总结 Markdown 和同名 PDF |
-| i18n 准备 | 中文输入生成中文目录和中文总结文件；英文输入生成英文目录和英文文件 |
-
-### 🧭 Agent Workflow
+### 工作方式
 
 ```text
-用户输入
-→ 隐私与范围守门
-→ 语言与事项类型识别
-→ 创建或读取事项文件夹
-→ plan.md 任务计划
-→ case.md 事项记忆
-→ 时间线 / 条款 / 证据台账
-→ 争议焦点 / 条款风险 / 证明责任
-→ 矛盾、因果、对方视角、法官视角
-→ 官方来源检索并写入 sources.md
-→ analysis.md 工作底稿
-→ advice.md 行动建议
-→ <主题>总结.md
-→ <主题>总结.pdf
-→ 新证据或新进展后的复盘更新
+用户输入法律事项
+→ 识别语言、法域、事项类型和用户目标
+→ 创建或复用本地事项文件夹
+→ 整理事实、证据、争点、来源和风险
+→ 输出分析结论、行动建议和必要文书
+→ 汇总生成专业报告 Markdown / PDF
+→ 后续新证据或新进展继续更新同一事项
 ```
 
-### 📁 输出规则
-
-复杂法律事项默认输出到：
+复杂事项默认输出到：
 
 ```text
 work/<日期>_<本地化事项名>/
@@ -74,39 +46,28 @@ work/2026-05-10_劳动争议_拆分发薪加班费/
 work/2026-05-10_service-agreement-review/
 ```
 
-中文输入必须保留中文事项名，不默认翻译成英文 slug。不要使用 `work/cases/`。
+中文输入会保留中文目录名和中文报告名；英文输入会生成英文目录名和英文报告名。事项文件夹直接位于 `work/` 下，不再增加中间分类层。
 
-默认文件：
+### 主要产物
 
-| 文件 | 用途 |
-|---|---|
-| `plan.md` | 当前阶段、已完成事项、下一步、责任方、待补信息 |
-| `case.md` | 事项核心记忆、事实分层、争议焦点、程序进展和关键结论 |
-| `analysis.md` | 工作底稿型完整分析 |
-| `advice.md` | 面向用户的策略、行动路径和禁忌动作 |
-| `<主题>总结.md` | 面向用户交付的最终总结 |
-| `<主题>总结.pdf` | 与 Markdown 总结一致的 PDF 版本 |
+常见输出包括：
 
-按需增加：
+- `plan.md`：事项阶段、下一步、责任方、待补信息和执行记录。
+- `case.md`：案件或事项的关键事实、争点、程序状态和核心记忆。
+- `analysis.md`：完整法律分析底稿。
+- `advice.md`：面向用户的策略、行动建议和表达风险。
+- `sources.md`：法律、案例、政策、网页等来源及核验状态。
+- `<主题>专业报告.md`：面向用户交付的专业报告。
+- `<主题>专业报告.pdf`：与 Markdown 报告一致的 PDF 版本。
 
-| 文件 | 用途 |
-|---|---|
-| `timeline.md` | 事件时间线 |
-| `evidence.md` | 证据台账、证明对象和证据缺口 |
-| `sources.md` | 法规、案例、官方来源、访问日期和引用风险 |
-| `drafts.md` | 沟通函、投诉材料、仲裁/诉讼框架、庭审提纲 |
-| `contract.md` | 合同背景、版本信息和条款摘要 |
-| `clause_review.md` | 条款风险、修改建议和谈判点 |
-| `contract_draft.md` | 合同、补充协议或和解协议草案 |
+如果当前环境无法生成合格 PDF，Agent 必须明确标记 PDF 阻塞原因，不能假称已完成。
 
-> PDF 生成依赖宿主环境的导出能力。若当前环境无法导出 PDF，Agent 必须在 `plan.md` 和对话中说明阻塞原因，不能假称已生成。
-
-### 🚀 使用方式
+### 使用方式
 
 临时调用：
 
 ```text
-请按照 Legal-Assistant_agent 的工作流分析下面这个法律事项，并输出到事项文件夹，最后生成总结 Markdown 和 PDF。
+请按照 Legal-Assistant_agent 的工作流分析下面这个法律事项，并输出事项文件夹、专业报告 Markdown 和 PDF。
 ```
 
 全局或 `/` 指令调用：
@@ -117,109 +78,73 @@ work/2026-05-10_service-agreement-review/
 
 如果你的 AI 客户端支持自定义命令，可以将命令配置为“读取并遵循本仓库的 `AGENTS.md`”。本仓库保持纯文档工作流，不提供安装脚本。
 
-### 🔎 适用场景
+### 适用场景
 
-| 场景 | 支持状态 | 产物 |
-|---|---|---|
-| 劳动争议、合同纠纷等复杂争议 | 已支持 | 争点矩阵、证据台账、策略建议、总结报告 |
-| 合同审查 | 已支持 | 条款摘要、风险清单、修改建议、签署前清单 |
-| 合同起草 | 已支持 | 条款结构、合同草案、可谈判条款 |
-| 法律研究 | 已支持 | 官方来源、规则摘要、引用风险 |
-| 文书准备 | 已支持 | 沟通函、投诉材料、仲裁/诉讼框架 |
-| 高风险专业领域 | 谨慎支持 | 需要用户核验和专业律师审阅 |
+- 劳动争议、合同纠纷、消费纠纷、租赁纠纷等复杂事项分析。
+- 合同、补充协议、和解协议、服务协议等文本审查。
+- 合同草案、沟通函、投诉材料、仲裁/诉讼框架和庭审提纲准备。
+- 法律规则、案例、政策和官方网页的检索记录与引用风险整理。
+- 新证据、新报价、新程序节点出现后的持续复盘。
 
-### 🛡️ 安全边界
+### 安全边界
 
 Legal-Assistant_agent 不会：
 
-- 替代律师或承诺案件结果
-- 编造法条、案例、案号、法院、证据或裁判观点
-- 指导伪造、篡改、隐藏、销毁或歪曲证据
-- 指导虚假陈述或诱导他人作虚假陈述
-- 指导非法取证、盗号、定位、跟踪、骚扰、威胁或公开隐私
-- 在未审查证据的情况下，把用户单方陈述当作已证明事实
-
-涉及诉讼时效、程序期限、证据规则、最新法规和具体案件行动时，应优先核验官方或权威来源，并在必要时咨询相关法域的合格律师。
+- 替代律师或承诺案件结果。
+- 编造法条、案例、案号、法院、证据或裁判观点。
+- 指导伪造、篡改、隐藏、销毁或歪曲证据。
+- 指导虚假陈述、诱导他人作虚假陈述或非法取证。
+- 指导骚扰、威胁、盗号、定位、跟踪或公开隐私。
+- 在未审查证据的情况下，把用户单方陈述当作已证明事实。
 
 ---
 
 ## English
 
-### ⚖️ What It Is
+### Overview
 
-**Legal-Assistant_agent** is a document-first legal workflow agent for legal disputes, contract review, contract drafting, legal research, and legal-document preparation. It uses `AGENTS.md` as the main entrypoint and turns a legal matter into a structured workspace with facts, evidence, issues, legal theories, burden of proof, source notes, strategy, and user-facing summary files.
+**Legal-Assistant_agent** is a document-first Legal Agent workflow for legal matter analysis, contract work, legal research, drafting, negotiation preparation, and professional report delivery. It uses `AGENTS.md` as the main entrypoint and guides an AI assistant to work as a structured legal matter workspace rather than a one-off Q&A assistant.
 
-It is not a lawyer replacement and does not promise legal outcomes. It is designed to help AI assistants work more like a disciplined legal matter workspace: organized, source-aware, evidence-aware, privacy-conscious, and reviewable.
+For complex matters, the agent creates or reuses a local matter folder, records facts and evidence, maps legal issues and proof burdens, tracks source verification, prepares strategy or draft documents, and produces a professional Markdown/PDF report that can be updated as new information arrives.
 
-### ✨ Capabilities
+This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-stakes actions should be verified against authoritative sources and reviewed by qualified counsel in the relevant jurisdiction.
 
-| Capability | Description |
-|---|---|
-| Matter workspace | Keeps one folder per legal matter under `work/<date>_<localized-matter-name>/` |
-| Fact and evidence discipline | Separates proven facts, alleged facts, disputed facts, assumptions, and legal conclusions |
-| Issue and burden mapping | Connects claims, defenses, proof burdens, evidence gaps, and procedural risks |
-| Contract workflows | Supports contract review, clause-risk analysis, missing clauses, negotiation points, and draft agreements |
-| Official-source research | Prioritizes official statutes, courts, government sources, and authoritative databases |
-| Perspective testing | Simulates opponent, judge/arbitrator, mediator, and contract-reviewer perspectives |
-| Final synthesis | Generates user-facing summary Markdown and matching PDF when the host environment supports export |
-| i18n-ready output | Uses the user's input language for folder names, summary filenames, and document content |
-
-### 🧭 Workflow
+### How It Works
 
 ```text
-User input
-→ Privacy and scope guard
-→ Language and matter-type routing
-→ Create or read matter folder
-→ plan.md task plan
-→ case.md matter memory
-→ Timeline / clause / evidence ledger
-→ Issue map / clause risk / burden of proof
-→ Contradiction, causation, opponent view, adjudicator view
-→ Official-source research into sources.md
-→ analysis.md working analysis
-→ advice.md action guidance
-→ <topic> Summary.md
-→ <topic> Summary.pdf
-→ Review loop after new evidence or procedural events
+User provides a legal matter
+→ Identify language, jurisdiction, matter type, and user goal
+→ Create or reuse a local matter folder
+→ Organize facts, evidence, issues, sources, and risks
+→ Produce analysis, guidance, and draft documents when needed
+→ Generate a professional Markdown / PDF report
+→ Continue updating the same matter when new information appears
 ```
 
-### 📁 Matter Folder
-
-Complex matters are written to:
+Default matter folder:
 
 ```text
 work/<date>_<localized-matter-name>/
 ```
 
-Examples:
+The output language, folder name, report title, and user-facing content follow the user's primary input language.
 
-```text
-work/2026-05-10_劳动争议_拆分发薪加班费/
-work/2026-05-10_service-agreement-review/
-```
+### Deliverables
 
-Do not use `work/cases/`. Chinese prompts should keep Chinese matter names instead of being translated into English slugs.
+- `plan.md`: stage plan, next actions, owner, missing information, and execution notes.
+- `case.md`: matter memory, key facts, issues, procedural status, and conclusions.
+- `analysis.md`: working legal analysis.
+- `advice.md`: user-facing strategy and action guidance.
+- `sources.md`: statutes, cases, policies, URLs, verification status, and citation risks.
+- `<topic> Professional Report.md`: final or stage-based professional report.
+- `<topic> Professional Report.pdf`: PDF version when the environment can generate a readable PDF.
 
-Core files:
-
-| File | Purpose |
-|---|---|
-| `plan.md` | Stage, completed work, next actions, owners, open questions |
-| `case.md` | Matter memory, fact/clause layers, issue map, procedural progress |
-| `analysis.md` | Structured working analysis |
-| `advice.md` | Strategy, action path, negotiation guidance, prohibited actions |
-| Localized summary `.md` | User-facing final summary |
-| Localized summary `.pdf` | PDF version matching the Markdown summary |
-
-Optional files include `timeline.md`, `evidence.md`, `sources.md`, `drafts.md`, `contract.md`, `clause_review.md`, and `contract_draft.md`.
-
-### 🚀 Usage
+### Usage
 
 Temporary invocation:
 
 ```text
-Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a user-facing summary Markdown and PDF.
+Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a professional Markdown/PDF report.
 ```
 
 Slash-command style:
@@ -229,10 +154,6 @@ Slash-command style:
 ```
 
 If your AI client supports custom commands, configure the command to read and follow this repository's `AGENTS.md`. This repository intentionally stays as a pure document workflow and does not ship an installer.
-
-### 🛡️ Safety
-
-Legal-Assistant_agent must not fabricate legal authority, coach false evidence, replace licensed counsel, or present one-sided user statements as proven facts. For deadlines, statutes of limitation, procedural rules, current law, and high-stakes actions, verify authoritative sources and consult qualified counsel in the relevant jurisdiction.
 
 ## Author
 
