@@ -33,20 +33,7 @@
 → 后续新证据或新进展继续更新同一事项
 ```
 
-复杂事项默认输出到：
-
-```text
-work/<日期>_<本地化事项名>/
-```
-
-示例：
-
-```text
-work/2026-05-10_劳动争议_拆分发薪加班费/
-work/2026-05-10_service-agreement-review/
-```
-
-中文输入会保留中文目录名和中文报告名；英文输入会生成英文目录名和英文报告名。事项文件夹直接位于 `work/` 下，不再增加中间分类层。
+复杂事项会在本地工作目录中生成独立事项文件夹，用于保存阶段记录、分析底稿、参考来源和最终报告。
 
 ### 主要产物
 
@@ -59,8 +46,6 @@ work/2026-05-10_service-agreement-review/
 - `sources.md`：法律、案例、政策、网页等来源及核验状态。
 - `<主题>专业报告.md`：面向用户交付的专业报告。
 - `<主题>专业报告.pdf`：与 Markdown 报告一致的 PDF 版本。
-
-如果当前环境无法生成合格 PDF，Agent 必须明确标记 PDF 阻塞原因，不能假称已完成。
 
 ### 使用方式
 
@@ -121,13 +106,7 @@ User provides a legal matter
 → Continue updating the same matter when new information appears
 ```
 
-Default matter folder:
-
-```text
-work/<date>_<localized-matter-name>/
-```
-
-The output language, folder name, report title, and user-facing content follow the user's primary input language.
+For complex matters, the agent keeps a dedicated local matter folder for stage notes, working analysis, source records, and final reports.
 
 ### Deliverables
 
