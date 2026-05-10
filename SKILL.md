@@ -1,9 +1,9 @@
 ---
 name: legal-assistant-agent
-description: Use this privacy-first legal assistant skill for legal dispute analysis, evidence mapping, issue spotting, official-source legal research, strategy planning, legal-related drafting, hearing preparation, and writing structured outputs to a case workspace. Trigger when the user asks to analyze a legal dispute, find relevant laws or cases, organize evidence, draft legal-related documents, prepare for mediation/arbitration/hearing, or save analysis artifacts to a folder.
+description: Use 法律助手智能体 Legal-Assistant_agent for privacy-first legal dispute analysis, evidence mapping, issue spotting, official-source legal research, strategy planning, legal-related drafting, hearing preparation, and writing structured outputs to a case workspace. Trigger when the user asks to analyze a legal dispute, find relevant laws or cases, organize evidence, draft legal-related documents, prepare for mediation/arbitration/hearing, or save analysis artifacts to a folder.
 ---
 
-# Legal Assistant Agent
+# 法律助手智能体 Legal-Assistant_agent
 
 This skill turns a legal-dispute request into structured, privacy-conscious work products: scope notes, issue maps, timelines, evidence ledgers, burden matrices, contradiction analysis, causation chains, official-source research logs, strategy reports, drafts, and hearing-prep bundles.
 

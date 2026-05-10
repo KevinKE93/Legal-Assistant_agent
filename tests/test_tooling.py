@@ -24,8 +24,16 @@ class LegalAssistantToolingTests(unittest.TestCase):
         self.assertTrue(skill.exists())
         text = skill.read_text(encoding="utf-8")
         self.assertIn("name: legal-assistant-agent", text)
+        self.assertIn("法律助手智能体 Legal-Assistant_agent", text)
         self.assertIn("scripts/legal_research.py", text)
         self.assertIn("scripts/write_analysis_output.py", text)
+
+    def test_readme_is_chinese_first_and_documents_clients(self):
+        text = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertLess(text.index("## 中文"), text.index("## English"))
+        self.assertIn("# 法律助手智能体 Legal-Assistant_agent", text)
+        for client in ["codex", "claude-code", "cursor", "gemini-cli", "opencode", "openclaw"]:
+            self.assertIn(f"--client {client}", text)
 
     def test_official_source_registry_has_core_jurisdictions(self):
         registry = json.loads((ROOT / "references" / "official_source_registry.json").read_text(encoding="utf-8"))
@@ -79,6 +87,19 @@ class LegalAssistantToolingTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(completed.returncode, 0, completed.stdout)
+
+    def test_install_script_lists_supported_clients(self):
+        completed = subprocess.run(
+            [str(ROOT / "scripts" / "install.sh"), "--list-clients"],
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stdout)
+        for client in ["codex", "claude-code", "cursor", "gemini-cli", "opencode", "openclaw", "all"]:
+            self.assertIn(client, completed.stdout)
 
 
 if __name__ == "__main__":

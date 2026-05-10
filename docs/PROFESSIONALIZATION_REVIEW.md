@@ -1,4 +1,4 @@
-# Professionalization Review
+# 法律助手智能体 Legal-Assistant_agent Professionalization Review
 
 This review was written after reading the agent spec, method wheel, system/developer prompts, output schemas, 14 skill modules, templates, README, manifest, scripts, tests, and license.
 
@@ -27,7 +27,7 @@ This review was written after reading the agent spec, method wheel, system/devel
 - Added `scripts/legal_research.py` for jurisdiction-aware official-domain queries, UK source-native Atom adapters, external search providers, and research logs.
 - Added `scripts/write_analysis_output.py` for writing analysis bundles to case workspaces.
 - Added `scripts/validate_skill.py`, `tests/test_tooling.py`, and `Makefile` targets.
-- Added install scripts at `install.sh` and `scripts/install.sh`.
+- Added multi-client install scripts at `install.sh` and `scripts/install.sh`.
 - Added `agents/openai.yaml` UI metadata.
 
 ## Remaining Product Opportunities
