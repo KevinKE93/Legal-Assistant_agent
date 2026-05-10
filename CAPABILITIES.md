@@ -15,7 +15,7 @@
 | Intake Guard | 隐私、法域、边界、高风险行为和缺口识别 | 范围记录、风险提示 |
 | Matter Architect | 事项类型路由、事项文件夹、计划和长期记忆 | `plan.md`、`case.md` |
 | Evidence Manager | 时间线、证据台账、证明对象、三性风险 | `timeline.md`、`evidence.md` |
-| Issue Analyst | 争点、请求权基础、证明责任、抗辩入口 | `analysis.md` |
+| Issue Analyst | 争点树、推断链、请求权基础、证明责任、抗辩入口和法条适用边界 | `analysis.md` |
 | Legal Researcher | 官方/权威来源、法规案例、引用风险 | `sources.md` |
 | Red Team | 对方视角、证据攻击、反请求和谈判压价 | `analysis.md`、`advice.md` |
 | Adjudicator | 法官、仲裁员、调解员或审稿律师视角 | `analysis.md`、`advice.md` |
@@ -27,7 +27,7 @@
 
 | 事项类型 | 触发信号 | 必跑角色 | 必跑 skill | 可选 skill | 必备文件 | 工具要求 | 最终报告重点 |
 |---|---|---|---|---|---|---|---|
-| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`, 专业报告 | 涉及法律依据时必须检索官方/权威来源 | 争点、证明责任、证据链、来源、对方视角、裁判视角、策略 |
+| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`, 专业报告 | 涉及法律依据时必须检索官方/权威来源 | 争点树、推断链、证明责任、证据链、来源、对方视角、裁判视角、策略 |
 | 合同审查 | 审合同、能不能签、条款风险、补充协议风险 | Intake, Matter, Research, Contract Reviewer, Strategist, Editor | 01,10,15,11,17 | 12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `contract.md`, `clause_review.md`, `sources.md`, `advice.md`, 专业报告 | 涉及强制性规定、行业监管、管辖时检索 | 条款摘要、风险分级、缺失条款、修改建议、谈判优先级 |
 | 合同起草 | 写合同、拟协议、补充协议、和解协议、条款清单 | Intake, Matter, Research, Deal Architect, Drafter, Editor | 01,10,16,17 | 11,12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `term_sheet.md`, `contract_draft.md`, `sources.md`, `advice.md` | 涉及监管、格式条款、行业规则时检索 | 交易结构、条款框架、合同草案、可谈判条款、签署清单 |
 | 法律研究 | 查法律、找案例、政策依据、规则适用、引用来源 | Intake, Matter, Research, Issue, Editor | 01,10,17 | 04,09,11 | `plan.md`, `case.md`, `skill_outputs.md`, `sources.md`, `analysis.md`, 研究报告 | 必须检索官方/权威来源；未联网则只能输出待核验研究框架 | 法律问题、来源表、规则摘要、适用条件、引用风险 |
@@ -77,9 +77,10 @@
 | Skill Gate | 必跑和条件必跑 skill 已 `done`；确实不适用或无法执行的 skill 已标记 `skipped/blocked` 并说明影响 | `blocked/pending` 时报告标记为 incomplete 或 draft；`skipped` 时必须说明不适用理由 |
 | Source Gate | 涉及法律依据时，`case_reference_research` 已执行或标记 blocked，且 `sources.md` 已记录来源、待核验状态或未检索原因 | 不得声称已核验；必要时将 research 提升为 conditional_required |
 | Evidence Gate | 关键结论绑定事实依据、证据状态、证明责任和不确定性 | 降级为待核验分析 |
+| Reasoning Gate | 复杂争议已形成争点树、推断链和法条适用边界 | 不得交付完整争议分析 |
 | Report Gate | 专业报告覆盖已执行 skill 和所有必备文件 | 不可只输出摘要 |
 | Conversation Gate | 会话回复展示核心结论、关系、缺口、来源、风险、下一步和路径 | 不可只列路径 |
-| PDF Gate | PDF 真实存在且可读；否则 `PDF status: blocked` | 不得声称 PDF 完成 |
+| PDF Gate | PDF 真实存在、可读，且表格/图形/区块已按 `PDF_RENDERING.md` 渲染；否则 `PDF status: blocked` | 不得声称 PDF 完成 |
 
 ## 6. 工具选择
 
@@ -89,7 +90,7 @@
 | 官方法规库/法院/政府网站 | 涉及法律依据或程序规则 | 标记官方性、访问日期、引用风险 |
 | 权威数据库 | 官方来源不可得或需要案例补充 | 标记数据库性质和可引用限制 |
 | 文件读写 | 复杂事项、合同、文书或报告交付 | 写入事项文件夹 |
-| PDF 导出工具 | 用户要求报告 PDF 或阶段交付 | 质量检查写入报告和 `plan.md` |
+| PDF 渲染工具 | 用户要求报告 PDF 或阶段交付 | 按 `PDF_RENDERING.md` 渲染，质量检查写入报告和 `plan.md` |
 
 ## 7. 报告完整性标记
 
