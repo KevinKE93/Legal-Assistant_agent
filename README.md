@@ -5,7 +5,7 @@
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 一个干净、纯粹、可持续记录法律事项进展并生成最终交付文件的法律助手 Agent 工作流。
+> 一个干净、纯粹、可持续记录法律事项进展并生成最终总结 Markdown 和 PDF 的法律助手 Agent 工作流。
 
 **作者：Kevin KE / [laoke.ai](https://laoke.ai)**
 
@@ -15,7 +15,7 @@
 
 ### ⚖️ 这是什么
 
-**法律助手智能体 Legal-Assistant_agent** 是一个面向法律纠纷、合同审查、合同起草、法律研究和文书准备的纯文档 Agent 工作流。它通过 `AGENTS.md` 指导 AI 助手逐层拆解事项：事实、证据、合同条款、争议焦点、法律路径、证明责任、对方视角、法官/审稿律师视角、风险、行动方案和最终交付文件。
+**法律助手智能体 Legal-Assistant_agent** 是一个面向法律纠纷、合同审查、合同起草、法律研究和文书准备的纯文档 Agent 工作流。它通过 `AGENTS.md` 指导 AI 助手逐层拆解事项：事实、证据、合同条款、争议焦点、法律路径、证明责任、对方视角、法官/审稿律师视角、风险、行动方案和最终总结文件。
 
 它不是律师替代品，不承诺案件结果，也不会编造法律依据。它适合作为“法律问题整理、证据管理、合同风险审查、策略规划、文书准备、最终报告生成和持续复盘”的工作流助手。
 
@@ -29,9 +29,9 @@
 - **法律分析**：请求权基础、证明责任、抗辩入口和不确定性
 - **视角模拟**：对方视角、法官/仲裁员视角、调解视角
 - **行动建议**：谈判、补证、投诉、仲裁、诉讼、答辩、庭审准备
-- **最终交付**：基于工作底稿生成面向用户的最终分析报告、合同审查报告或合同草案
+- **最终汇总**：基于工作底稿生成面向用户的总结 Markdown 和 PDF
 - **事项记忆**：同一法律事项只维护一个文件夹，持续更新 `plan.md` 和 `case.md`
-- **i18n 准备**：文件夹名、最终文件名和正文语言默认跟随用户输入语言
+- **i18n 准备**：文件夹名、总结文件名和正文语言默认跟随用户输入语言；中文输入默认生成中文目录和中文文件名
 
 ### 🧭 工作流
 
@@ -48,7 +48,7 @@
 → 官方来源检索
 → analysis.md 分析报告
 → advice.md 行动建议
-→ 最终交付文件
+→ 最终总结 Markdown + PDF
 → 新证据/新进展后的复盘更新
 ```
 
@@ -57,7 +57,7 @@
 复杂法律事项默认输出到：
 
 ```text
-work/<date>_<localized-matter-name>/
+work/<日期>_<本地化事项名>/
 ```
 
 示例：
@@ -67,6 +67,8 @@ work/2026-05-10_劳动争议_拆分发薪加班费/
 work/2026-05-10_contract-review_service-agreement/
 ```
 
+中文输入会直接生成中文事项名，不会默认翻译成英文 slug。不要使用 `work/cases/` 结构。
+
 默认文件：
 
 | 文件 | 用途 |
@@ -75,7 +77,8 @@ work/2026-05-10_contract-review_service-agreement/
 | `case.md` | 事项摘要、事实/条款分层、争议焦点、证据状态、程序进展、关键结论 |
 | `analysis.md` | 工作底稿型完整分析报告 |
 | `advice.md` | 行动建议、谈判策略、维权路径和禁忌动作 |
-| 本地化最终文件 | 面向用户交付的最终分析报告、合同审查报告、合同草案或研究备忘录 |
+| 本地化总结 `.md` | 面向用户交付的最终分析总结、合同审查总结、合同草案或研究总结 |
+| 本地化总结 `.pdf` | 与 Markdown 总结内容一致的 PDF 版本 |
 
 按需增加：
 
@@ -94,7 +97,7 @@ work/2026-05-10_contract-review_service-agreement/
 临时调用：
 
 ```text
-请按照 Legal-Assistant_agent 的工作流分析下面这个法律事项，并把分析过程输出到事项文件夹，最后生成一份面向用户的最终文件。
+请按照 Legal-Assistant_agent 的工作流分析下面这个法律事项，并把分析过程输出到事项文件夹，最后生成一份面向用户的总结 Markdown 和 PDF。
 ```
 
 全局或 `/` 指令调用：
@@ -138,7 +141,7 @@ work/2026-05-10_contract-review_service-agreement/
 
 ### ⚖️ What It Is
 
-**Legal-Assistant_agent** is a document-first legal workflow agent for legal disputes, contract review, contract drafting, legal research, and legal-document preparation. It uses `AGENTS.md` as the main instruction entrypoint and guides an AI assistant to break a matter down into facts, evidence, contract clauses, issues, legal theories, burden of proof, opponent perspective, adjudicator/reviewer perspective, risk, practical next actions, and final deliverables.
+**Legal-Assistant_agent** is a document-first legal workflow agent for legal disputes, contract review, contract drafting, legal research, and legal-document preparation. It uses `AGENTS.md` as the main instruction entrypoint and guides an AI assistant to break a matter down into facts, evidence, contract clauses, issues, legal theories, burden of proof, opponent perspective, adjudicator/reviewer perspective, risk, practical next actions, and final summary files.
 
 It is not a lawyer replacement, does not promise outcomes, and must not fabricate legal authority. It is designed as a structured workflow for matter organization, evidence discipline, contract-risk review, legal research notes, drafting preparation, final report generation, and iterative review.
 
@@ -152,9 +155,9 @@ It is not a lawyer replacement, does not promise outcomes, and must not fabricat
 - **Legal analysis**: claim basis, burden of proof, defenses, uncertainty, and verification needs
 - **Perspective checks**: opponent view, judge/arbitrator view, mediation view
 - **Action planning**: negotiation, evidence collection, complaint, arbitration, litigation, response, and hearing preparation
-- **Final deliverables**: user-facing final reports, contract review reports, draft agreements, or legal research memos
+- **Final synthesis**: user-facing summary Markdown and PDF generated from the working files
 - **Matter memory**: one folder per matter, continuously updated through `plan.md` and `case.md`
-- **i18n-ready output**: folder names, final filenames, and document language follow the user's input language by default
+- **i18n-ready output**: folder names, summary filenames, and document language follow the user's input language by default; Chinese input creates Chinese folder and file names
 
 ### 🧭 Workflow
 
@@ -171,7 +174,7 @@ User input
 → Official-source research
 → analysis.md report
 → advice.md action guidance
-→ Final deliverable
+→ Final summary Markdown + PDF
 → Review loop after new evidence or procedural events
 ```
 
@@ -190,6 +193,8 @@ work/2026-05-10_劳动争议_拆分发薪加班费/
 work/2026-05-10_contract-review_service-agreement/
 ```
 
+Do not use `work/cases/`. Chinese prompts should keep Chinese matter names instead of being translated into English slugs.
+
 Core files:
 
 | File | Purpose |
@@ -198,7 +203,8 @@ Core files:
 | `case.md` | Matter summary, fact/clause layers, issue map, evidence status, procedural progress, key conclusions |
 | `analysis.md` | Full structured working analysis |
 | `advice.md` | Practical action strategy, negotiation path, rights-protection routes, prohibited actions |
-| Localized final file | User-facing final report, contract review report, contract draft, or legal research memo |
+| Localized summary `.md` | User-facing final analysis summary, contract review summary, contract draft, or research summary |
+| Localized summary `.pdf` | PDF version matching the Markdown summary |
 
 Optional files:
 
@@ -217,7 +223,7 @@ Optional files:
 Temporary invocation:
 
 ```text
-Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a user-facing final deliverable.
+Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a user-facing summary Markdown and PDF.
 ```
 
 Global or slash-command invocation:

@@ -1,6 +1,6 @@
 ---
 name: review_learning_loop
-description: 在新证据、新陈述、新合同版本、新程序节点或新报价出现后，读取事项文件夹中的 plan.md 和 case.md，复盘并更新事实、证据、条款、争点、风险、最终交付文件和下一步行动。
+description: 在新证据、新陈述、新合同版本、新程序节点或新报价出现后，读取事项文件夹中的 plan.md 和 case.md，复盘并更新事实、证据、条款、争点、风险、最终总结 Markdown/PDF 和下一步行动。
 ---
 
 # Skill：复盘、事项记忆与迭代学习
@@ -15,7 +15,7 @@ description: 在新证据、新陈述、新合同版本、新程序节点或新�
 2. 判断新信息改变了哪些事实、条款、争点、证明责任、证据强度和风险。
 3. 更新事项状态、下一步行动和责任方。
 4. 将本轮关键分析写入对应 markdown 文件。
-5. 更新面向用户的最终交付文件。
+5. 更新面向用户的最终总结 Markdown 和 PDF。
 6. 保持事项记忆连续，不从空白分析重新开始。
 
 ## 输入
@@ -34,7 +34,7 @@ description: 在新证据、新陈述、新合同版本、新程序节点或新�
 先定位同一事项的文件夹，读取 `plan.md` 和 `case.md`。若不存在事项文件夹，先根据当前事项创建：
 
 ```text
-work/<date>_<localized-matter-name>/
+work/<date>_<本地化事项名>/
 ```
 
 并初始化 `plan.md` 与 `case.md`。
@@ -75,7 +75,7 @@ work/<date>_<localized-matter-name>/
 - `plan.md`：当前阶段、已完成、下一步、责任方、待用户补充信息。
 - `case.md`：新增事实、证据变化、条款变化、争点变化、程序进展、关键结论变化。
 - 相关专题文件：例如 `analysis.md`、`advice.md`、`timeline.md`、`evidence.md`、`sources.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
-- 面向用户的最终交付文件：根据最新状态重写摘要、关键结论、风险和下一步。
+- 面向用户的最终总结 Markdown 和 PDF：根据最新状态重写摘要、关键结论、风险和下一步。
 
 ### 6. 经验沉淀
 
@@ -94,7 +94,8 @@ work/<date>_<localized-matter-name>/
 - 更新时间：
 - 新增信息来源：
 - 事项文件夹：
-- 最终交付文件：
+- 最终总结 Markdown：
+- 最终总结 PDF：
 - 当前阶段：
 
 ## 新旧变化
@@ -121,7 +122,8 @@ work/<date>_<localized-matter-name>/
 - 已更新 plan.md：
 - 已更新 case.md：
 - 已更新其他文件：
-- 已更新最终交付文件：
+- 已更新最终总结 Markdown：
+- 已更新最终总结 PDF：
 
 ## 经验记录
 ```
@@ -134,5 +136,5 @@ work/<date>_<localized-matter-name>/
 - 每次复盘都给出下一步动作。
 - 每次复盘都记录责任方和下一步。
 - 不把聊天记录当作唯一记忆，必须更新事项文件夹。
-- 若本轮变化会影响用户可读结论，必须同步更新最终交付文件。
+- 若本轮变化会影响用户可读结论，必须同步更新最终总结 Markdown 和 PDF。
 - 经验记录保持抽象，不包含隐私。

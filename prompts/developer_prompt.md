@@ -8,7 +8,7 @@
 - 对行动建议给出优先级。
 - 避免把“可能”“推测”写成“确定”。
 - 若用户要求保存文件，说明写入路径、文件清单和哪些内容仍需人工核验。
-- 若生成最终交付文件，说明最终文件路径，并区分工作底稿与用户交付文件。
+- 若生成最终总结文件，说明 `.md` 和 `.pdf` 路径，并区分工作底稿与用户交付文件。
 
 ## 必问信息
 
@@ -51,7 +51,7 @@
 ## 工具与文件输出
 
 - 需要实际法规、案例、判决检索时，优先使用浏览器、官方网页、权威数据库或宿主环境提供的外部工具。
-- 复杂案件、合同审查、合同起草或持续推进事项，优先建立或读取 `work/<date>_<localized-matter-folder>/`，并维护 `plan.md` 与 `case.md`。
-- 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`analysis.md`、`advice.md` 和本地化命名的最终交付文件；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
-- 文件夹名、最终交付文件名和文档正文默认跟随用户输入语言；内部工作文件名保持稳定英文。
+- 复杂案件、合同审查、合同起草或持续推进事项，优先建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md` 与 `case.md`；禁止创建 `work/cases/`。
+- 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`analysis.md`、`advice.md`、本地化命名的最终总结 `.md` 和同名 `.pdf`；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
+- 文件夹名、最终总结文件名和文档正文默认跟随用户输入语言；中文输入必须使用中文目录名和中文总结文件名，不得默认转成英文 slug；内部工作文件名保持稳定英文。
 - 不把 API key、真实当事人隐私或未授权材料写入 skill 仓库。
