@@ -1,6 +1,6 @@
 # Professionalization Review
 
-This review was written after reading every existing file in the repository: the agent spec, method wheel, conversion prompt, system/developer prompts, output schemas, 14 skill modules, templates, example, README, manifest, and license.
+This review was written after reading the agent spec, method wheel, system/developer prompts, output schemas, 14 skill modules, templates, README, manifest, scripts, tests, and license.
 
 ## Current Strengths
 
@@ -38,4 +38,3 @@ This review was written after reading every existing file in the repository: the
 - Add a formal case-state model so each analysis run can diff facts, evidence, issues, and strategy across versions.
 - Add redaction tooling for names, phone numbers, IDs, addresses, and financial account numbers before writing outputs.
 - Add bilingual output toggles and jurisdiction-specific writing conventions.
-- Add sample workspaces for contract, labor, consumer, leasing, tort, company, and family disputes.

@@ -84,13 +84,14 @@ Every round should preserve:
 .
 ├── AGENT_SPEC.md
 ├── METHOD_WHEEL.md
-├── CODEX_SKILL_CREATOR_PROMPT.md
 ├── agent_manifest.yaml
 ├── SKILL.md
 ├── Makefile
 ├── install.sh
 ├── agents/
 │   └── openai.yaml
+├── docs/
+│   └── PROFESSIONALIZATION_REVIEW.md
 ├── references/
 │   ├── official_source_registry.json
 │   └── research_workflow.md
@@ -126,9 +127,10 @@ Every round should preserve:
 │   ├── admission_question_bank_template.md
 │   ├── judge_view_report_template.md
 │   ├── case_research_log_template.md
-│   └── strategy_report_template.md
-└── examples/
-    └── generic_demo.md
+│   ├── strategy_report_template.md
+│   └── analysis_output_index_template.md
+└── tests/
+    └── test_tooling.py
 ```
 
 ### Quick Start
@@ -179,8 +181,6 @@ privacy_scope_guard
 - "Review this dispute from a judge's perspective."
 - "Draft a factual confirmation letter, demand letter, or complaint."
 - "New evidence arrived. Re-evaluate the strategy."
-
-See `examples/generic_demo.md` for a privacy-safe demo.
 
 ### Networked Legal Research
 
@@ -359,8 +359,6 @@ privacy_scope_guard
 - “帮我写一版事实确认函、催告函或投诉材料。”
 - “有新证据了，帮我重新评估策略。”
 
-可查看 `examples/generic_demo.md` 获取无隐私的抽象演示。
-
 ### 联网法律检索
 
 法规、案例、判决和程序规则检索使用 `scripts/legal_research.py`。脚本会根据 `references/official_source_registry.json` 优先选择对应法域的官方来源，并将检索记录写入可审计文件。
@@ -422,7 +420,6 @@ This repository is now an installable skill-pack with validation, official-sourc
 
 本仓库现在已经具备可安装 skill 入口、校验测试、官方来源检索工具和工作目录输出能力。内容层已可作为提示词和工作流材料使用，后续还可以继续工程化。
 
-- Add more privacy-safe examples across contract, labor, consumer, leasing, tort, and company disputes.
 - Add deeper jurisdiction-specific research adapters without hardcoding unverified legal conclusions.
 - Add document ingestion and redaction helpers for PDFs, DOCX, screenshots, and chat exports.
 - Add structured citation objects across every downstream analysis artifact.
@@ -445,8 +442,8 @@ Contributions should preserve the safety model:
 
 贡献内容应保留本项目的安全边界：
 
-- Do not add fabricated legal authorities or unverifiable examples.
-- Keep examples privacy-safe and generic.
+- Do not add fabricated legal authorities or unverifiable demo facts.
+- Keep any future fixtures privacy-safe and generic.
 - Mark jurisdiction-specific content clearly.
 - Prefer templates, checklists, and verification workflows over unsupported conclusions.
 
