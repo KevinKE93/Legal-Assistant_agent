@@ -9,15 +9,19 @@
 
 **作者：Kevin KE / [laoke.ai](https://laoke.ai)**
 
+![Legal report visual system preview](assets/legal-report-visual-system.png)
+
+> 报告视觉示意图使用虚构数据，仅展示排版、表格、流程图和 PDF 样式方向，不包含真实案件信息。The preview uses fictional data only.
+
 ---
 
 ## 中文
 
 ### 项目简介
 
-**法律助手智能体 Legal-Assistant_agent** 是一套纯文档型法律工作流 Agent。它以 `AGENTS.md` 为入口，让 AI 助手在处理法律事项时不只是即时回答，而是像一个可持续推进的法律事项工作台：先识别事项类型和法域，再整理事实、证据、争点、来源、风险和行动路径，最后生成可复盘、可更新、可交付的专业报告。
+**法律助手智能体 Legal-Assistant_agent** 是一套纯文档型法律工作流 Agent。它以 `AGENTS.md` 为入口，让 AI 助手在处理法律事项时不只是即时回答，而是像一个可持续推进的法律事项工作台：先识别事项类型和法域，再整理事实、证据、争点、来源、风险和行动路径，最后生成可复盘、可更新、可交付的法律分析报告。
 
-它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂事项会在本地形成一个独立事项文件夹，用于持续记录案件事实、阶段计划、分析过程、参考来源和最终交付文件。
+它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂事项会在本地形成一个独立事项文件夹，用于持续记录案件事实、阶段计划、分析过程、参考来源和最终交付文件；最终报告会以争点树、证明责任、证据链、法条适用边界和策略路径串联，并支持导出 Markdown 与样式化 PDF 报告，而不是只给出简单结论。
 
 > 本项目不替代律师，不承诺案件结果。涉及诉讼时效、程序期限、关键证据、最新法规或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
 
@@ -29,7 +33,7 @@
 → 创建或复用本地事项文件夹
 → 整理事实、证据、争点、来源和风险
 → 输出分析结论、行动建议和必要文书
-→ 汇总生成专业报告 Markdown / PDF
+→ 汇总生成专业报告 Markdown / 样式化 PDF
 → 后续新证据或新进展继续更新同一事项
 ```
 
@@ -44,8 +48,8 @@
 - `analysis.md`：完整法律分析底稿。
 - `advice.md`：面向用户的策略、行动建议和表达风险。
 - `sources.md`：法律、案例、政策、网页等来源及核验状态。
-- `<主题>专业报告.md`：面向用户交付的专业报告。
-- `<主题>专业报告.pdf`：与 Markdown 报告一致的 PDF 版本。
+- `<主题>专业报告.md`：面向用户交付的法律分析报告。
+- `<主题>专业报告.pdf`：与 Markdown 报告一致、经过版式渲染和可读性检查的 PDF 版本。
 
 ### 使用方式
 
@@ -90,7 +94,7 @@ Legal-Assistant_agent 不会：
 
 **Legal-Assistant_agent** is a document-first Legal Agent workflow for legal matter analysis, contract work, legal research, drafting, negotiation preparation, and professional report delivery. It uses `AGENTS.md` as the main entrypoint and guides an AI assistant to work as a structured legal matter workspace rather than a one-off Q&A assistant.
 
-For complex matters, the agent creates or reuses a local matter folder, records facts and evidence, maps legal issues and proof burdens, tracks source verification, prepares strategy or draft documents, and produces a professional Markdown/PDF report that can be updated as new information arrives.
+For complex matters, the agent creates or reuses a local matter folder, records facts and evidence, maps issue trees and proof burdens, tracks source verification, explains legal-rule applicability boundaries, prepares strategy or draft documents, and exports a professional legal analysis report in Markdown with a styled PDF version when the environment supports reliable rendering.
 
 This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-stakes actions should be verified against authoritative sources and reviewed by qualified counsel in the relevant jurisdiction.
 
@@ -102,7 +106,7 @@ User provides a legal matter
 → Create or reuse a local matter folder
 → Organize facts, evidence, issues, sources, and risks
 → Produce analysis, guidance, and draft documents when needed
-→ Generate a professional Markdown / PDF report
+→ Generate a professional Markdown / styled PDF report
 → Continue updating the same matter when new information appears
 ```
 
@@ -116,14 +120,14 @@ For complex matters, the agent keeps a dedicated local matter folder for stage n
 - `advice.md`: user-facing strategy and action guidance.
 - `sources.md`: statutes, cases, policies, URLs, verification status, and citation risks.
 - `<topic> Professional Report.md`: final or stage-based professional report.
-- `<topic> Professional Report.pdf`: PDF version when the environment can generate a readable PDF.
+- `<topic> Professional Report.pdf`: rendered PDF version when the environment can generate a readable, styled PDF.
 
 ### Usage
 
 Temporary invocation:
 
 ```text
-Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a professional Markdown/PDF report.
+Use Legal-Assistant_agent to analyze this legal matter, create a matter folder, and generate a professional Markdown report with a styled PDF version when available.
 ```
 
 Slash-command style:

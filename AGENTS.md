@@ -38,8 +38,10 @@
 
 - `WORKFLOW.md`：事项工作台、目录规则、i18n、阶段推进、来源记录。
 - `CAPABILITIES.md`：事项类型路由、角色分工、必跑/可选 skill、工具要求和 gate。
+- `LEGAL_REASONING.md`：复杂争议的争点挖掘、推断链条和法条适用边界。
 - `SKILLS.md`：17 个阶段技能的触发条件、落盘文件、`skill_outputs.md` 记忆要求、最终报告章节映射。
 - `REPORT.md`：专业最终报告结构、会话展示要求、PDF 导出质量门槛。
+- `PDF_RENDERING.md`：PDF 渲染、样式、表格、流程图和质量检查规则。
 - `prompts/output_schemas.md`：可复用输出结构。
 - 对应的 `skills/<编号>_<skill>/SKILL.md`：具体阶段技能。
 
@@ -48,14 +50,17 @@
 - 复杂、多争点、多程序、合同审查、合同起草或需要持续推进的法律事项，默认创建或复用 `work/<date>_<本地化事项名>/`。
 - 事项文件夹必须直接位于 `work/` 下，不增加任何中间分类层。
 - 同一案件、合同或法律事项只维护一个事项文件夹；后续继续更新该文件夹，不新建重复目录。
+- 复用既有事项文件夹时，必须重新读取工作文件并做复用复核：更新 `Reuse check`、`Update Log`、来源复核、PDCA 和报告状态，不能只改日期或沿用旧结论。
 - 中文输入必须使用中文目录名、中文标题和中文最终报告名；英文输入使用英文。
 - 复杂事项必须先依据 `CAPABILITIES.md` 完成事项类型路由、必跑/条件必跑 skill 选择和 gate 设定。
 - 复杂事项必须按 PDCA 执行：Plan 记录路由与目标，Do 写入 skill 产物，Check 检查 gate，Act 形成下一步和复盘更新。
 - 每个复杂事项至少维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、专业报告 Markdown 和同名 PDF。
 - 每执行一个 skill，都必须更新 `skill_outputs.md`，并按 `SKILLS.md` 写入对应主题文件。
 - 只要引用法律、案例、政策、网页或“已核验来源”，必须写入 `sources.md`；未检索也要说明未检索原因和引用风险。
+- 复杂争议必须按 `LEGAL_REASONING.md` 输出母命题、条件命题、反制命题、推断链条和法条适用边界。
 - 最终交付不是概述。必须读取并串联事项文件夹中的工作文件和 skill 记忆，生成排版完整、逻辑严谨的专业报告。
-- PDF 必须真实存在且基本可读。若中文乱码、项目符号异常、字体缺失或无法导出，必须标记为 blocked，不能假称已生成。
+- PDF 必须按 `PDF_RENDERING.md` 先渲染为可读版式再导出。若 Markdown 表格、Mermaid 源码、代码块、乱码、项目符号异常、字体缺失或无法导出，必须标记为 blocked，不能假称已生成。
+- 更新专业报告 Markdown 后，必须重新生成同源 PDF 并做基础可读性检查；若不能重渲染或检查不通过，不得把旧 PDF 标为本轮 ready。
 
 ## 5. 默认工作顺序
 
@@ -65,11 +70,14 @@
 4. 创建或复用事项文件夹。
 5. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`，并写入 PDCA 阶段。
 6. 按能力矩阵调用必跑和条件必跑 skill，并把每个 skill 的产物写入主题文件和 `skill_outputs.md`。
-7. 需要法律依据时优先检索官方或权威来源，写入 `sources.md`。
-8. 检查 Routing / Skill / Source / Evidence / Report / Conversation / PDF gates。
-9. 调用最终汇总规则，逐项读取所有工作文件，生成专业报告 Markdown 和 PDF。
-10. 在会话界面展示实质性汇总内容，而不是只列文件路径。
-11. 出现新证据、新程序节点、新合同版本或新报价时，读取既有事项文件夹复盘更新。
+7. 对复杂争议执行争点树、推断链和法条适用边界分析。
+8. 需要法律依据时优先检索官方或权威来源，写入 `sources.md`。
+9. 检查 Routing / Skill / Source / Evidence / Report / Conversation / PDF gates。
+10. 调用最终汇总规则，逐项读取所有工作文件，生成专业报告 Markdown。
+11. 将 Markdown 渲染为 styled HTML、DOCX 或宿主支持的富文本版式后再导出 PDF。
+12. 对 PDF 执行基础质量检查：文件存在、中文可读、表格已渲染、无 Markdown/HTML/Mermaid 源码残留、与 Markdown 同源。
+13. 在会话界面展示实质性汇总内容，而不是只列文件路径。
+14. 出现新证据、新程序节点、新合同版本或新报价时，读取既有事项文件夹复盘更新。
 
 ## 6. 最终回复最低要求
 
