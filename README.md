@@ -78,60 +78,31 @@ Every round should preserve:
 | `hearing_prep` | Prepares mediation, arbitration, trial, cross-examination, and questioning |
 | `review_learning_loop` | Updates facts, issues, risks, and strategy after new evidence or events |
 
-### Repository Structure
+### Agent Workflow
 
 ```text
-.
-├── AGENT_SPEC.md
-├── METHOD_WHEEL.md
-├── agent_manifest.yaml
-├── SKILL.md
-├── Makefile
-├── install.sh
-├── agents/
-│   └── openai.yaml
-├── docs/
-│   └── PROFESSIONALIZATION_REVIEW.md
-├── references/
-│   ├── official_source_registry.json
-│   └── research_workflow.md
-├── scripts/
-│   ├── legal_research.py
-│   ├── write_analysis_output.py
-│   ├── validate_skill.py
-│   └── install.sh
-├── prompts/
-│   ├── system_prompt.md
-│   ├── developer_prompt.md
-│   └── output_schemas.md
-├── skills/
-│   ├── 01_privacy_scope_guard/
-│   ├── 02_case_intake_issue_map/
-│   ├── 03_timeline_evidence_ledger/
-│   ├── 04_elements_burden_matrix/
-│   ├── 05_contradiction_analysis/
-│   ├── 06_causation_chain/
-│   ├── 07_admission_question_design/
-│   ├── 08_opponent_perspective/
-│   ├── 09_judge_perspective/
-│   ├── 10_case_reference_research/
-│   ├── 11_strategy_risk_action/
-│   ├── 12_document_drafting/
-│   ├── 13_hearing_prep/
-│   └── 14_review_learning_loop/
-├── templates/
-│   ├── case_brief_template.md
-│   ├── evidence_ledger.csv
-│   ├── contradiction_matrix.csv
-│   ├── causation_chain_template.md
-│   ├── admission_question_bank_template.md
-│   ├── judge_view_report_template.md
-│   ├── case_research_log_template.md
-│   ├── strategy_report_template.md
-│   └── analysis_output_index_template.md
-└── tests/
-    └── test_tooling.py
+Intake
+→ Scope and privacy guard
+→ Timeline and evidence ledger
+→ Legal elements and burden matrix
+→ Contradiction and causation review
+→ Official-source research, when legal authority is needed
+→ Opponent and judge perspective checks
+→ Strategy, drafting, or hearing preparation
+→ Workspace output bundle
+→ Review loop after new evidence or procedural events
 ```
+
+| Stage | Agent output |
+|---|---|
+| Intake | Case type, jurisdiction, role, goals, deadlines, and known constraints |
+| Scope guard | Safety boundary, privacy redaction needs, missing context, and high-risk flags |
+| Evidence map | Timeline, evidence ledger, proof targets, and evidence gaps |
+| Legal analysis | Elements, burden of proof, disputed issues, and uncertainty notes |
+| Stress test | Contradictions, causation risks, opponent defenses, and judge-view weaknesses |
+| Research | Official-source research log with URLs, access status, and source risk notes |
+| Delivery | Strategy report, factual questions, draft document, hearing outline, or saved case workspace |
+| Iteration | Updated facts, updated risks, new proof gaps, and next smallest useful action |
 
 ### Quick Start
 
@@ -435,6 +406,20 @@ Website: [https://laoke.ai](https://laoke.ai)
 This project provides general legal analysis workflow support. It does not provide legal representation, does not create an attorney-client relationship, and does not replace advice from a qualified lawyer in the relevant jurisdiction.
 
 本项目只提供通用法律分析工作流支持，不提供法律代理服务，不构成律师-客户关系，也不能替代相关法域合格律师的专业意见。
+
+## Development Workflow / 开发流程
+
+Use `dev` as the default branch for ongoing changes. Push normal iterations to `dev`.
+
+日常修改默认提交到 `dev` 分支，并推送到 `dev`。
+
+`main` is reserved for explicit release or merge requests. Do not push to `main` unless the maintainer asks to merge or publish.
+
+`main` 仅用于明确要求合并或发布时更新；没有维护者明确要求时，不直接推送到 `main`。
+
+For major or risky changes, create a separate feature or backup branch first, then merge back into `dev` after validation.
+
+重大或高风险改动应先建立独立 feature/backup 分支，通过校验后再合回 `dev`。
 
 ## Contributing / 贡献
 
