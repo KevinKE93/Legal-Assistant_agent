@@ -1,6 +1,6 @@
 # WORKFLOW.md
 
-本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `CAPABILITIES.md` 为准。
+本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `CAPABILITIES.md` 为准；纠纷、仲裁、诉讼、听证和持续复盘事项的案件工作台输出以 `CASE_WORKBENCH.md` 为准。
 
 ## 1. 事项文件夹
 
@@ -60,6 +60,12 @@ advice.md
 timeline.md
 evidence.md
 sources.md
+case_dashboard.md
+consultation_note.md
+case_package.md
+pleading_framework.md
+hearing_playbook.md
+review_delta.md
 drafts.md
 hearing.md
 negotiation.md
@@ -79,6 +85,12 @@ contract_draft.md
 | `timeline.md` | 事件时间线、合同版本流转或程序节点 |
 | `evidence.md` | 证据台账、证明对象、三性风险、证据缺口和补强动作 |
 | `sources.md` | 官方/权威来源、网页、法规、案例、访问日期、核验状态、引用风险 |
+| `case_dashboard.md` | 面向法律工作者的一页式案件地图、胜败关键、争点树、证明责任和可信度 |
+| `consultation_note.md` | 面向用户或客户的咨询纪要、当前判断、限制、补证材料和禁忌动作 |
+| `case_package.md` | 法律团队使用的完整案件包，串联事实、证据、争点、来源、攻防和策略 |
+| `pleading_framework.md` | 文书、仲裁申请、起诉状、答辩、代理意见或投诉材料的结构框架 |
+| `hearing_playbook.md` | 调解、仲裁、庭审或听证准备：举证、质证、发问和裁判者追问 |
+| `review_delta.md` | 新证据、新程序、新报价或新材料导致的变化复盘和需重跑内容 |
 | `analysis.md` | 工作底稿型完整分析，保留专业推理过程 |
 | `advice.md` | 面向用户的策略、行动路径、谈判建议和禁忌动作 |
 | `drafts.md` | 沟通函、投诉材料、仲裁/诉讼框架、庭审提纲 |
@@ -111,7 +123,7 @@ contract_draft.md
 - 专业报告状态：`complete / complete_except_pdf / draft / incomplete`。
 - 当前 PDCA 阶段和 Check 结论。
 
-`skill_outputs.md` 必须记录每个必跑和条件必跑 skill 的状态：`done / pending / blocked / skipped`。必跑或条件必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。
+`skill_outputs.md` 必须记录每个必跑和条件必跑 skill 的状态：`done / pending / blocked / skipped`。必跑或条件必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。面向阅读对象的报告不展示 skill 执行表，应把影响结论的缺口写成材料限制、来源限制或证据限制。
 
 ## 6. PDCA 闭环
 
@@ -137,6 +149,8 @@ contract_draft.md
 - Conditional required skills:
 - Optional skills:
 - Output language:
+- Workbench mode: yes / no / not applicable
+- Workbench files:
 - Professional report Markdown:
 - Professional report PDF:
 - PDF status: pending / ready / blocked
@@ -151,6 +165,7 @@ contract_draft.md
 |---|---|---|---|
 | Routing Gate |  |  |  |
 | Folder Gate |  |  |  |
+| Workbench Gate |  |  |  |
 | Skill Gate |  |  |  |
 | Source Gate |  |  |  |
 | Evidence Gate |  |  |  |
@@ -248,9 +263,9 @@ contract_draft.md
 规则：
 
 - 每执行一个 skill，必须追加或更新一条记录。
-- 如果必跑或条件必跑 skill 被跳过或阻塞，必须说明理由、影响和下一步，不能在最终报告中声称已经完成。
+- 如果必跑或条件必跑 skill 被跳过或阻塞，必须在内部记录理由、影响和下一步，不能在最终报告中暗示相关分析已经完成；对读者只展示由此产生的材料、来源或证据限制。
 - 如果执行时信息不足，仍要记录“信息不足、影响、下一步补充”。
-- 最终报告必须覆盖 `Execution Index` 中所有已执行 skill 的关键发现。
+- 最终报告必须吸收 `Execution Index` 中所有已执行 skill 的关键发现，并转化为事实、证据、争点、来源、风险或行动建议。
 
 ## 10. 来源记录规则
 
@@ -279,17 +294,18 @@ contract_draft.md
 3. 查 `CAPABILITIES.md`，确定必跑 skill、条件必跑 skill、可选 skill、必备文件和 gate。
 4. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
 5. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
-6. 时间线、条款、证据台账。
-7. 争议焦点、条款风险、请求权基础、证明责任。
-8. 按 `LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法条适用边界。
-9. 矛盾、因果、对方视角、裁判视角。
-10. 官方或权威来源检索，写入 `sources.md`。
-11. 策略行动、文书或合同草案。
-12. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
-13. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown。
-14. 按 `PDF_RENDERING.md` 将报告渲染为 styled HTML、DOCX 或宿主支持的富文本版式后导出 PDF。
-15. 会话界面展示实质汇总。
-16. 后续新信息触发 Act 和复盘，更新既有事项文件夹。
+6. 对案件工作台事项，先输出或更新 `case_dashboard.md` 与 `consultation_note.md`。
+7. 时间线、条款、证据台账。
+8. 争议焦点、条款风险、请求权基础、证明责任。
+9. 按 `LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法条适用边界。
+10. 矛盾、因果、对方视角、裁判视角。
+11. 官方或权威来源检索，写入 `sources.md`。
+12. 策略行动、文书或合同草案；必要时生成 `case_package.md`、`pleading_framework.md` 或 `hearing_playbook.md`。
+13. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
+14. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown。
+15. 按 `PDF_RENDERING.md` 将报告渲染为 styled HTML、DOCX 或宿主支持的富文本版式后导出 PDF。
+16. 会话界面展示实质汇总。
+17. 后续新信息触发 `review_delta.md`、Act 和复盘，更新既有事项文件夹。
 
 ## 12. 信息不足时如何处理
 

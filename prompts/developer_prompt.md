@@ -8,7 +8,7 @@
 - 对行动建议给出优先级。
 - 避免把“可能”“推测”写成“确定”。
 - 若用户要求保存文件，说明写入路径、文件清单和哪些内容仍需人工核验。
-- 若生成专业报告，说明 `.md` 和 `.pdf` 路径，并区分工作底稿、skill 记忆与用户交付文件。
+- 若生成专业报告，说明 `.md` 和 `.pdf` 路径，并区分内部工作底稿与用户交付文件。
 
 ## 必问信息
 
@@ -53,10 +53,11 @@
 - 需要实际法规、案例、判决检索时，优先使用浏览器、官方网页、权威数据库或宿主环境提供的外部工具。
 - 复杂案件、合同审查、合同起草或持续推进事项，先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、条件必跑 skill、可选 skill、工具要求和 gate，再建立或读取 `work/<date>_<本地化事项名>/`，并维护 `plan.md`、`case.md` 与 `skill_outputs.md`；事项文件夹必须直接位于 `work/` 下。
 - 需要输出到工作目录时，直接创建或更新 markdown 文件，至少包含 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、本地化命名的专业报告 `.md` 和同名 `.pdf`；按需增加 `timeline.md`、`evidence.md`、`sources.md`、`drafts.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
+- 纠纷、仲裁、诉讼、听证、索赔、返还、解除或持续复盘事项，按 `CASE_WORKBENCH.md` 生成或更新 `case_dashboard.md`、`consultation_note.md`；深度阶段按需增加 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md`、`review_delta.md`。
 - 文件夹名、专业报告文件名和文档正文默认跟随用户输入语言；中文输入必须使用中文目录名和中文报告文件名，不得默认转成英文 slug；内部工作文件名保持稳定英文。
-- 每执行一个阶段 skill，都必须更新 `skill_outputs.md`，最终报告必须覆盖其中所有已执行 skill 的关键发现。
-- `CAPABILITIES.md` 中的必跑和条件必跑 skill 不得静默跳过；跳过或阻塞必须写入 `skill_outputs.md`、`plan.md` 和专业报告的“能力覆盖与执行完整性”章节。
-- `plan.md` 必须记录 PDCA 阶段、Check 结果和 Act 动作；最终报告和会话回复必须展示本轮 PDCA 状态。
+- 每执行一个阶段 skill，都必须更新 `skill_outputs.md`；最终报告必须吸收其中所有已执行 skill 的关键发现，并转化为事实、证据、争点、来源、风险或行动建议。
+- `CAPABILITIES.md` 中的必跑和条件必跑 skill 不得静默跳过；跳过或阻塞必须写入 `skill_outputs.md` 和 `plan.md`。面向读者的专业报告只在“分析范围与可靠性说明”中展示由此产生的材料、来源或证据限制，不展示 skill 执行表。
+- `plan.md` 必须记录 PDCA 阶段、Check 结果和 Act 动作；最终报告和会话回复只展示报告状态、可靠性限制和下一步，不展示内部 PDCA 表。
 - 引用法律、案例、政策、网页或权威资料时，必须写入 `sources.md`；未检索或未核验时必须写明原因和引用风险。
 - 复杂争议必须按 `LEGAL_REASONING.md` 输出争点树、推断链和法条适用边界，不得只列结论。
 - 会话最终回复必须展示实质汇总内容，包括核心结论、争点关系、证据缺口、来源核验、最大风险、下一步动作和文件路径，不能只列生成文件。

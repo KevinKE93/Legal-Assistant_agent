@@ -21,7 +21,7 @@
 
 **法律助手智能体 Legal-Assistant_agent** 是一套纯文档型法律工作流 Agent。它以 `AGENTS.md` 为入口，让 AI 助手在处理法律事项时不只是即时回答，而是像一个可持续推进的法律事项工作台：先识别事项类型和法域，再整理事实、证据、争点、来源、风险和行动路径，最后生成可复盘、可更新、可交付的法律分析报告。
 
-它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂事项会在本地形成一个独立事项文件夹，用于持续记录案件事实、阶段计划、分析过程、参考来源和最终交付文件；最终报告会以争点树、证明责任、证据链、法条适用边界和策略路径串联，并支持导出 Markdown 与样式化 PDF 报告，而不是只给出简单结论。
+它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂案件会先形成面向法律工作者的案件驾驶舱和面向用户的咨询纪要，再根据材料成熟度继续沉淀证据台账、争点分析、案件包、文书框架、庭审准备和专业报告。最终报告会以争点树、证明责任、证据链、法条适用边界和策略路径串联，并支持导出 Markdown 与样式化 PDF 报告，而不是只给出简单结论。
 
 > 本项目不替代律师，不承诺案件结果。涉及诉讼时效、程序期限、关键证据、最新法规或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
 
@@ -31,7 +31,9 @@
 用户输入法律事项
 → 识别语言、法域、事项类型和用户目标
 → 创建或复用本地事项文件夹
+→ 生成案件驾驶舱和咨询纪要
 → 整理事实、证据、争点、来源和风险
+→ 按需要生成案件包、文书框架或庭审手册
 → 输出分析结论、行动建议和必要文书
 → 汇总生成专业报告 Markdown / 样式化 PDF
 → 后续新证据或新进展继续更新同一事项
@@ -45,11 +47,15 @@
 
 - `plan.md`：事项阶段、下一步、责任方、待补信息和执行记录。
 - `case.md`：案件或事项的关键事实、争点、程序状态和核心记忆。
+- `case_dashboard.md`：一页式案件驾驶舱，呈现案件主线、胜败关键、争点树、证明责任和可信度。
+- `consultation_note.md`：面向用户或客户的咨询纪要，说明当前判断、限制、风险和补充材料。
 - `analysis.md`：完整法律分析底稿。
 - `advice.md`：面向用户的策略、行动建议和表达风险。
 - `sources.md`：法律、案例、政策、网页等来源及核验状态。
 - `<主题>专业报告.md`：面向用户交付的法律分析报告。
 - `<主题>专业报告.pdf`：与 Markdown 报告一致、经过版式渲染和可读性检查的 PDF 版本。
+
+成熟案件还可以继续生成 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 和 `review_delta.md`，用于内部案件包、文书准备、开庭/听证准备和新材料复盘。
 
 ### 使用方式
 
@@ -94,7 +100,7 @@ Legal-Assistant_agent 不会：
 
 **Legal-Assistant_agent** is a document-first Legal Agent workflow for legal matter analysis, contract work, legal research, drafting, negotiation preparation, and professional report delivery. It uses `AGENTS.md` as the main entrypoint and guides an AI assistant to work as a structured legal matter workspace rather than a one-off Q&A assistant.
 
-For complex matters, the agent creates or reuses a local matter folder, records facts and evidence, maps issue trees and proof burdens, tracks source verification, explains legal-rule applicability boundaries, prepares strategy or draft documents, and exports a professional legal analysis report in Markdown with a styled PDF version when the environment supports reliable rendering.
+For complex matters, the agent creates or reuses a local matter folder, first builds a case dashboard and consultation note, then records facts and evidence, maps issue trees and proof burdens, tracks source verification, explains legal-rule applicability boundaries, prepares strategy or draft documents, and exports a professional legal analysis report in Markdown with a styled PDF version when the environment supports reliable rendering.
 
 This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-stakes actions should be verified against authoritative sources and reviewed by qualified counsel in the relevant jurisdiction.
 
@@ -104,7 +110,9 @@ This project is not a substitute for licensed legal counsel and does not promise
 User provides a legal matter
 → Identify language, jurisdiction, matter type, and user goal
 → Create or reuse a local matter folder
+→ Produce a case dashboard and consultation note
 → Organize facts, evidence, issues, sources, and risks
+→ Prepare a case package, pleading framework, or hearing playbook when needed
 → Produce analysis, guidance, and draft documents when needed
 → Generate a professional Markdown / styled PDF report
 → Continue updating the same matter when new information appears
@@ -116,6 +124,8 @@ For complex matters, the agent keeps a dedicated local matter folder for stage n
 
 - `plan.md`: stage plan, next actions, owner, missing information, and execution notes.
 - `case.md`: matter memory, key facts, issues, procedural status, and conclusions.
+- `case_dashboard.md`: one-page case map for legal workers.
+- `consultation_note.md`: user-facing consultation summary, limits, risks, and material requests.
 - `analysis.md`: working legal analysis.
 - `advice.md`: user-facing strategy and action guidance.
 - `sources.md`: statutes, cases, policies, URLs, verification status, and citation risks.
