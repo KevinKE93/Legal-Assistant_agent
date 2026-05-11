@@ -14,7 +14,7 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 ## 目标
 
 1. 把事项文件夹中的分散工作文件汇总为一份专业报告，而不是几段概述。
-2. 逐项覆盖 `skill_outputs.md` 中已执行的 skill，确保每个 skill 产物进入报告章节或附录。
+2. 逐项吸收 `skill_outputs.md` 中已沉淀的关键发现，确保事实、证据、来源、分析和建议进入报告；不要把 skill 执行表直接展示给阅读对象。
 3. 在会话界面展示实质性汇总内容：核心结论、争点关系、证据缺口、来源核验、最大风险和下一步。
 4. 按 `LEGAL_REASONING.md` 检查争点树、推断链和法条适用边界是否进入报告。
 5. 输出本地化命名的专业报告 `.md`，再按 `PDF_RENDERING.md` 渲染为可读 PDF。
@@ -26,6 +26,7 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 - 用户主语言和目标读者。
 - 已存在的工作文件。
 - `CAPABILITIES.md` 中的事项类型、必跑 skill、条件必跑 skill、gate 和报告状态规则。
+- `CASE_WORKBENCH.md` 中的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
 - `LEGAL_REASONING.md` 中的争点挖掘和法条适用边界规则。
 - `PDF_RENDERING.md` 中的 PDF 渲染和质量检查规则。
 - `plan.md` 中的 PDCA 阶段、Check 结果和 Act 动作。
@@ -39,11 +40,18 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 
 ```text
 CAPABILITIES.md
+CASE_WORKBENCH.md
 LEGAL_REASONING.md
 PDF_RENDERING.md
 plan.md
 case.md
 skill_outputs.md
+case_dashboard.md
+consultation_note.md
+case_package.md
+pleading_framework.md
+hearing_playbook.md
+review_delta.md
 timeline.md
 evidence.md
 sources.md
@@ -88,9 +96,9 @@ contract_draft.md
 | 工作文件 | 是否存在 | 是否读取 | 用途 | 对结论影响 | 纳入报告章节 |
 |---|---|---|---|---|---|
 
-### 2. 能力覆盖与 Skill 覆盖表
+### 2. 内部完整性检查
 
-读取 `CAPABILITIES.md`、`plan.md` 和 `skill_outputs.md`，建立能力覆盖表：
+读取 `CAPABILITIES.md`、`plan.md` 和 `skill_outputs.md`，在内部建立完整性检查表。该表用于判断报告状态和补证动作，默认不进入专业报告正文。
 
 | 项目 | 内容 | 状态 | 影响 |
 |---|---|---|---|
@@ -102,13 +110,19 @@ contract_draft.md
 | PDCA 阶段 | Plan / Do / Check / Act |  |  |
 | 报告状态 | complete / complete_except_pdf / draft / incomplete |  |  |
 
-并建立 skill 覆盖表：
+并在内部建立 skill 覆盖表：
 
 | Skill | Required / Conditional / Optional | Status | 关键发现 | 待补问题 | 对应报告章节 | 是否已纳入 |
 |---|---|---|---|---|---|---|
 
-每个已执行 skill 至少进入一个章节或子章节。不能只列路径。
-必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容 gate 全部通过、仅 PDF gate 阻塞的情况。
+每个已执行 skill 的关键发现至少进入一个实体章节或子章节，但不要以内部产物索引、覆盖表或“某内部阶段未执行”等形式面向读者展示。必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容、来源、证据、报告和会话 gate 全部通过、仅 PDF Gate 阻塞的情况；Source Gate blocked 时不得标记为 complete_except_pdf。
+
+如果内部检查发现缺口，只在专业报告中转化为读者可理解的可靠性限制，例如：
+
+- 尚未核验原始合同文本。
+- 未取得银行流水，金额判断仅为框架性分析。
+- 未完成类案检索，裁判倾向仅作一般规则判断。
+- 未取得送达凭证，程序期限判断存在不确定性。
 
 ### 3. 来源核验表
 
@@ -129,7 +143,10 @@ contract_draft.md
 - `case.md` 的关键事实是否被 `evidence.md` 支撑。
 - `analysis.md` 的结论是否被 `sources.md` 或待核验规则支撑。
 - `advice.md` 的行动建议是否匹配证据强度和程序阶段。
-- `skill_outputs.md` 的关键发现是否全部进入报告。
+- `skill_outputs.md` 的关键发现是否全部转化为报告中的事实、证据、争点、来源、风险或行动建议。
+- `case_dashboard.md` 的胜败关键、争点树和可信度是否进入报告的事项地图或执行摘要。
+- `consultation_note.md` 的用户可理解判断、限制、补证材料和禁忌动作是否进入会话展示或报告摘要。
+- `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md` 如已存在，是否被吸收为案件包、文书、庭审或复盘章节。
 - `CAPABILITIES.md` 要求的必跑和条件必跑 skill 是否全部执行或说明阻塞/跳过原因。
 - gate 状态是否支持当前报告状态。
 - PDCA 是否完成本轮 Plan、Do、Check，并产生明确 Act。
@@ -138,42 +155,21 @@ contract_draft.md
 
 ### 5. 重写专业报告
 
-按 `REPORT.md` 的结构生成。复杂纠纷默认包含：
+按 `REPORT.md` 的专业报告结构生成，不在本 skill 内复制完整模板。根据事项类型组织为法律备忘录、案件分析报告、合同审查报告、合同草案或法律研究报告。报告必须呈现事实、证据、争点、法律依据、适用边界、风险和行动建议；案件工作台文件应转化为读者可用的事项地图、咨询摘要、案件包、文书或庭审章节；内部 skill 索引、gate 表、PDCA 表和执行日志不得作为报告章节输出。
 
-1. 封面信息和重要提示。
-2. 目录。
-3. 执行摘要。
-4. 报告范围、假设与材料清单。
-5. Skill 产物索引。
-6. 能力覆盖与执行完整性，包含 PDCA 执行轨迹。
-7. 事项地图与程序状态。
-8. 关键事实时间线。
-9. 核心争议焦点矩阵。
-10. 争议焦点关系图或关系链。
-11. 争点深挖与推断链。
-12. 请求权基础与证明责任。
-13. 证据链与缺口。
-14. 法律依据与参考来源。
-15. 法条适用边界。
-16. 对方视角与反制。
-17. 裁判者/审稿者视角。
-18. 金额、胜率和风险区间。
-19. 策略路径与行动清单。
-20. 禁忌动作与表达风险。
-21. 待补信息。
-22. 附录：工作文件覆盖表、Skill 覆盖表。
-
-合同审查、合同起草和法律研究按 `REPORT.md` 调整章节，但仍必须保留 skill 索引、来源、待补信息和质量检查。
+合同审查、合同起草和法律研究按 `REPORT.md` 的类型调整章节；仍必须保留来源、待补信息、可靠性限制和质量检查。
 
 ### 6. 输出 Markdown
 
-写入事项文件夹中的本地化专业报告文件。报告不得只是复制 `analysis.md`；必须串联 `case.md`、`timeline.md`、`evidence.md`、`sources.md`、`advice.md` 和 `skill_outputs.md`。
+写入事项文件夹中的本地化专业报告文件。报告不得只是复制 `analysis.md`；必须串联 `case.md`、`case_dashboard.md`、`consultation_note.md`、`case_package.md`、`timeline.md`、`evidence.md`、`sources.md`、`advice.md` 和 `skill_outputs.md`。某些工作台文件不存在时，要说明是“不适用、未生成、待补材料后生成”，不能暗示已经覆盖。
 
 ### 7. 渲染 PDF
 
-先将 Markdown 报告转换为 styled HTML、DOCX 或宿主支持的富文本版式，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的渲染能力；其次使用浏览器打印或可靠文档工具。
+先将 Markdown 报告转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
 
-开始渲染前先探测工具：宿主文档/PDF运行时、浏览器打印、Pandoc、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、bundled Python/Node 依赖等。不要假设默认命令或默认 Python 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+开始渲染前先探测工具，并按 `PDF_RENDERING.md` 的推荐执行路径选择：Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → styled HTML → WeasyPrint/wkhtmltopdf；Markdown → PDF-native 文档对象 → PDF。不要假设默认命令或默认 Python/Node 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+
+默认禁止使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF。只有用户明确允许浏览器渲染时，才可作为 fallback；仍必须通过 PDF Gate 质量检查。
 
 渲染要求：
 
@@ -188,6 +184,7 @@ contract_draft.md
 - 在 `plan.md` 标记 `PDF status: blocked`。
 - 在 `plan.md` 或内部交付记录写明阻塞原因。
 - 在会话中说明 Markdown 已生成、PDF 待转换。
+- 如果同时存在 Source Gate、Evidence Gate 或必跑 skill blocked，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可标记 `complete_except_pdf`。
 
 ### 8. PDF 质量检查
 
@@ -215,7 +212,8 @@ contract_draft.md
 3.
 
 ### 本轮依据
-- 使用的工作文件：
+- 已核验/读取的关键材料：
+- 案件驾驶舱/咨询纪要要点：
 - 用户新增信息：
 - 尚未读取/缺失的材料：
 
@@ -236,13 +234,12 @@ contract_draft.md
 - 核心可用规则：
 - 未核验/引用风险：
 
-### 执行完整性
+### 分析范围与可靠性
 - 报告状态：
-- 未完成 gate：
-- PDCA 阶段：
-- 需要 Act 的事项：
-- 已执行 skill：
-- 未执行/阻塞 skill 对结论的影响：
+- 已核验材料：
+- 尚未核验/缺失材料：
+- 对结论的影响：
+- 需要更新报告的触发事项：
 
 ### 最大风险
 - 法律风险：
@@ -263,9 +260,9 @@ contract_draft.md
 ## 质量检查
 
 - 不遗漏 `skill_outputs.md`。
-- 不遗漏 `CAPABILITIES.md` 的必跑、条件必跑 skill 和 gate 检查。
-- 不遗漏 PDCA 阶段、Check 结果和 Act 动作。
-- 不遗漏已执行 skill 的关键发现。
+- 不遗漏内部 `CAPABILITIES.md` 必跑、条件必跑 skill 和 gate 检查，但这些内容默认只写入 `plan.md` 和 `skill_outputs.md`。
+- 不遗漏 PDCA 阶段、Check 结果和 Act 动作；会话和报告中转化为“当前报告状态、限制和下一步”。
+- 不遗漏已执行 skill 的关键发现，但要转化为读者关心的事实、争点、证据、来源、风险或行动建议。
 - 不把待证明事实写成已证明事实。
 - 不把工作底稿直接复制为最终报告。
 - 中文输入不得输出英文目录名或英文总结文件名。
