@@ -14,6 +14,8 @@
 - 最终报告不是概述，必须逐项读取并串联工作底稿中的事实、证据、来源、分析和建议。
 - 复杂争议必须包含争点树、推断链条和法条适用边界。
 - 专业报告必须输出 `.md` 和同名 `.pdf`；PDF 必须先渲染为可读版式，若无法生成或质量不合格，必须标记 blocked。
+- Source Gate blocked 时，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可使用 `complete_except_pdf`。
+- 合同审查、合同起草或纯法律研究等非争议事项，可将 Workbench Gate 标记为 `skipped / not applicable`，不要为了凑流程生成案件驾驶舱。
 
 ## 1. skill_outputs.md 模板
 

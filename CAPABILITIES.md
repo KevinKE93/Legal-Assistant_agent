@@ -8,7 +8,7 @@
 → 哪些 gate 没过就不能交付完整报告
 ```
 
-纠纷、仲裁、诉讼、听证和复盘事项的案件工作台输出另见 `CASE_WORKBENCH.md`；本文件负责决定何时触发、哪些角色和 gate 必须覆盖。
+纠纷、仲裁、诉讼、听证和复盘事项的案件工作台输出另见 `CASE_WORKBENCH.md`；本文件负责决定何时触发、哪些角色和 gate 必须覆盖。合同审查、合同起草和纯法律研究通常不进入案件工作台，除非同时存在明确争议、对方主张、程序节点或听证准备。
 
 ## 1. 角色抽象
 
@@ -77,9 +77,9 @@
 |---|---|---|
 | Routing Gate | 已识别事项类型，并按本文件列出必跑/条件必跑/可选 skill | 不进入最终报告 |
 | Folder Gate | 已创建或复用 `work/<date>_<本地化事项名>/` | 不进入多文件交付 |
-| Workbench Gate | 纠纷/案件/庭审/复盘事项已按 `CASE_WORKBENCH.md` 生成或更新必要工作台文件；不适用时已说明 | 不进入深度案件包或最终报告降级为阶段性草稿 |
+| Workbench Gate | 纠纷/案件/庭审/复盘事项已按 `CASE_WORKBENCH.md` 生成或更新必要工作台文件；合同审查、合同起草、纯法律研究等不适用事项已标记 `skipped/not applicable` 并说明理由 | 适用但未完成时，不进入深度案件包或最终报告降级为阶段性草稿 |
 | Skill Gate | 必跑和条件必跑 skill 已 `done`；确实不适用或无法执行的 skill 已标记 `skipped/blocked` 并说明影响 | `blocked/pending` 时报告标记为 incomplete 或 draft；`skipped` 时必须说明不适用理由 |
-| Source Gate | 涉及法律依据时，`case_reference_research` 已执行或标记 blocked，且 `sources.md` 已记录来源、待核验状态或未检索原因 | 不得声称已核验；必要时将 research 提升为 conditional_required |
+| Source Gate | 涉及法律依据时，`case_reference_research` 已执行并写入来源；若无法检索，已标记 blocked 并在 `sources.md` 记录未核验原因和影响 | 不得声称已核验；Source Gate blocked 时报告通常只能是 draft 或 incomplete，不能标记为 complete_except_pdf |
 | Evidence Gate | 关键结论绑定事实依据、证据状态、证明责任和不确定性 | 降级为待核验分析 |
 | Reasoning Gate | 复杂争议已形成争点树、推断链和法条适用边界 | 不得交付完整争议分析 |
 | Report Gate | 专业报告覆盖已完成阶段的关键发现和所有必备事实、证据、来源、分析与建议；内部 skill 覆盖写入 `skill_outputs.md`，不作为读者正文 | 不可只输出摘要 |
@@ -103,11 +103,39 @@
 | 状态 | 使用条件 |
 |---|---|
 | complete | 必跑和条件必跑 skill、来源、证据、报告和 PDF gate 均通过；面向读者的报告只展示分析范围和可靠性结论 |
-| complete_except_pdf | 除 PDF 外均通过，PDF 因环境能力 blocked |
-| draft | 事实、证据或来源仍有关键缺口，但已形成阶段性报告 |
+| complete_except_pdf | 除 PDF Gate 外，Routing、Folder、Workbench、Skill、Source、Evidence、Reasoning、Report 和 Conversation gate 均已通过；PDF 因环境能力或质量检查 blocked |
+| draft | 事实、证据或来源仍有关键缺口，但已形成阶段性报告；Source Gate blocked 通常属于此类 |
 | incomplete | 必跑或条件必跑 skill、关键 gate 未完成，不能作为完整分析交付 |
 
 状态必须出现在 `plan.md`；专业报告和会话最终回复只展示“报告状态、材料限制、来源状态、证据状态和下一步”，不展示内部 skill/gate 表。
+
+### 7A. Gate 状态示例
+
+合同审查场景的 Workbench Gate 示例：
+
+```text
+Workbench Gate: skipped / not applicable
+Reason: 本事项为合同签署前审查，无既有争议、对方抗辩、程序节点或听证准备；按合同审查路径输出 contract.md、clause_review.md、advice.md 和合同审查专业报告。
+Impact: 不影响完整报告；若后续出现违约争议或谈判冲突，再触发 CASE_WORKBENCH.md。
+```
+
+Source Gate blocked 场景的报告状态示例：
+
+```text
+Source Gate: blocked
+Reason: 本轮未联网或无法访问官方/权威来源；法律规则仅作待核验分析假设。
+Report status: draft
+Why not complete_except_pdf: 阻塞点不是 PDF，而是法律来源尚未核验。
+```
+
+PDF Gate blocked 但其他 gate 均通过的示例：
+
+```text
+PDF Gate: blocked
+Reason: Markdown 已生成，浏览器/Pandoc/文档工具不可用，无法生成合格 PDF。
+Report status: complete_except_pdf
+Condition: Source、Evidence、Reasoning、Report、Conversation gate 均已通过。
+```
 
 ## 8. PDCA 传递规则
 

@@ -115,7 +115,7 @@ contract_draft.md
 | Skill | Required / Conditional / Optional | Status | 关键发现 | 待补问题 | 对应报告章节 | 是否已纳入 |
 |---|---|---|---|---|---|---|
 
-每个已执行 skill 的关键发现至少进入一个实体章节或子章节，但不要以内部产物索引、覆盖表或“某内部阶段未执行”等形式面向读者展示。必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容 gate 全部通过、仅 PDF gate 阻塞的情况。
+每个已执行 skill 的关键发现至少进入一个实体章节或子章节，但不要以内部产物索引、覆盖表或“某内部阶段未执行”等形式面向读者展示。必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容、来源、证据、报告和会话 gate 全部通过、仅 PDF Gate 阻塞的情况；Source Gate blocked 时不得标记为 complete_except_pdf。
 
 如果内部检查发现缺口，只在专业报告中转化为读者可理解的可靠性限制，例如：
 
@@ -167,7 +167,7 @@ contract_draft.md
 
 先将 Markdown 报告转换为 styled HTML、DOCX 或宿主支持的富文本版式，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的渲染能力；其次使用浏览器打印或可靠文档工具。
 
-开始渲染前先探测工具：宿主文档/PDF运行时、浏览器打印、Pandoc、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、bundled Python/Node 依赖等。不要假设默认命令或默认 Python 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+开始渲染前先探测工具，并按 `PDF_RENDERING.md` 的推荐执行路径选择：Markdown → styled HTML → 浏览器 PDF；Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → HTML → WeasyPrint/wkhtmltopdf。不要假设默认命令或默认 Python 环境有依赖；若 bundled runtime 有可用库，可优先使用。
 
 渲染要求：
 
@@ -182,6 +182,7 @@ contract_draft.md
 - 在 `plan.md` 标记 `PDF status: blocked`。
 - 在 `plan.md` 或内部交付记录写明阻塞原因。
 - 在会话中说明 Markdown 已生成、PDF 待转换。
+- 如果同时存在 Source Gate、Evidence Gate 或必跑 skill blocked，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可标记 `complete_except_pdf`。
 
 ### 8. PDF 质量检查
 

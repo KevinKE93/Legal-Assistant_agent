@@ -29,7 +29,7 @@
 | Sources Used | 使用了哪些来源；未使用写“未检索/不适用/待核验” |
 | Report Section | 最终报告中必须出现的位置 |
 
-如果 skill 未实际执行，不能在最终报告中暗示相关分析已完成。如果执行但信息不足，必须记录缺口、影响和下一步。必跑或条件必跑 skill 为 `pending`、`blocked` 或没有执行记录时，最终报告必须标记为 `draft` 或 `incomplete`；只有内容 gate 全部通过且仅 PDF gate 阻塞时，才可标记为 `complete_except_pdf`。面向读者的报告应把这些缺口转化为“材料限制/来源限制/证据限制”，不要展示 skill 执行表。
+如果 skill 未实际执行，不能在最终报告中暗示相关分析已完成。如果执行但信息不足，必须记录缺口、影响和下一步。必跑或条件必跑 skill 为 `pending`、`blocked` 或没有执行记录时，最终报告必须标记为 `draft` 或 `incomplete`；只有内容、来源、证据、报告和会话 gate 全部通过且仅 PDF Gate 阻塞时，才可标记为 `complete_except_pdf`。Source Gate blocked 时，报告通常为 `draft` 或 `incomplete`，不是 `complete_except_pdf`。面向读者的报告应把这些缺口转化为“材料限制/来源限制/证据限制”，不要展示 skill 执行表。
 
 ## 2. Skill 到文件和报告章节映射
 
@@ -69,7 +69,7 @@
 |---|---|---|
 | done | 已执行并写入主题文件 | 可以进入完整报告 |
 | pending | 已识别但尚未执行 | 报告只能是阶段性草稿 |
-| blocked | 因缺证据、缺权限、无法联网、缺 PDF 能力等阻塞 | 报告必须说明不完整或 PDF blocked |
+| blocked | 因缺证据、缺权限、无法联网、缺 PDF 能力等阻塞 | 若是来源/证据/必跑 skill 阻塞，报告为 `draft/incomplete`；若仅 PDF 阻塞且其他 gate 通过，可为 `complete_except_pdf` |
 | skipped | 判断不适用或用户暂不需要 | 可以交付，但必须说明理由 |
 
 ## 4. skill_outputs.md 写入模板

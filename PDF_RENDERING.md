@@ -39,6 +39,99 @@ Markdown 报告
 
 不得为了生成文件而把 Markdown 纯文本直接写入 PDF；这类文件视为 PDF gate 未通过。
 
+### 2B. 推荐执行路径
+
+本仓库保持纯文档工作流，不内置渲染脚本。运行环境具备相应工具时，优先按以下顺序选择一种路径；只要任一步无法确认质量，就标记 `PDF status: blocked`，不要生成伪成功文件。
+
+#### 路径 A：Markdown → styled HTML → 浏览器 PDF
+
+适合需要保留 CSS 视觉系统、提示区块、宽表、流程图图片和中文字体的报告。推荐作为首选。
+
+```sh
+pandoc "<报告.md>" \
+  --from gfm \
+  --to html5 \
+  --standalone \
+  --toc \
+  --metadata title="<报告标题>" \
+  --css "<报告样式.css>" \
+  --output "<报告.html>"
+```
+
+随后使用支持打印 CSS 的浏览器导出 PDF，例如 Chrome、Edge、Chromium、Playwright 或宿主浏览器打印能力。导出时应开启背景图形、A4 纸张、默认或自定义页边距，并确认中文字体可用。
+
+如使用 headless Chromium，命令形态通常类似：
+
+```sh
+chromium --headless --disable-gpu \
+  --print-to-pdf="<报告.pdf>" \
+  "file:///<报告.html>"
+```
+
+实际浏览器命令因系统而异。若找不到浏览器可执行文件，不要改用纯文本 PDF；改为 blocked。
+
+#### 路径 B：Markdown → DOCX → PDF
+
+适合宿主具备可靠文档工具、需要更强分页控制或后续人工编辑的场景。
+
+```sh
+pandoc "<报告.md>" \
+  --from gfm \
+  --to docx \
+  --reference-doc "<参考样式.docx>" \
+  --output "<报告.docx>"
+```
+
+再用宿主文档工具导出 PDF。导出后必须检查表格、标题、中文字体和页码；不能因为 DOCX 生成成功就认为 PDF gate 通过。
+
+#### 路径 C：Markdown → XeLaTeX PDF
+
+适合法律研究报告、公式较多、表格不太宽的文档。对复杂 CSS、提示卡片和流程图支持较弱。
+
+```sh
+pandoc "<报告.md>" \
+  --from gfm \
+  --pdf-engine=xelatex \
+  -V CJKmainfont="PingFang SC" \
+  -V mainfont="Inter" \
+  -V geometry:margin=22mm \
+  --toc \
+  --output "<报告.pdf>"
+```
+
+若中文字体不可用、宽表溢出或提示区块丢失，改用路径 A 或标记 blocked。
+
+#### 路径 D：Markdown → HTML → WeasyPrint / wkhtmltopdf
+
+适合服务器环境或无图形浏览器环境。
+
+```sh
+pandoc "<报告.md>" --from gfm --to html5 --standalone --toc --css "<报告样式.css>" --output "<报告.html>"
+weasyprint "<报告.html>" "<报告.pdf>"
+```
+
+或：
+
+```sh
+wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
+```
+
+使用该路径时尤其要检查中文字体、表格分页、CSS 支持程度和图形嵌入。
+
+### 2C. 阻塞判定
+
+以下情况应立即停止 PDF 交付并写入 `plan.md`：
+
+| 阻塞原因 | PDF status | Report status 影响 | 下一步 |
+|---|---|---|---|
+| 缺少可用渲染工具 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 安装或启用浏览器、Pandoc、WeasyPrint、DOCX-to-PDF 等工具 |
+| 可生成文件但中文乱码或字体缺失 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 指定 CJK 字体或改用浏览器/DOCX 路径 |
+| 表格、Mermaid、LaTeX 或 HTML 源码残留 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 改写为真实表格、图片、关系表或计算表后重渲染 |
+| Markdown 已更新但 PDF 未重渲染 | blocked | 不得沿用旧 PDF 状态 | 用同一 Markdown 重新生成 PDF |
+| Source Gate 或 Evidence Gate 同时 blocked | blocked | 报告通常为 `draft` 或 `incomplete`，不是 `complete_except_pdf` | 先完成来源/证据核验或明确阶段性限制 |
+
+`complete_except_pdf` 只能用于“内容、来源、证据、报告和会话 gate 均通过，唯独 PDF 渲染环境或质量检查失败”的情况。
+
 ## 3. 禁止的 PDF 交付
 
 以下情况必须标记为 `PDF status: blocked`，不能声称 PDF 已完成：

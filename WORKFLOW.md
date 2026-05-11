@@ -125,6 +125,10 @@ contract_draft.md
 
 `skill_outputs.md` 必须记录每个必跑和条件必跑 skill 的状态：`done / pending / blocked / skipped`。必跑或条件必跑 skill 若为 `pending`、`blocked` 或无理由缺失，最终报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。面向阅读对象的报告不展示 skill 执行表，应把影响结论的缺口写成材料限制、来源限制或证据限制。
 
+Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不得因为已生成 Markdown 而标记 `complete_except_pdf`。`complete_except_pdf` 只适用于内容、来源、证据、报告和会话 gate 均通过，唯独 PDF Gate blocked 的情况。
+
+合同审查、合同起草或纯法律研究等非争议事项，Workbench Gate 可标记为 `skipped / not applicable`，但必须写明“不触发案件工作台”的理由和后续触发条件。
+
 ## 6. PDCA 闭环
 
 复杂事项必须通过 PDCA 传递：
@@ -195,6 +199,33 @@ contract_draft.md
 ```
 
 每完成一个主要阶段，都更新 `plan.md`。下一步必须有责任方：`user`、`agent`、`lawyer`、`court/arbitrator`、`agency`、`opponent`。
+
+### 7A. plan.md gate 示例
+
+合同审查事项：
+
+```markdown
+| Workbench Gate | skipped / not applicable | 本事项为签署前合同审查，无既有争议、对方抗辩、程序节点或听证准备；按合同审查路径输出 `contract.md`、`clause_review.md` 和合同审查报告。 | 若后续出现违约争议、谈判僵局或程序节点，再触发案件工作台。 |
+```
+
+未完成来源核验：
+
+```markdown
+| Source Gate | blocked | 本轮未联网或未取得官方/权威来源，法律规则仅为待核验分析假设。 | 检索官方法规、司法解释、案例或监管口径后更新 `sources.md` 和报告。 |
+```
+
+此时应写：
+
+```markdown
+- Report status: draft
+- PDF status: blocked / pending / ready
+```
+
+不得写成：
+
+```markdown
+- Report status: complete_except_pdf
+```
 
 ## 8. case.md 标准结构
 
