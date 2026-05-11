@@ -62,6 +62,6 @@
 - 引用法律、案例、政策、网页或权威资料时，必须写入 `sources.md`；未检索或未核验时必须写明原因和引用风险。
 - 复杂争议必须按 `LEGAL_REASONING.md` 输出争点树、推断链和法条适用边界，不得只列结论。
 - 会话最终回复必须展示实质汇总内容，包括核心结论、争点关系、证据缺口、来源核验、最大风险、下一步动作和文件路径，不能只列生成文件。
-- PDF 必须按 `PDF_RENDERING.md` 渲染成可读版式后导出；若出现 Markdown 表格、Mermaid 源码、乱码、项目符号异常或字体缺失，应标记 blocked，不能报告成功。
+- PDF 必须按 `PDF_RENDERING.md` 渲染成可读版式后导出；默认使用非浏览器路径，例如 DOCX-to-PDF、XeLaTeX、WeasyPrint、wkhtmltopdf、ReportLab/PDFKit 或宿主文档工具。不得使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印，除非用户明确允许。若出现 Markdown 表格、Mermaid 源码、乱码、项目符号异常或字体缺失，应标记 blocked，不能报告成功。
 - Source Gate blocked 时，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可使用 `complete_except_pdf`。
 - 不把 API key、真实当事人隐私或未授权材料写入 skill 仓库。

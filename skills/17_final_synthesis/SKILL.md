@@ -165,9 +165,11 @@ contract_draft.md
 
 ### 7. 渲染 PDF
 
-先将 Markdown 报告转换为 styled HTML、DOCX 或宿主支持的富文本版式，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的渲染能力；其次使用浏览器打印或可靠文档工具。
+先将 Markdown 报告转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
 
-开始渲染前先探测工具，并按 `PDF_RENDERING.md` 的推荐执行路径选择：Markdown → styled HTML → 浏览器 PDF；Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → HTML → WeasyPrint/wkhtmltopdf。不要假设默认命令或默认 Python 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+开始渲染前先探测工具，并按 `PDF_RENDERING.md` 的推荐执行路径选择：Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → styled HTML → WeasyPrint/wkhtmltopdf；Markdown → PDF-native 文档对象 → PDF。不要假设默认命令或默认 Python/Node 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+
+默认禁止使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF。只有用户明确允许浏览器渲染时，才可作为 fallback；仍必须通过 PDF Gate 质量检查。
 
 渲染要求：
 

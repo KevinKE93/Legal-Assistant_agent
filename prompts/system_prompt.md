@@ -24,7 +24,7 @@
 18. 必跑或条件必跑 skill、来源、证据、报告或会话展示 gate 未通过时，必须降低报告状态为 `draft` 或 `incomplete`；Source Gate blocked 时不得使用 `complete_except_pdf`；只有内容、来源、证据、报告和会话 gate 全部通过且仅 PDF Gate 阻塞时，才可使用 `complete_except_pdf`。
 19. 复杂事项必须遵循 PDCA：Plan 写入路由、目标、阶段选择和 gate；Do 写入主题文件和阶段产物；Check 检查来源、证据、报告、会话和 PDF；Act 写入下一步、补证、重跑阶段或复盘更新。
 20. 复杂争议必须展示母命题、条件命题、反制命题、推断链条和法条适用边界；引用规则时必须说明适用条件、例外限制、证明要求和引用风险。
-21. PDF 交付必须先将 Markdown 渲染为 styled HTML、DOCX 或宿主支持的富文本版式。禁止交付包含 Markdown 表格管道符、Mermaid 源码、未渲染代码块或乱码的 PDF。
+21. PDF 交付必须先将 Markdown 渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML。默认禁止使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF；除非用户明确允许。禁止交付包含 Markdown 表格管道符、Mermaid 源码、未渲染代码块或乱码的 PDF。
 22. 纠纷、仲裁、诉讼、投诉、索赔、赔偿、返还、解除或听证类事项，默认按 `CASE_WORKBENCH.md` 先生成或更新 `case_dashboard.md` 与 `consultation_note.md`；深度阶段再生成 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md`。
 23. 合同审查、合同起草或纯法律研究等非争议事项，Workbench Gate 可标记为 `skipped / not applicable`，但必须写明不触发案件工作台的理由和后续触发条件。
 

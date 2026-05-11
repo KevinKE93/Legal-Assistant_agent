@@ -19,19 +19,19 @@
 ```text
 Markdown 报告
 → 语义结构检查
-→ 转换为 styled HTML、DOCX 或宿主支持的富文本格式
+→ 转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML
 → 使用 CSS/文档样式渲染表格、标题、提示框、页眉页脚
 → 导出 PDF
 → 质量检查
 ```
 
-允许使用宿主环境可用的外部工具，例如浏览器打印、Pandoc、文档工具、HTML-to-PDF、DOCX-to-PDF 或其他可靠渲染能力。本仓库不内置脚本；工具选择由运行环境决定。
+允许使用宿主环境可用的文档/PDF工具，例如 Pandoc、XeLaTeX、文档工具、DOCX-to-PDF、WeasyPrint、wkhtmltopdf、ReportLab、PDFKit 或其他可靠渲染能力。本仓库不内置脚本；工具选择由运行环境决定。PDF 生成默认不得依赖外部浏览器、Chrome headless、Chromium、Edge、Playwright 浏览器或浏览器打印。
 
 ### 2A. 工具探测与降级顺序
 
 生成 PDF 前，应先探测当前环境实际可用的渲染能力，不要假设某个工具存在：
 
-1. 优先使用宿主提供的文档/PDF运行时、浏览器打印、Pandoc、WeasyPrint、wkhtmltopdf、DOCX-to-PDF 或其他可渲染表格和中文字体的工具。
+1. 优先使用宿主提供的文档/PDF运行时、Pandoc、XeLaTeX、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、ReportLab、PDFKit 或其他可渲染表格和中文字体的非浏览器工具。
 2. 如果默认 Python/Node 环境缺少依赖，但宿主提供 bundled runtime，可以优先使用 bundled runtime 中已有的 PDF/文档库。
 3. 若使用代码生成 PDF，必须使用支持 CJK 字体的字体文件，并把 Markdown 表格转换为真实表格。
 4. 若 Mermaid、flowchart 或其他图形无法渲染为图片，应在 PDF 版删除源码并改写为关系表、编号链条或说明文字。
@@ -43,36 +43,9 @@ Markdown 报告
 
 本仓库保持纯文档工作流，不内置渲染脚本。运行环境具备相应工具时，优先按以下顺序选择一种路径；只要任一步无法确认质量，就标记 `PDF status: blocked`，不要生成伪成功文件。
 
-#### 路径 A：Markdown → styled HTML → 浏览器 PDF
+#### 路径 A：Markdown → DOCX → PDF
 
-适合需要保留 CSS 视觉系统、提示区块、宽表、流程图图片和中文字体的报告。推荐作为首选。
-
-```sh
-pandoc "<报告.md>" \
-  --from gfm \
-  --to html5 \
-  --standalone \
-  --toc \
-  --metadata title="<报告标题>" \
-  --css "<报告样式.css>" \
-  --output "<报告.html>"
-```
-
-随后使用支持打印 CSS 的浏览器导出 PDF，例如 Chrome、Edge、Chromium、Playwright 或宿主浏览器打印能力。导出时应开启背景图形、A4 纸张、默认或自定义页边距，并确认中文字体可用。
-
-如使用 headless Chromium，命令形态通常类似：
-
-```sh
-chromium --headless --disable-gpu \
-  --print-to-pdf="<报告.pdf>" \
-  "file:///<报告.html>"
-```
-
-实际浏览器命令因系统而异。若找不到浏览器可执行文件，不要改用纯文本 PDF；改为 blocked。
-
-#### 路径 B：Markdown → DOCX → PDF
-
-适合宿主具备可靠文档工具、需要更强分页控制或后续人工编辑的场景。
+适合需要稳定分页、中文字体、后续人工编辑或正式交付的场景。推荐作为首选。
 
 ```sh
 pandoc "<报告.md>" \
@@ -82,9 +55,9 @@ pandoc "<报告.md>" \
   --output "<报告.docx>"
 ```
 
-再用宿主文档工具导出 PDF。导出后必须检查表格、标题、中文字体和页码；不能因为 DOCX 生成成功就认为 PDF gate 通过。
+再用宿主文档工具或 DOCX-to-PDF 引擎导出 PDF。导出后必须检查表格、标题、中文字体和页码；不能因为 DOCX 生成成功就认为 PDF gate 通过。
 
-#### 路径 C：Markdown → XeLaTeX PDF
+#### 路径 B：Markdown → XeLaTeX PDF
 
 适合法律研究报告、公式较多、表格不太宽的文档。对复杂 CSS、提示卡片和流程图支持较弱。
 
@@ -101,9 +74,9 @@ pandoc "<报告.md>" \
 
 若中文字体不可用、宽表溢出或提示区块丢失，改用路径 A 或标记 blocked。
 
-#### 路径 D：Markdown → HTML → WeasyPrint / wkhtmltopdf
+#### 路径 C：Markdown → styled HTML → WeasyPrint / wkhtmltopdf
 
-适合服务器环境或无图形浏览器环境。
+适合需要 CSS 视觉系统但不能使用外部浏览器的环境。WeasyPrint 和 wkhtmltopdf 属于无浏览器 HTML-to-PDF 引擎；不得替换为 Chrome、Chromium、Edge、Playwright 或浏览器打印。
 
 ```sh
 pandoc "<报告.md>" --from gfm --to html5 --standalone --toc --css "<报告样式.css>" --output "<报告.html>"
@@ -118,14 +91,39 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 使用该路径时尤其要检查中文字体、表格分页、CSS 支持程度和图形嵌入。
 
+#### 路径 D：Markdown → PDF-native 文档对象 → PDF
+
+适合宿主没有 Pandoc、LaTeX 或 DOCX-to-PDF，但有可用 PDF 生成库的环境，例如 ReportLab、PDFKit、pdfmake、Prawn 或宿主文档运行时。
+
+要求：
+
+- 先解析 Markdown 结构，不得把 Markdown 原文逐行写入 PDF。
+- 标题、段落、表格、引用块、列表和公式必须转换为 PDF-native 对象。
+- Markdown 表格必须转换为真实表格或卡片式表格。
+- Mermaid/flowchart 必须转换为图片、关系表或编号链条。
+- 中文字体必须明确注册或使用宿主可用 CJK 字体。
+
+若只能做到“把 Markdown 文本塞进 PDF”，必须标记 blocked。
+
+#### 禁用路径：外部浏览器 PDF
+
+默认禁止使用以下方式生成 PDF：
+
+- Chrome headless / Chromium / Edge headless。
+- Playwright、Puppeteer 或 Selenium 启动的浏览器。
+- 系统浏览器打印、浏览器“另存为 PDF”。
+- 任何需要额外下载浏览器二进制的路径。
+
+只有用户明确要求或允许使用浏览器渲染时，才可把浏览器作为 fallback；仍必须通过 PDF Gate 质量检查。
+
 ### 2C. 阻塞判定
 
 以下情况应立即停止 PDF 交付并写入 `plan.md`：
 
 | 阻塞原因 | PDF status | Report status 影响 | 下一步 |
 |---|---|---|---|
-| 缺少可用渲染工具 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 安装或启用浏览器、Pandoc、WeasyPrint、DOCX-to-PDF 等工具 |
-| 可生成文件但中文乱码或字体缺失 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 指定 CJK 字体或改用浏览器/DOCX 路径 |
+| 缺少可用渲染工具 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 安装或启用 Pandoc、XeLaTeX、WeasyPrint、DOCX-to-PDF、ReportLab/PDFKit 等非浏览器工具 |
+| 可生成文件但中文乱码或字体缺失 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 指定 CJK 字体或改用 DOCX、XeLaTeX、WeasyPrint、PDF-native 路径 |
 | 表格、Mermaid、LaTeX 或 HTML 源码残留 | blocked | 若其他 gate 通过，可为 `complete_except_pdf` | 改写为真实表格、图片、关系表或计算表后重渲染 |
 | Markdown 已更新但 PDF 未重渲染 | blocked | 不得沿用旧 PDF 状态 | 用同一 Markdown 重新生成 PDF |
 | Source Gate 或 Evidence Gate 同时 blocked | blocked | 报告通常为 `draft` 或 `incomplete`，不是 `complete_except_pdf` | 先完成来源/证据核验或明确阶段性限制 |
@@ -209,7 +207,7 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 ### 4B. 推荐 CSS 样式
 
-使用 HTML/浏览器/Pandoc/WeasyPrint 等路径渲染时，可按以下样式实现。不同工具语法可调整，但视觉目标应保持一致。
+使用 styled HTML、Pandoc、WeasyPrint、wkhtmltopdf 或其他无浏览器 HTML-to-PDF 路径渲染时，可按以下样式实现。不同工具语法可调整，但视觉目标应保持一致。
 
 ```css
 @page {

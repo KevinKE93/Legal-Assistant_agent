@@ -334,7 +334,7 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 12. 策略行动、文书或合同草案；必要时生成 `case_package.md`、`pleading_framework.md` 或 `hearing_playbook.md`。
 13. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`。
 14. 最终汇总，逐项读取所有工作文件，输出专业报告 Markdown。
-15. 按 `PDF_RENDERING.md` 将报告渲染为 styled HTML、DOCX 或宿主支持的富文本版式后导出 PDF。
+15. 按 `PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF。
 16. 会话界面展示实质汇总。
 17. 后续新信息触发 `review_delta.md`、Act 和复盘，更新既有事项文件夹。
 

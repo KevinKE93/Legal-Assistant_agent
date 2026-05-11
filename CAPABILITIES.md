@@ -132,7 +132,7 @@ PDF Gate blocked 但其他 gate 均通过的示例：
 
 ```text
 PDF Gate: blocked
-Reason: Markdown 已生成，浏览器/Pandoc/文档工具不可用，无法生成合格 PDF。
+Reason: Markdown 已生成，但 Pandoc、XeLaTeX、WeasyPrint、DOCX-to-PDF、ReportLab/PDFKit 或宿主文档工具不可用，无法生成合格 PDF。
 Report status: complete_except_pdf
 Condition: Source、Evidence、Reasoning、Report、Conversation gate 均已通过。
 ```

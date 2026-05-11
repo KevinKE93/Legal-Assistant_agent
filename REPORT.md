@@ -354,7 +354,7 @@ Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown �
 - Markdown 和 PDF 内容一致。
 - PDF 与本轮 Markdown 同源生成；如果 Markdown 更新，旧 PDF 不得继续标记为 ready。
 
-优先使用支持 CJK 字体、表格、页眉页脚和分页的导出方式。若使用 `pandoc`、浏览器打印、WeasyPrint、DOCX-to-PDF 或宿主文档工具，必须确认中文字体、表格和图形可读。若无法确认质量，不得报告“PDF 已完成”，而应在 `plan.md` 和会话中标记 blocked。
+优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器导出方式。可用路径包括 Pandoc+DOCX-to-PDF、Pandoc+XeLaTeX、WeasyPrint、wkhtmltopdf、ReportLab/PDFKit 或宿主文档工具。默认不得使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF；除非用户明确允许浏览器渲染。若无法确认中文字体、表格、图形和源码残留检查，不得报告“PDF 已完成”，而应在 `plan.md` 和会话中标记 blocked。
 
 ## 8. 禁止事项
 
