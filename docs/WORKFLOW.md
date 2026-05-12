@@ -4,7 +4,7 @@
 
 ## 1. 事项文件夹
 
-复杂、多争点、多程序、合同审查、合同起草或需要持续推进的法律事项，默认创建或复用：
+复杂、多争议焦点、多程序、合同审查、合同起草或需要持续推进的法律事项，默认创建或复用：
 
 ```text
 work/<date>_<本地化事项名>/
@@ -30,15 +30,35 @@ work/<date>_<本地化事项名>/
 - 若本轮涉及日期、期限、最新法规、政策、案例或来源状态，必须重新核验或在 `sources.md` 标明“本轮未复核/待核验/影响”。
 - 更新 `case.md` 的 `Update Log`，说明新增信息、判断是否变化、下一步动作。
 - 更新 `plan.md` 的 `PDCA Log`，新增一轮复核记录，而不是覆盖旧记录。
-- 若用户已请求 PDF，更新专业报告 Markdown 后 PDF 必须同源重渲染；无法重渲染时把 `PDF status` 改为 `blocked` 或说明 PDF 仍为旧版，不得暗示 PDF 已同步。未请求 PDF 时，`PDF status` 写为 `not requested`，不得标记 blocked。
+- 若用户已请求 PDF，更新专业报告 Markdown（.md）后 PDF 必须同源重渲染；无法重渲染时把 `PDF status` 改为 `blocked` 或说明 PDF 仍为旧版，不得暗示 PDF 已同步。未请求 PDF 时，`PDF status` 写为 `not requested`，不得标记 blocked。
 
 ## 2. i18n 规则
 
 - 默认使用用户主语言输出目录名、面向用户的文件名、标题、表格字段和行动建议。
 - 中文输入时，最终报告文件名必须使用中文法律主题。
 - 英文输入时，使用英文主题和英文报告名，例如 `Split Payroll Overtime Dispute Professional Report.md`。
-- 法条名、合同原文、证据备注、对方原话、用户输入的特定短语保留原文，并用用户语言解释。
+- 法律规则名称、合同原文、证据备注、对方原话、用户输入的特定短语保留原文，并用用户语言解释。
 - 内部工作文件名保持稳定英文，便于跨工具复盘。
+
+### 2A. 术语与输出口径
+
+为避免不同 skill、会话回复、专业报告 Markdown（.md）和专业报告 PDF（.pdf）出现口径不一致，所有面向用户的文档默认使用以下术语：
+
+| 统一术语 | 使用场景 | 避免使用 |
+|---|---|---|
+| 争议焦点 | 需要裁判、谈判或审查的核心问题 | 争点、争议点 |
+| 争议焦点矩阵 | 多个争议焦点的列表化分析 | 争点表、争议点清单 |
+| 争议焦点关系图 | 母命题、条件命题、反制命题之间的依赖关系 | 争点树、争议点图 |
+| 争议焦点展开 | 对单个争议焦点的事实、证据、规则和反方解释展开 | 争点深挖 |
+| 法律规则适用边界 | 法律、司法解释、案例、政策或监管规则的适用条件和限制 | 法条适用边界 |
+| 关键影响因素 | 对结果、金额、谈判或程序有决定性影响的因素 | 胜败关键、胜败因素 |
+| 结果可能性 | 对结果方向的条件性评估 | 胜率、结果概率 |
+| 不宜采取的动作 | 可能削弱主张、增加风险或违法违规的行为 | 禁忌动作 |
+| 表达风险 | 文书、谈判、庭审或沟通中的高风险措辞 | 禁忌表达 |
+| 专业报告 Markdown（.md） | 用户要求报告文件时生成的 Markdown 交付文件 | 报告.md、总结.md 的泛称 |
+| 专业报告 PDF（.pdf） | 用户明确要求 PDF 时生成的排版交付文件 | 把 Markdown 原文塞进 PDF |
+
+如果工作文件中必须保留用户原话、合同原文、证据备注或法律条文标题，可以保留原文；但报告正文和会话汇总应使用上述统一术语解释。
 
 ## 3. 默认文件
 
@@ -90,14 +110,14 @@ contract_draft.md
 | `timeline.md` | 事件时间线、合同版本流转或程序节点 |
 | `evidence.md` | 证据台账、证明对象、三性风险、证据缺口和补强动作 |
 | `sources.md` | 官方/权威来源、网页、法规、案例、访问日期、核验状态、引用风险 |
-| `case_dashboard.md` | 面向法律工作者的一页式案件地图、胜败关键、争点树、证明责任和可信度 |
-| `consultation_note.md` | 面向用户或客户的咨询纪要、当前判断、限制、补证材料和禁忌动作 |
-| `case_package.md` | 法律团队使用的完整案件包，串联事实、证据、争点、来源、攻防和策略 |
+| `case_dashboard.md` | 面向法律工作者的一页式案件地图、关键影响因素、争议焦点关系图、证明责任和可信度 |
+| `consultation_note.md` | 面向用户或客户的咨询纪要、当前判断、限制、补证材料和不宜采取的动作 |
+| `case_package.md` | 法律团队使用的完整案件包，串联事实、证据、争议焦点、来源、攻防和策略 |
 | `pleading_framework.md` | 文书、仲裁申请、起诉状、答辩、代理意见或投诉材料的结构框架 |
 | `hearing_playbook.md` | 调解、仲裁、庭审或听证准备：举证、质证、发问和裁判者追问 |
 | `review_delta.md` | 新证据、新程序、新报价或新材料导致的变化复盘和需重跑内容 |
 | `analysis.md` | 工作底稿型完整分析，保留专业推理过程 |
-| `advice.md` | 面向用户的策略、行动路径、谈判建议和禁忌动作 |
+| `advice.md` | 面向用户的策略、行动路径、谈判建议和不宜采取的动作 |
 | `drafts.md` | 沟通函、投诉材料、仲裁/诉讼框架、庭审提纲 |
 | `contract.md` | 合同背景、版本、条款摘要 |
 | `clause_review.md` | 条款风险、缺失条款、修改建议、谈判点 |
@@ -182,7 +202,7 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 | Evidence Gate |  |  |  |
 | Report Gate |  |  |  |
 | Conversation Gate |  |  |  |
-| PDF Gate | skipped / not requested | 用户未要求 PDF，本轮默认只输出会话汇总结论或 Markdown 报告。 | 如用户要求正式 PDF 报告，再按 docs/PDF_RENDERING.md 渲染并检查。 |
+| PDF Gate | skipped / not requested | 用户未要求 PDF，本轮默认只输出会话汇总结论或专业报告 Markdown（.md）。 | 如用户要求正式 PDF 报告，再按 docs/PDF_RENDERING.md 渲染并检查。 |
 
 ## Done
 -
@@ -303,7 +323,7 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 - 每执行一个 skill，必须追加或更新一条记录。
 - 如果必跑或条件必跑 skill 被跳过或阻塞，必须在内部记录理由、影响和下一步，不能在最终报告中暗示相关分析已经完成；对读者只展示由此产生的材料、来源或证据限制。
 - 如果执行时信息不足，仍要记录“信息不足、影响、下一步补充”。
-- 最终报告必须吸收 `Execution Index` 中所有已执行 skill 的关键发现，并转化为事实、证据、争点、来源、风险或行动建议。
+- 最终报告必须吸收 `Execution Index` 中所有已执行 skill 的关键发现，并转化为事实、证据、争议焦点、来源、风险或行动建议。
 
 ## 10. 来源记录规则
 
@@ -335,13 +355,13 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 6. 对案件工作台事项，先输出或更新 `case_dashboard.md` 与 `consultation_note.md`。
 7. 时间线、条款、证据台账。
 8. 争议焦点、条款风险、请求权基础、证明责任。
-9. 按 `docs/LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法条适用边界。
+9. 按 `docs/LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法律规则适用边界。
 10. 矛盾、因果、对方视角、裁判视角。
 11. 官方或权威来源检索，写入 `sources.md`。
 12. 策略行动、文书或合同草案；必要时生成 `case_package.md`、`pleading_framework.md` 或 `hearing_playbook.md`。
 13. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`；未请求 PDF 时，PDF Gate 为 `skipped / not requested`。
-14. 默认最终汇总以会话中的实质结论为主，说明核心结论、争点关系、证据缺口、来源状态、最大风险和下一步，并提示用户如需 PDF 专业报告可以提出。
-15. 用户要求正式报告文件时，逐项读取所有工作文件，输出专业报告 Markdown；用户明确要求 PDF 时，再按 `docs/PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF；可用根目录 `tools/render_report_pdf.py` 时，输入目录即输出目录，不把渲染脚本复制到事项文件夹。
+14. 默认最终汇总以会话中的实质结论为主，说明核心结论、争议焦点关系、证据缺口、来源状态、最大风险和下一步，并提示用户如需 PDF 专业报告可以提出。
+15. 用户要求正式报告文件时，逐项读取所有工作文件，输出专业报告 Markdown（.md）；用户明确要求 PDF 时，再按 `docs/PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF；可用根目录 `tools/render_report_pdf.py` 时，输入目录即输出目录，不把渲染脚本复制到事项文件夹。
 16. 会话界面展示实质汇总。
 17. 后续新信息触发 `review_delta.md`、Act 和复盘，更新既有事项文件夹。
 

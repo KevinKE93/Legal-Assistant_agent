@@ -15,10 +15,10 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 
 1. 把事项文件夹中的分散工作文件汇总为一份专业报告，而不是几段概述。
 2. 逐项吸收 `skill_outputs.md` 中已沉淀的关键发现，确保事实、证据、来源、分析和建议进入报告；不要把 skill 执行表直接展示给阅读对象。
-3. 在会话界面展示实质性汇总内容：核心结论、争点关系、证据缺口、来源核验、最大风险和下一步。
-4. 按 `docs/LEGAL_REASONING.md` 检查争点树、推断链和法条适用边界是否进入报告。
+3. 在会话界面展示实质性汇总内容：核心结论、争议焦点关系、证据缺口、来源核验、最大风险和下一步。
+4. 按 `docs/LEGAL_REASONING.md` 检查争议焦点关系图、推断链和法律规则适用边界是否进入报告。
 5. 默认先在会话界面输出结构化汇总结论，并提示用户如需正式 PDF 专业报告可以继续提出。
-6. 只有用户要求报告文件、阶段交付或正式归档时，才输出本地化命名的专业报告 `.md`。
+6. 只有用户要求报告文件、阶段交付或正式归档时，才输出本地化命名的专业报告 Markdown（.md）。
 7. 只有用户明确要求 PDF 时，才按 `docs/PDF_RENDERING.md` 渲染为可读 PDF，并做基本质量检查；若不合格，明确标记 blocked。
 
 ## 输入
@@ -28,7 +28,7 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 - 已存在的工作文件。
 - `docs/CAPABILITIES.md` 中的事项类型、必跑 skill、条件必跑 skill、gate 和报告状态规则。
 - `docs/CASE_WORKBENCH.md` 中的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
-- `docs/LEGAL_REASONING.md` 中的争点挖掘和法条适用边界规则。
+- `docs/LEGAL_REASONING.md` 中的争议焦点识别和法律规则适用边界规则。
 - `docs/PDF_RENDERING.md` 中的 PDF 渲染和质量检查规则。
 - `plan.md` 中的 PDCA 阶段、Check 结果和 Act 动作。
 - `skill_outputs.md` 中的执行索引。
@@ -71,10 +71,10 @@ contract_draft.md
 
 ## 命名
 
-- 中文复杂纠纷：默认会话汇总结论；用户要求报告文件时生成 `<法律问题主题>专业报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
-- 中文合同审查：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同审查专业报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
-- 中文合同起草：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同草案.md`；用户明确要求 PDF 时生成同名 `.pdf`。
-- 中文法律研究：默认会话汇总结论；用户要求报告文件时生成 `<主题>法律研究报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
+- 中文复杂纠纷：默认会话汇总结论；用户要求报告文件时生成 `<法律问题主题>专业报告.md`；用户明确要求 PDF 时生成专业报告 PDF（.pdf）。
+- 中文合同审查：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同审查专业报告.md`；用户明确要求 PDF 时生成专业报告 PDF（.pdf）。
+- 中文合同起草：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同草案.md`；用户明确要求 PDF 时生成专业报告 PDF（.pdf）。
+- 中文法律研究：默认会话汇总结论；用户要求报告文件时生成 `<主题>法律研究报告.md`；用户明确要求 PDF 时生成专业报告 PDF（.pdf）。
 - 英文事项使用英文对应名称。
 - 事项文件夹必须直接位于 `work/` 下。
 
@@ -88,7 +88,7 @@ contract_draft.md
 2. 判断本轮输入是否属于同一事项；如复用，在 `plan.md` 写明 `Reuse check: reused existing folder` 和复用理由。
 3. 把新事实写入 `case.md` 的 `Update Log`；如没有原始证据，保持“用户陈述/待证明事实”。
 4. 若涉及最新法律、政策、期限、来源或已请求的 PDF 状态，重新核验并更新 `sources.md`、`plan.md` 和报告质量检查。
-5. 用户已请求 PDF 时，更新 Markdown 后必须重新生成同名 PDF；无法生成合格 PDF 时，标记 blocked，不得继续把旧 PDF 当作本轮交付成果。未请求 PDF 时，PDF Gate 写为 `skipped / not requested`。
+5. 用户已请求 PDF 时，更新专业报告 Markdown（.md）后必须重新生成专业报告 PDF（.pdf）；无法生成合格 PDF 时，标记 blocked，不得继续把旧 PDF 当作本轮交付成果。未请求 PDF 时，PDF Gate 写为 `skipped / not requested`。
 
 ### 1. 文件覆盖表
 
@@ -144,19 +144,19 @@ contract_draft.md
 - `case.md` 的关键事实是否被 `evidence.md` 支撑。
 - `analysis.md` 的结论是否被 `sources.md` 或待核验规则支撑。
 - `advice.md` 的行动建议是否匹配证据强度和程序阶段。
-- `skill_outputs.md` 的关键发现是否全部转化为报告中的事实、证据、争点、来源、风险或行动建议。
-- `case_dashboard.md` 的胜败关键、争点树和可信度是否进入报告的事项地图或执行摘要。
-- `consultation_note.md` 的用户可理解判断、限制、补证材料和禁忌动作是否进入会话展示或报告摘要。
+- `skill_outputs.md` 的关键发现是否全部转化为报告中的事实、证据、争议焦点、来源、风险或行动建议。
+- `case_dashboard.md` 的关键影响因素、争议焦点关系图和可信度是否进入报告的事项地图或执行摘要。
+- `consultation_note.md` 的用户可理解判断、限制、补证材料和不宜采取的动作是否进入会话展示或报告摘要。
 - `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md` 如已存在，是否被吸收为案件包、文书、庭审或复盘章节。
 - `docs/CAPABILITIES.md` 要求的必跑和条件必跑 skill 是否全部执行或说明阻塞/跳过原因。
 - gate 状态是否支持当前报告状态。
 - PDCA 是否完成本轮 Plan、Do、Check，并产生明确 Act。
-- 复杂争议是否包含母命题、条件命题、反制命题、推断链条和法条适用边界。
+- 复杂争议是否包含母命题、条件命题、反制命题、推断链条和法律规则适用边界。
 - 是否存在前后矛盾、金额矛盾、程序矛盾、i18n 命名错误或 PDF 交付风险。
 
 ### 5. 重写专业报告
 
-按 `docs/REPORT.md` 的专业报告结构生成，不在本 skill 内复制完整模板。根据事项类型组织为法律备忘录、案件分析报告、合同审查报告、合同草案或法律研究报告。报告必须呈现事实、证据、争点、法律依据、适用边界、风险和行动建议；案件工作台文件应转化为读者可用的事项地图、咨询摘要、案件包、文书或庭审章节；内部 skill 索引、gate 表、PDCA 表和执行日志不得作为报告章节输出。
+按 `docs/REPORT.md` 的专业报告结构生成，不在本 skill 内复制完整模板。根据事项类型组织为法律备忘录、案件分析报告、合同审查报告、合同草案或法律研究报告。报告必须呈现事实、证据、争议焦点、法律依据、适用边界、风险和行动建议；案件工作台文件应转化为读者可用的事项地图、咨询摘要、案件包、文书或庭审章节；内部 skill 索引、gate 表、PDCA 表和执行日志不得作为报告章节输出。
 
 合同审查、合同起草和法律研究按 `docs/REPORT.md` 的类型调整章节；仍必须保留来源、待补信息、可靠性限制和质量检查。
 
@@ -168,7 +168,7 @@ contract_draft.md
 
 默认不要渲染 PDF。只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才执行本节。
 
-先将 Markdown 报告转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
+先将专业报告 Markdown（.md）转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出专业报告 PDF（.pdf）。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
 
 开始渲染前先探测工具，并按 `docs/PDF_RENDERING.md` 的推荐执行路径选择：Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → styled HTML → WeasyPrint/wkhtmltopdf；Markdown → PDF-native 文档对象 → PDF。不要假设默认命令或默认 Python/Node 环境有依赖；若 bundled runtime 有可用库，可优先使用。
 
@@ -198,7 +198,7 @@ contract_draft.md
 - 表格已渲染，不出现 `|---|---|` 等 Markdown 原文。
 - 不出现 Mermaid 源码、HTML 残留、明显乱码、缺字、项目符号异常、标题挤压或目录错乱。
 - 内容与 Markdown 一致。
-- 更新 Markdown 后重渲染 PDF，保证同源；旧 PDF 不得标记为本轮 ready。
+- 更新专业报告 Markdown（.md）后重渲染 PDF，保证同源；旧 PDF 不得标记为本轮 ready。
 
 如果发现乱码或明显排版问题，不能把 PDF 标记为完成。
 
@@ -265,7 +265,7 @@ contract_draft.md
 - 不遗漏 `skill_outputs.md`。
 - 不遗漏内部 `docs/CAPABILITIES.md` 必跑、条件必跑 skill 和 gate 检查，但这些内容默认只写入 `plan.md` 和 `skill_outputs.md`。
 - 不遗漏 PDCA 阶段、Check 结果和 Act 动作；会话和报告中转化为“当前报告状态、限制和下一步”。
-- 不遗漏已执行 skill 的关键发现，但要转化为读者关心的事实、争点、证据、来源、风险或行动建议。
+- 不遗漏已执行 skill 的关键发现，但要转化为读者关心的事实、争议焦点、证据、来源、风险或行动建议。
 - 不把待证明事实写成已证明事实。
 - 不把工作底稿直接复制为最终报告。
 - 中文输入不得输出英文目录名或英文总结文件名。
