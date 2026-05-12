@@ -79,8 +79,7 @@ python tools/render_report_pdf.py "work/<date>_<事项名>"
 推荐使用方式：
 
 ```text
-复制 https://github.com/KevinKE93/Legal-Assistant_agent 到你的大模型对话框里，并告诉它：
-“请参考这个 Legal-Assistant_agent 工作流，帮我分析下面这个法律事项/合同/问题……”
+请参考这个 https://github.com/KevinKE93/Legal-Assistant_agent ，帮我分析下面这个法律事项/合同/问题……
 ```
 
 临时调用：
