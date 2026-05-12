@@ -1,10 +1,10 @@
 # PDF_RENDERING.md
 
-本文件定义 Legal-Assistant_agent 的按需 PDF 渲染和版式质量规则。PDF 不是默认输出；只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才进入本文件的渲染流程。PDF 不能只是把 Markdown 原文塞进页面；必须先把 Markdown 结构渲染成可读版式，再导出 PDF。
+本文件定义 Legal-Assistant_agent 的按需 PDF 渲染和版式质量规则。PDF 不是默认输出；只有用户明确要求 PDF、可下载 PDF 报告或阶段交付 PDF 时，才进入本文件的渲染流程。PDF 不能只是把 Markdown 原文塞进页面；必须先把 Markdown 结构渲染成可读版式，再导出 PDF。
 
 ## 1. 目标
 
-最终 PDF 应当像一份专业法律备忘录或事项报告：
+PDF 报告应当像一份法律备忘录或事项报告：
 
 - 有封面、标题层级、目录、页眉页脚和页码。
 - 表格必须是真正的表格，不得显示 Markdown 管道符。
@@ -17,7 +17,7 @@
 用户已明确要求 PDF 时，生成 PDF 前必须按以下流程处理：
 
 ```text
-专业报告 Markdown（.md）
+Markdown 报告
 → 语义结构检查
 → 转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML
 → 使用 CSS/文档样式渲染表格、标题、提示框、页眉页脚
@@ -25,13 +25,13 @@
 → 质量检查
 ```
 
-允许使用宿主环境可用的文档/PDF工具，例如 Pandoc、XeLaTeX、文档工具、DOCX-to-PDF、WeasyPrint、wkhtmltopdf、ReportLab、PDFKit、根目录可选渲染器或其他可靠渲染能力。工具选择由运行环境决定。PDF 生成默认不得依赖外部浏览器、Chrome headless、Chromium、Edge、Playwright 浏览器或浏览器打印。
+允许使用宿主环境可用的文档 / PDF 工具，例如 Pandoc、XeLaTeX、文档工具、DOCX-to-PDF、WeasyPrint、wkhtmltopdf、ReportLab、PDFKit、根目录可选渲染器或其他可靠渲染能力。工具选择由运行环境决定。PDF 生成默认不得依赖外部浏览器、Chrome headless、Chromium、Edge、Playwright 浏览器或浏览器打印。
 
 ### 2A. 工具探测与降级顺序
 
 用户已请求 PDF 后，应先探测当前环境实际可用的渲染能力，不要假设某个工具存在：
 
-1. 优先使用宿主提供的文档/PDF运行时、Pandoc、XeLaTeX、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、ReportLab、PDFKit 或其他可渲染表格和中文字体的非浏览器工具。
+1. 优先使用宿主提供的文档 / PDF 运行时、Pandoc、XeLaTeX、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、ReportLab、PDFKit 或其他可渲染表格和中文字体的非浏览器工具。
 2. 如果默认 Python/Node 环境缺少依赖，但宿主提供 bundled runtime，可以优先使用 bundled runtime 中已有的 PDF/文档库。
 3. 若使用代码生成 PDF，必须使用支持 CJK 字体的字体文件，并把 Markdown 表格转换为真实表格。
 4. 若 Mermaid、flowchart 或其他图形无法渲染为图片，应在 PDF 版删除源码并改写为关系表、编号链条或说明文字。
@@ -105,7 +105,7 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 python tools/render_report_pdf.py "work/<date>_<事项名>"
 ```
 
-默认自动查找该目录下的专业报告 Markdown（.md），并在同一目录生成专业报告 PDF（.pdf）。若报告文件名特殊，可指定：
+默认自动查找该目录下的 Markdown 报告，并在同一目录生成 PDF 报告。若报告文件名特殊，可指定：
 
 ```sh
 python tools/render_report_pdf.py "work/<date>_<事项名>" --report "<报告.md>"
@@ -159,7 +159,7 @@ python tools/render_report_pdf.py "work/<date>_<事项名>" --report "<报告.md
 - 标题、表格、列表没有被渲染成版式结构。
 - 中文乱码、缺字、字体过小、行距过密或表格严重溢出。
 - 页眉页脚、页码、目录或章节层级明显错乱。
-- PDF 内容与专业报告 Markdown（.md）不一致。
+- PDF 内容与 Markdown 报告不一致。
 
 ## 4. 推荐版式
 
@@ -187,7 +187,7 @@ python tools/render_report_pdf.py "work/<date>_<事项名>" --report "<报告.md
 - 表头使用浅蓝或浅青底色、深色文字和加粗；若工具限制，也必须使用清晰表头底色和边界线。
 - 单元格允许自动换行。
 - 宽表可拆分为多张窄表，或改成卡片式列表。
-- 金额、概率、时间线、证据链、争议焦点矩阵应优先表格化。
+- 金额区间、风险判断、时间线、证据链、争议焦点矩阵应优先表格化。
 
 ### 区块
 
@@ -201,14 +201,14 @@ python tools/render_report_pdf.py "work/<date>_<事项名>" --report "<报告.md
 
 ### 4A. 视觉系统
 
-PDF 视觉系统以 `assets/legal-report-style-reference.png` 和 `assets/legal-report.css` 为 canonical 样式：专业、可信、清晰、高效、数据驱动、一致规范。整体应像面向律师、当事人和决策层的现代法律分析产品报告，而不是普通 Markdown 打印稿或传统备忘录。允许使用克制的徽标、编号、卡片、指标和浅色抽象背景；不得使用夸张法律锤/天平、深色整页正文或高饱和大面积渐变。
+PDF 视觉系统以 `assets/legal-report-style-reference.png` 和 `assets/legal-report.css` 为 canonical 样式：可信、清晰、高效、数据驱动、一致规范。整体应像面向律师、当事人和决策层的现代法律分析产品报告，而不是普通 Markdown 打印稿或传统备忘录。允许使用克制的徽标、编号、卡片、指标和浅色抽象背景；不得使用夸张法律锤/天平、深色整页正文或高饱和大面积渐变。
 
 设计基调：
 
 | 项目 | 建议 |
 |---|---|
 | Ink / 主文字 | `#101936` 深蓝黑，用于标题、正文和关键判断 |
-| Primary / 主强调 | `#1677FF` 明亮专业蓝，用于编号胶囊、章节强调、链接和主线 |
+| Primary / 主强调 | `#1677FF` 明亮蓝，用于编号胶囊、章节强调、链接和主线 |
 | Purple / 辅助强调 | `#635BFF` 蓝紫色，用于封面视觉、目录编号和模块渐变 |
 | Cyan / 数据强调 | `#14B8A6` 青绿色，用于证据强度、数据驱动、已核验状态 |
 | Steel / 次级文字 | `#64748B` 灰蓝，用于页码、元信息、图例和弱提示 |
@@ -563,7 +563,7 @@ PDF 生成后至少检查：
 | 公式渲染 | LaTeX 公式已渲染，或已改写为普通文本公式/计算表 |
 | 页面结构 | 封面、目录、正文、附录层级清晰 |
 | 长表处理 | 宽表没有严重截断或溢出 |
-| 内容一致 | PDF 与专业报告 Markdown（.md）同源 |
+| 内容一致 | PDF 与 Markdown 报告同源 |
 
 若任一关键项不通过，在 `plan.md` 或内部交付记录以及会话回复中说明 PDF blocked，并交付 Markdown 作为主文件。若用户未请求 PDF，不执行本检查，状态写为 `not requested`。
 
@@ -576,15 +576,15 @@ PDF 生成后至少检查：
 - 使用文本抽取工具或人工检查确认中文可读。
 - 搜索抽取文本中是否残留 `|---`、`---|`、代码围栏、`flowchart`、`mermaid`、`<table>`、`<html>`、未渲染 `$...$`、`\\(...\\)`、`\\[...\\]` 等源码痕迹。
 - 对宽表格，必要时拆表、压缩列、改成卡片式列表或放入附录。
-- 记录专业报告 PDF（.pdf）与专业报告 Markdown（.md）的生成时间或同源状态，避免旧专业报告 PDF（.pdf）搭配新专业报告 Markdown（.md）。
+- 记录 PDF 报告与 Markdown 报告的生成时间或同源状态，避免旧 PDF 报告搭配新 Markdown 报告。
 
 ## 7. 最低交付要求
 
-用户已请求 PDF 时，最终回复不能只说“PDF 已生成”。必须说明：
+用户已请求 PDF 时，会话回复不能只说“PDF 已生成”。必须说明：
 
-- 专业报告 Markdown（.md）路径。
+- Markdown 报告路径。
 - PDF 路径或 blocked 原因。
 - PDF 是否经过基础可读性检查。
 - 如果 blocked，下一步应使用哪类渲染工具转换。
 
-用户未请求 PDF 时，最终回复应以实质汇总结论为主，并提示：“如需正式 PDF 专业报告，可以继续提出。”
+用户未请求 PDF 时，会话回复应以实质汇总结论为主，并提示：“如需 PDF 报告，可以继续提出。”

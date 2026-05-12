@@ -5,7 +5,7 @@
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 面向法律事项分析、合同工作、法律研究、策略推演和专业交付的 AI 法律工作台。
+> 面向法律事项分析、合同工作、法律研究、策略推演和报告交付的 AI 法律工作台。
 
 **作者：Kevin KE / [laoke.ai](https://laoke.ai)**  
 [English Version](#english-version)
@@ -18,9 +18,9 @@
 
 **法律助手智能体 Legal-Assistant_agent** 让大模型不只是“回答法律问题”，而是按法律工作者的方式处理一件事：先看材料、识别目标，再拆争议焦点、看证据、查来源、评估风险，最后形成可执行的结论、策略和交付文件。
 
-它适合用于法律纠纷分析、合同审查与起草、法律研究、谈判准备、文书草拟、庭审/听证准备和案件复盘。默认情况下，Agent 会先在对话中输出结构化汇总结论；如果你需要正式归档、发给律师或用于内部讨论，可以继续要求生成 Markdown 报告或样式化 PDF 报告。
+它适合用于法律纠纷分析、合同审查与起草、法律研究、谈判准备、文书草拟、庭审/听证准备和案件复盘。默认情况下，Agent 会先在对话中输出结构化汇总结论；如果你需要归档、发给律师或用于内部讨论，可以继续要求生成 Markdown 报告或 PDF 报告。
 
-> 本项目不替代律师，不承诺案件结果。涉及期限、诉讼时效、程序规则、最新法规、关键证据或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
+> 本项目不替代律师，不承诺案件结果。涉及期限、诉讼时效、程序规则、最新法规、关键证据或高风险行动时，应核验官方或权威来源，并在必要时咨询相关法域的合格律师。
 
 ## 工作台逻辑
 
@@ -53,10 +53,10 @@
 - 对方可能主张、裁判者视角和策略路径。
 - 下一步行动建议。
 
-当你要求正式交付时，可以继续生成：
+当你需要报告或文书时，可以继续生成：
 
-- 专业 Markdown 报告。
-- 样式化 PDF 报告。
+- Markdown 报告。
+- PDF 报告。
 - 沟通函、投诉材料、合同草案、诉讼/仲裁框架、庭审提纲等文书草稿。
 
 ## 适用场景
@@ -83,11 +83,11 @@ Legal-Assistant_agent 不会：
 
 ## English Version
 
-**Legal-Assistant_agent** is an AI legal workbench for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and professional delivery.
+**Legal-Assistant_agent** is an AI legal workbench for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and report delivery.
 
 Instead of answering a legal question once and stopping there, it guides an AI assistant to work more like a legal professional: understand the materials, identify the goal, map issues, examine evidence, verify sources, assess risks, and produce actionable conclusions, strategies, and deliverables.
 
-It can support dispute analysis, contract review and drafting, legal research, negotiation preparation, document drafting, hearing preparation, and matter updates. By default, the agent provides a structured briefing in chat first. If you need a formal deliverable, you can ask for a Markdown report or a styled PDF report.
+It can support dispute analysis, contract review and drafting, legal research, negotiation preparation, document drafting, hearing preparation, and matter updates. By default, the agent provides a structured briefing in chat first. If you need a report file, you can ask for a Markdown report or PDF report.
 
 > This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-risk actions should be checked against authoritative sources and reviewed by qualified counsel when needed.
 
@@ -122,10 +122,10 @@ For ordinary analysis, the agent first returns a structured briefing in chat, us
 - Opponent arguments, adjudicator view, and strategy path.
 - Next recommended actions.
 
-When you request a formal deliverable, it can also generate:
+When you request a report or draft, it can also generate:
 
-- A professional Markdown report.
-- A styled PDF report.
+- A Markdown report.
+- A PDF report.
 - Draft letters, complaints, contract drafts, litigation/arbitration frameworks, hearing outlines, and similar legal work products.
 
 ## Common Use Cases
