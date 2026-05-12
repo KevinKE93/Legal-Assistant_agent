@@ -7,7 +7,7 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 
 ## 事项记忆要求
 
-- 执行本技能后，必须按根目录 `SKILLS.md` 的映射更新事项文件夹中的主题文件，并追加或更新 `skill_outputs.md`。
+- 执行本技能后，必须按 `docs/SKILLS.md` 的映射更新事项文件夹中的主题文件，并追加或更新 `skill_outputs.md`。
 - `skill_outputs.md` 至少记录：skill 名称、触发原因、读取文件、更新文件、关键发现、待补问题、来源使用、对应最终报告章节。
 - 如果本技能没有实际执行，不能在最终报告中声称已执行；如果执行但信息不足，仍要记录缺口、影响和下一步。
 
@@ -16,20 +16,20 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 1. 把事项文件夹中的分散工作文件汇总为一份专业报告，而不是几段概述。
 2. 逐项吸收 `skill_outputs.md` 中已沉淀的关键发现，确保事实、证据、来源、分析和建议进入报告；不要把 skill 执行表直接展示给阅读对象。
 3. 在会话界面展示实质性汇总内容：核心结论、争点关系、证据缺口、来源核验、最大风险和下一步。
-4. 按 `LEGAL_REASONING.md` 检查争点树、推断链和法条适用边界是否进入报告。
+4. 按 `docs/LEGAL_REASONING.md` 检查争点树、推断链和法条适用边界是否进入报告。
 5. 默认先在会话界面输出结构化汇总结论，并提示用户如需正式 PDF 专业报告可以继续提出。
 6. 只有用户要求报告文件、阶段交付或正式归档时，才输出本地化命名的专业报告 `.md`。
-7. 只有用户明确要求 PDF 时，才按 `PDF_RENDERING.md` 渲染为可读 PDF，并做基本质量检查；若不合格，明确标记 blocked。
+7. 只有用户明确要求 PDF 时，才按 `docs/PDF_RENDERING.md` 渲染为可读 PDF，并做基本质量检查；若不合格，明确标记 blocked。
 
 ## 输入
 
 - 事项文件夹路径，必须是 `work/<date>_<本地化事项名>/`。
 - 用户主语言和目标读者。
 - 已存在的工作文件。
-- `CAPABILITIES.md` 中的事项类型、必跑 skill、条件必跑 skill、gate 和报告状态规则。
-- `CASE_WORKBENCH.md` 中的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
-- `LEGAL_REASONING.md` 中的争点挖掘和法条适用边界规则。
-- `PDF_RENDERING.md` 中的 PDF 渲染和质量检查规则。
+- `docs/CAPABILITIES.md` 中的事项类型、必跑 skill、条件必跑 skill、gate 和报告状态规则。
+- `docs/CASE_WORKBENCH.md` 中的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
+- `docs/LEGAL_REASONING.md` 中的争点挖掘和法条适用边界规则。
+- `docs/PDF_RENDERING.md` 中的 PDF 渲染和质量检查规则。
 - `plan.md` 中的 PDCA 阶段、Check 结果和 Act 动作。
 - `skill_outputs.md` 中的执行索引。
 - `sources.md` 中的来源记录。
@@ -40,10 +40,10 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 按存在情况逐项读取：
 
 ```text
-CAPABILITIES.md
-CASE_WORKBENCH.md
-LEGAL_REASONING.md
-PDF_RENDERING.md
+docs/CAPABILITIES.md
+docs/CASE_WORKBENCH.md
+docs/LEGAL_REASONING.md
+docs/PDF_RENDERING.md
 plan.md
 case.md
 skill_outputs.md
@@ -99,7 +99,7 @@ contract_draft.md
 
 ### 2. 内部完整性检查
 
-读取 `CAPABILITIES.md`、`plan.md` 和 `skill_outputs.md`，在内部建立完整性检查表。该表用于判断报告状态和补证动作，默认不进入专业报告正文。
+读取 `docs/CAPABILITIES.md`、`plan.md` 和 `skill_outputs.md`，在内部建立完整性检查表。该表用于判断报告状态和补证动作，默认不进入专业报告正文。
 
 | 项目 | 内容 | 状态 | 影响 |
 |---|---|---|---|
@@ -148,7 +148,7 @@ contract_draft.md
 - `case_dashboard.md` 的胜败关键、争点树和可信度是否进入报告的事项地图或执行摘要。
 - `consultation_note.md` 的用户可理解判断、限制、补证材料和禁忌动作是否进入会话展示或报告摘要。
 - `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md` 如已存在，是否被吸收为案件包、文书、庭审或复盘章节。
-- `CAPABILITIES.md` 要求的必跑和条件必跑 skill 是否全部执行或说明阻塞/跳过原因。
+- `docs/CAPABILITIES.md` 要求的必跑和条件必跑 skill 是否全部执行或说明阻塞/跳过原因。
 - gate 状态是否支持当前报告状态。
 - PDCA 是否完成本轮 Plan、Do、Check，并产生明确 Act。
 - 复杂争议是否包含母命题、条件命题、反制命题、推断链条和法条适用边界。
@@ -156,9 +156,9 @@ contract_draft.md
 
 ### 5. 重写专业报告
 
-按 `REPORT.md` 的专业报告结构生成，不在本 skill 内复制完整模板。根据事项类型组织为法律备忘录、案件分析报告、合同审查报告、合同草案或法律研究报告。报告必须呈现事实、证据、争点、法律依据、适用边界、风险和行动建议；案件工作台文件应转化为读者可用的事项地图、咨询摘要、案件包、文书或庭审章节；内部 skill 索引、gate 表、PDCA 表和执行日志不得作为报告章节输出。
+按 `docs/REPORT.md` 的专业报告结构生成，不在本 skill 内复制完整模板。根据事项类型组织为法律备忘录、案件分析报告、合同审查报告、合同草案或法律研究报告。报告必须呈现事实、证据、争点、法律依据、适用边界、风险和行动建议；案件工作台文件应转化为读者可用的事项地图、咨询摘要、案件包、文书或庭审章节；内部 skill 索引、gate 表、PDCA 表和执行日志不得作为报告章节输出。
 
-合同审查、合同起草和法律研究按 `REPORT.md` 的类型调整章节；仍必须保留来源、待补信息、可靠性限制和质量检查。
+合同审查、合同起草和法律研究按 `docs/REPORT.md` 的类型调整章节；仍必须保留来源、待补信息、可靠性限制和质量检查。
 
 ### 6. 输出 Markdown
 
@@ -170,7 +170,7 @@ contract_draft.md
 
 先将 Markdown 报告转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
 
-开始渲染前先探测工具，并按 `PDF_RENDERING.md` 的推荐执行路径选择：Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → styled HTML → WeasyPrint/wkhtmltopdf；Markdown → PDF-native 文档对象 → PDF。不要假设默认命令或默认 Python/Node 环境有依赖；若 bundled runtime 有可用库，可优先使用。
+开始渲染前先探测工具，并按 `docs/PDF_RENDERING.md` 的推荐执行路径选择：Markdown → DOCX → PDF；Markdown → XeLaTeX PDF；Markdown → styled HTML → WeasyPrint/wkhtmltopdf；Markdown → PDF-native 文档对象 → PDF。不要假设默认命令或默认 Python/Node 环境有依赖；若 bundled runtime 有可用库，可优先使用。
 
 默认禁止使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF。只有用户明确允许浏览器渲染时，才可作为 fallback；仍必须通过 PDF Gate 质量检查。
 
@@ -263,7 +263,7 @@ contract_draft.md
 ## 质量检查
 
 - 不遗漏 `skill_outputs.md`。
-- 不遗漏内部 `CAPABILITIES.md` 必跑、条件必跑 skill 和 gate 检查，但这些内容默认只写入 `plan.md` 和 `skill_outputs.md`。
+- 不遗漏内部 `docs/CAPABILITIES.md` 必跑、条件必跑 skill 和 gate 检查，但这些内容默认只写入 `plan.md` 和 `skill_outputs.md`。
 - 不遗漏 PDCA 阶段、Check 结果和 Act 动作；会话和报告中转化为“当前报告状态、限制和下一步”。
 - 不遗漏已执行 skill 的关键发现，但要转化为读者关心的事实、争点、证据、来源、风险或行动建议。
 - 不把待证明事实写成已证明事实。

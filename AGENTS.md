@@ -34,13 +34,13 @@
 
 处理复杂法律事项时，先读取并遵循以下顶层规范：
 
-- `WORKFLOW.md`：事项工作台、目录规则、i18n、阶段推进、来源记录。
-- `CAPABILITIES.md`：事项类型路由、角色分工、必跑/可选 skill、工具要求和 gate。
-- `CASE_WORKBENCH.md`：面向律师和法律工作者的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
-- `LEGAL_REASONING.md`：复杂争议的争点挖掘、推断链条和法条适用边界。
-- `SKILLS.md`：17 个阶段技能的触发条件、落盘文件、`skill_outputs.md` 记忆要求、最终报告章节映射。
-- `REPORT.md`：专业最终报告结构、会话展示要求、按需 PDF 导出质量门槛。
-- `PDF_RENDERING.md`：PDF 渲染、视觉系统、样式、表格、流程图和质量检查规则。
+- `docs/WORKFLOW.md`：事项工作台、目录规则、i18n、阶段推进、来源记录。
+- `docs/CAPABILITIES.md`：事项类型路由、角色分工、必跑/可选 skill、工具要求和 gate。
+- `docs/CASE_WORKBENCH.md`：面向律师和法律工作者的案件驾驶舱、咨询纪要、案件包、文书框架、庭审手册和增量复盘规则。
+- `docs/LEGAL_REASONING.md`：复杂争议的争点挖掘、推断链条和法条适用边界。
+- `docs/SKILLS.md`：17 个阶段技能的触发条件、落盘文件、`skill_outputs.md` 记忆要求、最终报告章节映射。
+- `docs/REPORT.md`：专业最终报告结构、会话展示要求、按需 PDF 导出质量门槛。
+- `docs/PDF_RENDERING.md`：PDF 渲染、视觉系统、样式、表格、流程图和质量检查规则。
 - `prompts/output_schemas.md`：可复用输出结构。
 - 对应的 `skills/<编号>_<skill>/SKILL.md`：具体阶段技能。
 
@@ -51,22 +51,53 @@
 - 同一案件、合同或法律事项只维护一个事项文件夹；后续继续更新该文件夹，不新建重复目录。
 - 复用既有事项文件夹时，必须重新读取工作文件并做复用复核：更新 `Reuse check`、`Update Log`、来源复核、PDCA 和报告状态，不能只改日期或沿用旧结论。
 - 中文输入必须使用中文目录名、中文标题和中文最终报告名；英文输入使用英文。
-- 复杂事项必须先依据 `CAPABILITIES.md` 完成事项类型路由、必跑/条件必跑 skill 选择和 gate 设定。
-- 纠纷、仲裁、诉讼、投诉、索赔、返还、赔偿、解除或听证类复杂事项，默认按 `CASE_WORKBENCH.md` 先形成 `case_dashboard.md` 和 `consultation_note.md`，再进入深度案件包或最终报告。
+- 复杂事项必须先依据 `docs/CAPABILITIES.md` 完成事项类型路由、必跑/条件必跑 skill 选择和 gate 设定。
+- 纠纷、仲裁、诉讼、投诉、索赔、返还、赔偿、解除或听证类复杂事项，默认按 `docs/CASE_WORKBENCH.md` 先形成 `case_dashboard.md` 和 `consultation_note.md`，再进入深度案件包或最终报告。
 - 复杂事项必须按 PDCA 执行：Plan 记录路由与目标，Do 写入 skill 产物，Check 检查 gate，Act 形成下一步和复盘更新。
 - 每个复杂事项至少维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`。专业报告 Markdown 和同名 PDF 只在用户要求报告文件、阶段交付或正式归档时生成；PDF 默认不生成。
-- 每执行一个 skill，都必须更新 `skill_outputs.md`，并按 `SKILLS.md` 写入对应主题文件。
+- 每执行一个 skill，都必须更新 `skill_outputs.md`，并按 `docs/SKILLS.md` 写入对应主题文件。
 - 只要引用法律、案例、政策、网页或“已核验来源”，必须写入 `sources.md`；未检索也要说明未检索原因和引用风险。
-- 复杂争议必须按 `LEGAL_REASONING.md` 输出母命题、条件命题、反制命题、推断链条和法条适用边界。
-- 最终交付不是概述。必须读取并串联事项文件夹中的事实、证据、来源、分析、建议和阶段产物，生成排版完整、逻辑严谨的专业报告；报告正文不展示内部 skill 执行表。
-- 只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才执行 PDF 渲染。PDF 必须按 `PDF_RENDERING.md` 先渲染为可读版式再导出，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统。若 Markdown 表格、Mermaid 源码、代码块、乱码、项目符号异常、字体缺失或无法导出，必须标记为 blocked，不能假称已生成。
+- 复杂争议必须按 `docs/LEGAL_REASONING.md` 输出母命题、条件命题、反制命题、推断链条和法条适用边界。
+- 用户要求专业报告时，最终交付不能写成概述。必须读取并串联事项文件夹中的事实、证据、来源、分析、建议和阶段产物，生成排版完整、逻辑严谨的专业报告；报告正文不展示内部 skill 执行表。
+- 只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才执行 PDF 渲染。PDF 必须按 `docs/PDF_RENDERING.md` 先渲染为可读版式再导出，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统。若 Markdown 表格、Mermaid 源码、代码块、乱码、项目符号异常、字体缺失或无法导出，必须标记为 blocked，不能假称已生成。
 - 未请求 PDF 时，`PDF Gate` 应标记为 `skipped / not requested`，不影响会话汇总结论或 Markdown 阶段报告状态。若用户已请求 PDF，更新专业报告 Markdown 后必须重新生成同源 PDF 并做基础可读性检查；若不能重渲染或检查不通过，不得把旧 PDF 标为本轮 ready。
 
-## 5. 默认工作顺序
+## 5. 核心方法轮与 PDCA
+
+方法轮是本 Agent 的思考顺序，PDCA 是本 Agent 的交付控制。复杂事项不能只按模板填空，应先把事实、证据、法律要件、因果关系和程序动作连接成可被用户、律师或裁判者理解的工作链。
+
+默认方法轮：
+
+```text
+范围约束
+→ 语言与场景路由
+→ 能力矩阵与 gate
+→ PDCA 计划
+→ 案件驾驶舱/咨询纪要
+→ 事实/条款还原
+→ 争点/条款风险拆解
+→ 证据映射
+→ 矛盾测试
+→ 因果推论
+→ 对方视角
+→ 法官/审稿律师视角
+→ 来源核验
+→ skill 产物记忆
+→ 策略行动
+→ 案件包/文书框架/庭审手册
+→ PDCA 检查与 Act
+→ 会话汇总结论
+→ 按需专业报告 / PDF 渲染
+→ 复盘迭代
+```
+
+方法轮可以按事项类型裁剪：合同审查可跳过案件驾驶舱和庭审准备；纯法律研究可跳过证据台账；PDF 仅在用户明确要求时进入渲染 gate。
+
+## 6. 默认工作顺序
 
 1. 隐私与范围守门。
 2. 判断主语言、事项类型、法域、程序阶段和用户目标。
-3. 查 `CAPABILITIES.md`，确定主场景、角色、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具和 gate。
+3. 查 `docs/CAPABILITIES.md`，确定主场景、角色、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具和 gate。
 4. 创建或复用事项文件夹。
 5. 初始化或更新 `plan.md`、`case.md`、`skill_outputs.md`，并写入 PDCA 阶段。
 6. 对案件工作台事项，先生成或更新 `case_dashboard.md` 和 `consultation_note.md`，让用户先看到可用的案件主线和限制。
@@ -81,7 +112,7 @@
 15. 已请求 PDF 时，对 PDF 执行基础质量检查：文件存在、中文可读、表格已渲染、无 Markdown/HTML/Mermaid 源码残留、与 Markdown 同源。
 16. 出现新证据、新程序节点、新合同版本或新报价时，读取既有事项文件夹并按 `review_delta.md` 复盘更新。
 
-## 6. 最终回复最低要求
+## 7. 最终回复最低要求
 
 完成阶段性分析或最终报告后，回复必须使用用户主语言，并至少展示：
 

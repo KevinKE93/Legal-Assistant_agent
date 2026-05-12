@@ -8,7 +8,7 @@
 → 哪些 gate 没过就不能交付完整报告
 ```
 
-纠纷、仲裁、诉讼、听证和复盘事项的案件工作台输出另见 `CASE_WORKBENCH.md`；本文件负责决定何时触发、哪些角色和 gate 必须覆盖。合同审查、合同起草和纯法律研究通常不进入案件工作台，除非同时存在明确争议、对方主张、程序节点或听证准备。
+纠纷、仲裁、诉讼、听证和复盘事项的案件工作台输出另见 `docs/CASE_WORKBENCH.md`；本文件负责决定何时触发、哪些角色和 gate 必须覆盖。合同审查、合同起草和纯法律研究通常不进入案件工作台，除非同时存在明确争议、对方主张、程序节点或听证准备。
 
 ## 1. 角色抽象
 
@@ -24,16 +24,16 @@
 | Adjudicator | 法官、仲裁员、调解员或审稿律师视角 | `analysis.md`、`advice.md` |
 | Strategist | 谈判、投诉、仲裁、诉讼、执行和行动路径 | `advice.md`、`plan.md` |
 | Drafter | 文书、函件、合同、条款和提纲 | `drafts.md`、`contract_draft.md` |
-| Final Editor / QA | 串联所有产物，检查完整性，默认输出会话汇总结论；按用户要求生成专业报告和 PDF | 专业报告 `.md`，按需 `.pdf` |
+| Final Editor / QA | 串联所有产物，检查完整性，默认输出会话汇总结论；按用户要求生成专业报告和 PDF | 会话汇总结论；按需专业报告 `.md` 和 `.pdf` |
 
 ## 2. 能力覆盖矩阵
 
 | 事项类型 | 触发信号 | 必跑角色 | 必跑 skill | 可选 skill | 必备文件 | 工具要求 | 最终报告重点 |
 |---|---|---|---|---|---|---|---|
-| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Case Navigator, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `case_dashboard.md`, `consultation_note.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`, `case_package.md`, 专业报告 | 涉及法律依据时必须检索官方/权威来源 | 案件驾驶舱、争点树、推断链、证明责任、证据链、来源、对方视角、裁判视角、策略 |
-| 合同审查 | 审合同、能不能签、条款风险、补充协议风险 | Intake, Matter, Research, Contract Reviewer, Strategist, Editor | 01,10,15,11,17 | 12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `contract.md`, `clause_review.md`, `sources.md`, `advice.md`, 专业报告 | 涉及强制性规定、行业监管、管辖时检索 | 条款摘要、风险分级、缺失条款、修改建议、谈判优先级 |
+| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Case Navigator, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `case_dashboard.md`, `consultation_note.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`; 深度阶段按需 `case_package.md`；报告文件按需生成 | 涉及法律依据时必须检索官方/权威来源 | 案件驾驶舱、争点树、推断链、证明责任、证据链、来源、对方视角、裁判视角、策略 |
+| 合同审查 | 审合同、能不能签、条款风险、补充协议风险 | Intake, Matter, Research, Contract Reviewer, Strategist, Editor | 01,10,15,11,17 | 12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `contract.md`, `clause_review.md`, `sources.md`, `advice.md`; 报告文件按需生成 | 涉及强制性规定、行业监管、管辖时检索 | 条款摘要、风险分级、缺失条款、修改建议、谈判优先级 |
 | 合同起草 | 写合同、拟协议、补充协议、和解协议、条款清单 | Intake, Matter, Research, Deal Architect, Drafter, Editor | 01,10,16,17 | 11,12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `term_sheet.md`, `contract_draft.md`, `sources.md`, `advice.md` | 涉及监管、格式条款、行业规则时检索 | 交易结构、条款框架、合同草案、可谈判条款、签署清单 |
-| 法律研究 | 查法律、找案例、政策依据、规则适用、引用来源 | Intake, Matter, Research, Issue, Editor | 01,10,17 | 04,09,11 | `plan.md`, `case.md`, `skill_outputs.md`, `sources.md`, `analysis.md`, 研究报告 | 必须检索官方/权威来源；未联网则只能输出待核验研究框架 | 法律问题、来源表、规则摘要、适用条件、引用风险 |
+| 法律研究 | 查法律、找案例、政策依据、规则适用、引用来源 | Intake, Matter, Research, Issue, Editor | 01,10,17 | 04,09,11 | `plan.md`, `case.md`, `skill_outputs.md`, `sources.md`, `analysis.md`; 研究报告文件按需生成 | 必须检索官方/权威来源；未联网则只能输出待核验研究框架 | 法律问题、来源表、规则摘要、适用条件、引用风险 |
 | 文书草拟 | 写函、投诉、起诉状框架、答辩、沟通话术、证据目录 | Intake, Matter, Drafter, Strategist, Editor | 01,12,11,17 | 03,04,07,10,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `drafts.md`, `advice.md`, 必要时 `sources.md` | 文书引用法律或官方口径时检索 | 用途、对象、事实依据、请求、措辞风险、使用前核验 |
 | 谈判/和解 | 怎么谈、报价、底线、让步、对方压价、和解协议 | Intake, Matter, Evidence, Red Team, Strategist, Drafter, Editor | 01,03,08,11,12,17 | 04,07,09,10,14 | `plan.md`, `case.md`, `skill_outputs.md`, `evidence.md`, `advice.md`, `drafts.md` | 需要法律筹码时检索 | 筹码、底线、让步顺序、交换条件、话术和禁忌 |
 | 庭审/听证准备 | 开庭、仲裁庭、调解、质证、法官追问、听证 | Intake, Matter, Evidence, Issue, Red Team, Adjudicator, Drafter, Editor | 01,03,04,08,09,13,17 | 05,07,10,11,14 | `plan.md`, `case.md`, `skill_outputs.md`, `timeline.md`, `evidence.md`, `hearing.md`, `hearing_playbook.md`, `drafts.md` | 涉及法律依据和裁判规则时检索 | 庭审主线、证据使用、质证意见、发问清单、追问回答 |
@@ -77,14 +77,14 @@
 |---|---|---|
 | Routing Gate | 已识别事项类型，并按本文件列出必跑/条件必跑/可选 skill | 不进入最终报告 |
 | Folder Gate | 已创建或复用 `work/<date>_<本地化事项名>/` | 不进入多文件交付 |
-| Workbench Gate | 纠纷/案件/庭审/复盘事项已按 `CASE_WORKBENCH.md` 生成或更新必要工作台文件；合同审查、合同起草、纯法律研究等不适用事项已标记 `skipped/not applicable` 并说明理由 | 适用但未完成时，不进入深度案件包或最终报告降级为阶段性草稿 |
+| Workbench Gate | 纠纷/案件/庭审/复盘事项已按 `docs/CASE_WORKBENCH.md` 生成或更新必要工作台文件；合同审查、合同起草、纯法律研究等不适用事项已标记 `skipped/not applicable` 并说明理由 | 适用但未完成时，不进入深度案件包或最终报告降级为阶段性草稿 |
 | Skill Gate | 必跑和条件必跑 skill 已 `done`；确实不适用或无法执行的 skill 已标记 `skipped/blocked` 并说明影响 | `blocked/pending` 时报告标记为 incomplete 或 draft；`skipped` 时必须说明不适用理由 |
 | Source Gate | 涉及法律依据时，`case_reference_research` 已执行并写入来源；若无法检索，已标记 blocked 并在 `sources.md` 记录未核验原因和影响 | 不得声称已核验；Source Gate blocked 时报告通常只能是 draft 或 incomplete，不能标记为 complete_except_pdf |
 | Evidence Gate | 关键结论绑定事实依据、证据状态、证明责任和不确定性 | 降级为待核验分析 |
 | Reasoning Gate | 复杂争议已形成争点树、推断链和法条适用边界 | 不得交付完整争议分析 |
 | Report Gate | 专业报告覆盖已完成阶段的关键发现和所有必备事实、证据、来源、分析与建议；内部 skill 覆盖写入 `skill_outputs.md`，不作为读者正文 | 不可只输出摘要 |
 | Conversation Gate | 会话回复展示核心结论、关系、缺口、来源、风险、下一步和路径 | 不可只列路径 |
-| PDF Gate | 未请求 PDF 时为 `skipped/not requested`；已请求 PDF 时，PDF 真实存在、可读，且表格/图形/区块已按 `PDF_RENDERING.md` 渲染 | 已请求但未通过时，不得声称 PDF 完成；未请求时不阻塞报告 |
+| PDF Gate | 未请求 PDF 时为 `skipped/not requested`；已请求 PDF 时，PDF 真实存在、可读，且表格/图形/区块已按 `docs/PDF_RENDERING.md` 渲染 | 已请求但未通过时，不得声称 PDF 完成；未请求时不阻塞报告 |
 
 ## 6. 工具选择
 
@@ -94,7 +94,7 @@
 | 官方法规库/法院/政府网站 | 涉及法律依据或程序规则 | 标记官方性、访问日期、引用风险 |
 | 权威数据库 | 官方来源不可得或需要案例补充 | 标记数据库性质和可引用限制 |
 | 文件读写 | 复杂事项、合同、文书或报告交付 | 写入事项文件夹 |
-| PDF 渲染工具 | 用户明确要求报告 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF | 按 `PDF_RENDERING.md` 渲染，质量检查写入报告和 `plan.md` |
+| PDF 渲染工具 | 用户明确要求报告 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF | 按 `docs/PDF_RENDERING.md` 渲染，质量检查写入报告和 `plan.md` |
 
 ## 7. 报告完整性标记
 
@@ -116,7 +116,7 @@
 ```text
 Workbench Gate: skipped / not applicable
 Reason: 本事项为合同签署前审查，无既有争议、对方抗辩、程序节点或听证准备；按合同审查路径输出 contract.md、clause_review.md、advice.md 和合同审查专业报告。
-Impact: 不影响完整报告；若后续出现违约争议或谈判冲突，再触发 CASE_WORKBENCH.md。
+Impact: 不影响完整报告；若后续出现违约争议或谈判冲突，再触发 docs/CASE_WORKBENCH.md。
 ```
 
 Source Gate blocked 场景的报告状态示例：

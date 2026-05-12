@@ -1,6 +1,24 @@
 # WORKFLOW.md
 
-本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `CAPABILITIES.md` 为准；纠纷、仲裁、诉讼、听证和持续复盘事项的案件工作台输出以 `CASE_WORKBENCH.md` 为准。
+本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `docs/CAPABILITIES.md` 为准；纠纷、仲裁、诉讼、听证和持续复盘事项的案件工作台输出以 `docs/CASE_WORKBENCH.md` 为准。
+
+## 0. 方法轮与 PDCA 的关系
+
+方法轮定义“先想什么、后想什么”，PDCA 定义“如何落盘、检查和迭代”。两者必须一起使用：
+
+```text
+范围约束 → 语言与场景路由 → 能力矩阵与 gate → PDCA 计划
+→ 事实/条款还原 → 争点/条款风险拆解 → 证据映射
+→ 矛盾测试 → 因果推论 → 对方视角 → 裁判者/审稿律师视角
+→ 来源核验 → 策略行动 → 工作台产物 → 会话汇总 / 按需报告
+→ 复盘迭代
+```
+
+- 方法轮不是额外文件要求，而是所有复杂事项的分析顺序。
+- `plan.md` 负责把方法轮转化为 PDCA 状态：本轮计划、已执行 skill、gate 检查、下一步动作。
+- `case.md` 负责保存方法轮中的稳定案件/事项记忆：事实、条款、争点、证据状态、程序进展和关键判断。
+- `skill_outputs.md` 负责记录每个阶段到底做了什么，最终汇总必须吸收这些记录，但面向读者的报告不展示内部执行表。
+- PDF 不是方法轮默认终点。默认终点是会话中的实质性汇总结论；只有用户明确要求正式报告文件或 PDF 时，才进入 `docs/REPORT.md` 和 `docs/PDF_RENDERING.md` 的交付规则。
 
 ## 1. 事项文件夹
 
@@ -42,7 +60,7 @@ work/<date>_<本地化事项名>/
 
 ## 3. 默认文件
 
-复杂事项至少维护：
+复杂事项至少维护以下工作文件：
 
 ```text
 plan.md
@@ -50,10 +68,15 @@ case.md
 skill_outputs.md
 analysis.md
 advice.md
+```
+
+专业报告不是普通咨询的默认文件产物。只有用户要求正式报告文件、阶段交付或正式归档时，才增加：
+
+```text
 <本地化主题>专业报告.md
 ```
 
-PDF 不是默认产物。只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才增加：
+PDF 也不是默认产物。只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才增加：
 
 ```text
 <本地化主题>专业报告.pdf
@@ -110,7 +133,7 @@ contract_draft.md
 
 ```text
 识别事项类型
-→ 查 CAPABILITIES.md
+→ 查 docs/CAPABILITIES.md
 → 确定必跑 skill / 条件必跑 skill / 可选 skill / 必备文件 / 工具要求
 → 写入 plan.md 和 skill_outputs.md
 → 执行必跑和条件必跑 skill
@@ -182,7 +205,7 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 | Evidence Gate |  |  |  |
 | Report Gate |  |  |  |
 | Conversation Gate |  |  |  |
-| PDF Gate | skipped / not requested | 用户未要求 PDF，本轮默认只输出会话汇总结论或 Markdown 报告。 | 如用户要求正式 PDF 报告，再按 PDF_RENDERING.md 渲染并检查。 |
+| PDF Gate | skipped / not requested | 用户未要求 PDF，本轮默认只输出会话汇总结论或 Markdown 报告。 | 如用户要求正式 PDF 报告，再按 docs/PDF_RENDERING.md 渲染并检查。 |
 
 ## Done
 -
@@ -329,19 +352,19 @@ Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不�
 
 1. 隐私与范围守门。
 2. 语言与事项类型路由。
-3. 查 `CAPABILITIES.md`，确定必跑 skill、条件必跑 skill、可选 skill、必备文件和 gate。
+3. 查 `docs/CAPABILITIES.md`，确定必跑 skill、条件必跑 skill、可选 skill、必备文件和 gate。
 4. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
 5. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
 6. 对案件工作台事项，先输出或更新 `case_dashboard.md` 与 `consultation_note.md`。
 7. 时间线、条款、证据台账。
 8. 争议焦点、条款风险、请求权基础、证明责任。
-9. 按 `LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法条适用边界。
+9. 按 `docs/LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法条适用边界。
 10. 矛盾、因果、对方视角、裁判视角。
 11. 官方或权威来源检索，写入 `sources.md`。
 12. 策略行动、文书或合同草案；必要时生成 `case_package.md`、`pleading_framework.md` 或 `hearing_playbook.md`。
 13. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`；未请求 PDF 时，PDF Gate 为 `skipped / not requested`。
 14. 默认最终汇总以会话中的实质结论为主，说明核心结论、争点关系、证据缺口、来源状态、最大风险和下一步，并提示用户如需 PDF 专业报告可以提出。
-15. 用户要求正式报告文件时，逐项读取所有工作文件，输出专业报告 Markdown；用户明确要求 PDF 时，再按 `PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF；可用根目录 `tools/render_report_pdf.py` 时，输入目录即输出目录，不把渲染脚本复制到事项文件夹。
+15. 用户要求正式报告文件时，逐项读取所有工作文件，输出专业报告 Markdown；用户明确要求 PDF 时，再按 `docs/PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF；可用根目录 `tools/render_report_pdf.py` 时，输入目录即输出目录，不把渲染脚本复制到事项文件夹。
 16. 会话界面展示实质汇总。
 17. 后续新信息触发 `review_delta.md`、Act 和复盘，更新既有事项文件夹。
 

@@ -14,7 +14,7 @@
 8. 用法官/仲裁员/调解员视角审查事实、证据、因果关系和裁判可执行性。
 9. 每个结论应区分：事实依据、法律假设、证据强度、不确定性和下一步。
 10. 当用户的问题存在高风险时，先提示风险，再给出安全、合法、可执行的替代方案。
-11. 当用户要求输出到文件夹或工作目录时，应先依据 `CAPABILITIES.md` 判断事项类型、必跑 skill、条件必跑 skill、可选 skill、工具要求和 gate，再生成结构化事项文件夹，并维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`。本地化命名的专业报告 `.md` 只在用户要求报告文件、阶段交付或正式归档时生成；同名 `.pdf` 只在用户明确要求 PDF 时生成。
+11. 当用户要求输出到文件夹或工作目录时，应先依据 `docs/CAPABILITIES.md` 判断事项类型、必跑 skill、条件必跑 skill、可选 skill、工具要求和 gate，再生成结构化事项文件夹，并维护 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`。本地化命名的专业报告 `.md` 只在用户要求报告文件、阶段交付或正式归档时生成；同名 `.pdf` 只在用户明确要求 PDF 时生成。
 12. 复杂、多争点、多程序案件、合同审查、合同起草或持续推进事项默认建立或读取本地事项文件夹，路径为 `work/<date>_<本地化事项名>/`；事项文件夹必须直接位于 `work/` 下。
 13. 后续复盘必须基于 `plan.md`、`case.md` 和 `skill_outputs.md` 更新，不得把新信息当成全新案件孤立分析。
 14. 文件夹名、最终文件名、正文语言和表格字段默认跟随用户输入主语言；中文输入必须使用中文目录名和中文总结文件名，不得默认翻译成英文 slug；法律专有名词、合同原文、证据备注和法条标题可保留原文。
@@ -25,7 +25,7 @@
 19. 复杂事项必须遵循 PDCA：Plan 写入路由、目标、阶段选择和 gate；Do 写入主题文件和阶段产物；Check 检查来源、证据、报告、会话，以及用户已请求时的 PDF；Act 写入下一步、补证、重跑阶段或复盘更新。
 20. 复杂争议必须展示母命题、条件命题、反制命题、推断链条和法条适用边界；引用规则时必须说明适用条件、例外限制、证明要求和引用风险。
 21. PDF 交付只在用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时触发。触发后，必须先将 Markdown 渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML。默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 输出白底卡片、蓝紫青强调、双语标题、编号胶囊、浅色数据表、风险/来源提示区块的现代法律报告风格。若可用根目录 `tools/render_report_pdf.py`，按 `tools/render_report_pdf.py <事项文件夹>` 调用，输入目录即输出目录，只生成同名 PDF，不把渲染脚本复制进 `work/`。默认禁止使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF；除非用户明确允许。禁止交付包含 Markdown 表格管道符、Mermaid 源码、未渲染代码块或乱码的 PDF。
-22. 纠纷、仲裁、诉讼、投诉、索赔、赔偿、返还、解除或听证类事项，默认按 `CASE_WORKBENCH.md` 先生成或更新 `case_dashboard.md` 与 `consultation_note.md`；深度阶段再生成 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md`。
+22. 纠纷、仲裁、诉讼、投诉、索赔、赔偿、返还、解除或听证类事项，默认按 `docs/CASE_WORKBENCH.md` 先生成或更新 `case_dashboard.md` 与 `consultation_note.md`；深度阶段再生成 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 或 `review_delta.md`。
 23. 合同审查、合同起草或纯法律研究等非争议事项，Workbench Gate 可标记为 `skipped / not applicable`，但必须写明不触发案件工作台的理由和后续触发条件。
 
 你的核心方法轮：
