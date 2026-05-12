@@ -24,7 +24,7 @@
 | Adjudicator | 法官、仲裁员、调解员或审稿律师视角 | `analysis.md`、`advice.md` |
 | Strategist | 谈判、投诉、仲裁、诉讼、执行和行动路径 | `advice.md`、`plan.md` |
 | Drafter | 文书、函件、合同、条款和提纲 | `drafts.md`、`contract_draft.md` |
-| Final Editor / QA | 串联所有产物，检查完整性，生成专业报告和 PDF | 专业报告 `.md/.pdf` |
+| Final Editor / QA | 串联所有产物，检查完整性，默认输出会话汇总结论；按用户要求生成专业报告和 PDF | 专业报告 `.md`，按需 `.pdf` |
 
 ## 2. 能力覆盖矩阵
 
@@ -84,7 +84,7 @@
 | Reasoning Gate | 复杂争议已形成争点树、推断链和法条适用边界 | 不得交付完整争议分析 |
 | Report Gate | 专业报告覆盖已完成阶段的关键发现和所有必备事实、证据、来源、分析与建议；内部 skill 覆盖写入 `skill_outputs.md`，不作为读者正文 | 不可只输出摘要 |
 | Conversation Gate | 会话回复展示核心结论、关系、缺口、来源、风险、下一步和路径 | 不可只列路径 |
-| PDF Gate | PDF 真实存在、可读，且表格/图形/区块已按 `PDF_RENDERING.md` 渲染；否则 `PDF status: blocked` | 不得声称 PDF 完成 |
+| PDF Gate | 未请求 PDF 时为 `skipped/not requested`；已请求 PDF 时，PDF 真实存在、可读，且表格/图形/区块已按 `PDF_RENDERING.md` 渲染 | 已请求但未通过时，不得声称 PDF 完成；未请求时不阻塞报告 |
 
 ## 6. 工具选择
 
@@ -94,7 +94,7 @@
 | 官方法规库/法院/政府网站 | 涉及法律依据或程序规则 | 标记官方性、访问日期、引用风险 |
 | 权威数据库 | 官方来源不可得或需要案例补充 | 标记数据库性质和可引用限制 |
 | 文件读写 | 复杂事项、合同、文书或报告交付 | 写入事项文件夹 |
-| PDF 渲染工具 | 用户要求报告 PDF 或阶段交付 | 按 `PDF_RENDERING.md` 渲染，质量检查写入报告和 `plan.md` |
+| PDF 渲染工具 | 用户明确要求报告 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF | 按 `PDF_RENDERING.md` 渲染，质量检查写入报告和 `plan.md` |
 
 ## 7. 报告完整性标记
 
@@ -102,8 +102,8 @@
 
 | 状态 | 使用条件 |
 |---|---|
-| complete | 必跑和条件必跑 skill、来源、证据、报告和 PDF gate 均通过；面向读者的报告只展示分析范围和可靠性结论 |
-| complete_except_pdf | 除 PDF Gate 外，Routing、Folder、Workbench、Skill、Source、Evidence、Reasoning、Report 和 Conversation gate 均已通过；PDF 因环境能力或质量检查 blocked |
+| complete | 必跑和条件必跑 skill、来源、证据、报告和会话展示 gate 均通过；PDF 未请求时不影响 complete，已请求时 PDF gate 也必须通过 |
+| complete_except_pdf | 用户已请求 PDF，且除 PDF Gate 外，Routing、Folder、Workbench、Skill、Source、Evidence、Reasoning、Report 和 Conversation gate 均已通过；PDF 因环境能力或质量检查 blocked |
 | draft | 事实、证据或来源仍有关键缺口，但已形成阶段性报告；Source Gate blocked 通常属于此类 |
 | incomplete | 必跑或条件必跑 skill、关键 gate 未完成，不能作为完整分析交付 |
 
@@ -128,13 +128,13 @@ Report status: draft
 Why not complete_except_pdf: 阻塞点不是 PDF，而是法律来源尚未核验。
 ```
 
-PDF Gate blocked 但其他 gate 均通过的示例：
+用户已请求 PDF，且 PDF Gate blocked 但其他 gate 均通过的示例：
 
 ```text
 PDF Gate: blocked
 Reason: Markdown 已生成，但 Pandoc、XeLaTeX、WeasyPrint、DOCX-to-PDF、ReportLab/PDFKit 或宿主文档工具不可用，无法生成合格 PDF。
 Report status: complete_except_pdf
-Condition: Source、Evidence、Reasoning、Report、Conversation gate 均已通过。
+Condition: 用户已明确要求 PDF，且 Source、Evidence、Reasoning、Report、Conversation gate 均已通过。
 ```
 
 ## 8. PDCA 传递规则
@@ -145,7 +145,7 @@ Condition: Source、Evidence、Reasoning、Report、Conversation gate 均已通�
 |---|---|---|
 | Plan | 事项路由、目标、必跑/条件必跑 skill、gate、文件清单和待补信息 | `plan.md` |
 | Do | 执行各阶段 skill，写入主题文件和 `skill_outputs.md` | 主题文件、`skill_outputs.md` |
-| Check | 检查证据、来源、skill 覆盖、报告覆盖、PDF 和会话展示 gate | `plan.md`、专业报告 |
+| Check | 检查证据、来源、skill 覆盖、报告覆盖和会话展示 gate；仅在用户请求 PDF 时检查 PDF gate | `plan.md`、专业报告 |
 | Act | 基于检查结果生成下一步、补证任务、重跑 skill 或复盘更新 | `plan.md`、`case.md`、相关主题文件 |
 
 `plan.md` 必须说明当前处于哪个 PDCA 阶段，以及哪些 Check 结果触发了 Act；专业报告只展示报告状态、可靠性限制和下一步行动。

@@ -13,9 +13,10 @@
 - 引用法律、案例、政策、网页或“已核验来源”时，必须写入 `sources.md`；未检索时也要说明原因和引用风险。
 - 最终报告不是概述，必须逐项读取并串联工作底稿中的事实、证据、来源、分析和建议。
 - 复杂争议必须包含争点树、推断链条和法条适用边界。
-- 专业报告必须输出 `.md` 和同名 `.pdf`；PDF 必须先渲染为可读版式，若无法生成或质量不合格，必须标记 blocked。
-- PDF 生成默认使用非浏览器路径，不使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印，除非用户明确允许。
-- Source Gate blocked 时，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可使用 `complete_except_pdf`。
+- 默认普通分析不输出 PDF；会话结尾必须提示用户：如需正式 PDF 专业报告，可以继续提出。
+- 专业报告 `.md` 只在用户要求报告文件、阶段交付或正式归档时输出；同名 `.pdf` 只在用户明确要求 PDF 时输出。PDF 必须先渲染为可读版式，若无法生成或质量不合格，必须标记 blocked。
+- PDF 生成只在用户明确要求时触发，默认使用非浏览器路径，不使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印，除非用户明确允许。可用根目录渲染器时，按 `tools/render_report_pdf.py <事项文件夹>` 调用，输入目录即输出目录，只生成同名 PDF，不把渲染脚本复制进 `work/`。
+- Source Gate blocked 时，报告状态应为 `draft` 或 `incomplete`；只有用户已请求 PDF 且 PDF 是唯一阻塞项时，才可使用 `complete_except_pdf`。未请求 PDF 时，PDF Gate 为 `skipped / not requested`，不影响报告状态。
 - 合同审查、合同起草或纯法律研究等非争议事项，可将 Workbench Gate 标记为 `skipped / not applicable`，不要为了凑流程生成案件驾驶舱。
 
 ## 1. skill_outputs.md 模板

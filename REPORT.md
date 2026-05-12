@@ -6,7 +6,7 @@
 
 出现以下任一情况，必须生成或更新专业最终报告：
 
-- 用户要求“总结、汇总、最终报告、给我一份文件、生成 PDF”。
+- 用户要求“总结、汇总、最终报告、给我一份文件、生成 PDF”。若用户只是要求分析，默认先输出会话汇总结论，不自动生成 PDF。
 - 复杂案件、合同审查、合同起草或法律研究完成一个阶段。
 - 已完成多个阶段的事实整理、证据分析、法律研究或策略设计，需要合并成可交付成果。
 - 出现新证据、新程序节点、新合同版本、新报价，需要复盘后重新交付。
@@ -45,7 +45,7 @@ contract_draft.md
 
 缺失文件不阻塞报告，但必须在报告附录说明“未见/待补/不适用”。
 
-复杂争议报告必须按 `LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付必须按 `PDF_RENDERING.md` 渲染，不得把 Markdown 原文直接导出为 PDF。
+复杂争议报告必须按 `LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付只在用户明确要求 PDF 时触发；触发后必须按 `PDF_RENDERING.md` 渲染，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统；不得把 Markdown 原文直接导出为 PDF。
 
 ### 2A. 复核版报告规则
 
@@ -55,7 +55,7 @@ contract_draft.md
 - 不要把旧报告简单改日期。必须重新读取工作文件、检查 gate、复核来源状态，并确认报告状态仍然匹配证据强度。
 - 若事实证据仍未上传或关键证据未读取，报告状态保持 `draft`；只有内容 gate 和证据 gate 真正通过时才可升级。
 - 若更新了来源、日期、内部推进状态、质量检查或关键判断，必须同步更新 `plan.md`、`case.md` 或 `sources.md` 中对应记录。
-- PDF 与 Markdown 必须同源；更新 Markdown 后，旧 PDF 不得继续标记为 ready，除非已重新渲染并通过质量检查。
+- 已请求 PDF 时，PDF 与 Markdown 必须同源；更新 Markdown 后，旧 PDF 不得继续标记为 ready，除非已重新渲染并通过质量检查。未请求 PDF 时，PDF 状态写为 `not requested`，不标记 blocked。
 
 ## 3. 命名规则
 
@@ -63,35 +63,33 @@ contract_draft.md
 
 ```text
 <本地化法律问题主题>专业报告.md
-<本地化法律问题主题>专业报告.pdf
 ```
 
 合同审查：
 
 ```text
 <合同主题>合同审查专业报告.md
-<合同主题>合同审查专业报告.pdf
 ```
 
 合同起草：
 
 ```text
 <合同主题>合同草案.md
-<合同主题>合同草案.pdf
 ```
 
 法律研究：
 
 ```text
 <主题>法律研究报告.md
-<主题>法律研究报告.pdf
 ```
+
+对应 PDF 文件只在用户明确要求时生成，命名与 Markdown 同名，仅扩展名改为 `.pdf`。
 
 英文事项使用英文对应名称。中文输入不得默认翻译成英文 slug。
 
 ## 4. 专业报告基础结构
 
-本节不是固定模板，而是专业报告必须覆盖的基础信息域。实际执行时，可以根据事项类型、材料成熟度、目标读者和程序阶段调整标题、顺序和篇幅；复杂案件应充分展开，简单事项可以压缩，但不能省略“分析范围、材料限制、来源状态、证据状态、待补信息、PDF 状态”等影响可靠性的内容。
+本节不是固定模板，而是专业报告必须覆盖的基础信息域。实际执行时，可以根据事项类型、材料成熟度、目标读者和程序阶段调整标题、顺序和篇幅；复杂案件应充分展开，简单事项可以压缩，但不能省略“分析范围、材料限制、来源状态、证据状态、待补信息、PDF 请求状态”等影响可靠性的内容。
 
 ### 4.1 封面与阅读入口
 
@@ -107,12 +105,14 @@ contract_draft.md
 
 | 状态 | 对读者的含义 | 常见触发 |
 |---|---|---|
-| `complete` | 内容、来源、证据、报告、会话展示和 PDF 均已通过基础检查 | 已完成必要来源核验、证据状态说明和 PDF 质量检查 |
-| `complete_except_pdf` | 内容已可作为完整阶段成果，但 PDF 生成或质量检查失败 | 仅 PDF Gate blocked，其他 gate 已通过 |
+| `complete` | 内容、来源、证据、报告和会话展示均已通过基础检查；未请求 PDF 时也可为 complete | 已完成必要来源核验、证据状态说明和会话展示检查；若已请求 PDF，PDF 也已通过质量检查 |
+| `complete_except_pdf` | 用户已请求 PDF，内容已可作为完整阶段成果，但 PDF 生成或质量检查失败 | 仅 PDF Gate blocked，其他 gate 已通过 |
 | `draft` | 已形成阶段性分析，但事实、证据、来源或程序信息仍有关键限制 | Source Gate blocked、关键证据未上传、程序节点待确认 |
 | `incomplete` | 必要环节未执行或关键输入缺失，不能作为完整分析使用 | 必跑 skill 缺失、事项未路由、核心材料未读取 |
 
 Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown 报告已经生成，也应标记为 `draft` 或 `incomplete`，并说明哪些法律依据仍待官方/权威来源核验。
+
+未请求 PDF 时，PDF Gate 应写为 `skipped / not requested`，不得把 PDF 缺失写成失败。
 
 ### 4.2 执行摘要
 
@@ -157,6 +157,12 @@ Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown �
 
 ```text
 本报告的 Markdown 版本已完成阶段性内容检查，但当前环境未能生成通过质量检查的 PDF。PDF 状态为 blocked，不影响 Markdown 内容本身的阶段性完整性。
+```
+
+仅在用户已要求 PDF 且渲染失败时使用上述表述。若用户未要求 PDF，应写成：
+
+```text
+本轮默认先提供会话汇总结论。尚未生成 PDF；如需正式 PDF 专业报告，可继续提出。
 ```
 
 ### 4.5 事项地图与程序状态
@@ -309,7 +315,7 @@ Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown �
 
 ### 已生成文件
 - Markdown:
-- PDF:
+- PDF: 未请求 / 已生成 / blocked
 ```
 
 ### 6.2 信息引用要求
@@ -335,16 +341,18 @@ Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown �
 - 合同起草：会话回复必须展示交易结构、核心条款选择、待确认事项、签署风险和草案路径。
 - 法律研究：会话回复必须展示问题结论、来源分层、适用边界和不可引用风险。
 
-如果 PDF 生成失败或质量不合格，必须写明：
+如果用户已要求 PDF，但 PDF 生成失败或质量不合格，必须写明：
 
 - Markdown 已生成路径。
 - PDF 状态：blocked。
 - 阻塞原因。
 - 建议转换方式。
 
+如果用户未要求 PDF，最终回复应简短提示“如需正式 PDF 专业报告，可以继续提出”，但不要把 PDF 作为本轮交付失败项。
+
 ## 7. PDF 导出质量门槛
 
-合格 PDF 必须满足：
+用户明确要求 PDF 后，合格 PDF 必须满足：
 
 - 文件真实存在且大小非空。
 - 中文、英文、数字、表格基本可读。
@@ -354,7 +362,7 @@ Source Gate blocked 时，不得使用 `complete_except_pdf`。即使 Markdown �
 - Markdown 和 PDF 内容一致。
 - PDF 与本轮 Markdown 同源生成；如果 Markdown 更新，旧 PDF 不得继续标记为 ready。
 
-优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器导出方式。可用路径包括 Pandoc+DOCX-to-PDF、Pandoc+XeLaTeX、WeasyPrint、wkhtmltopdf、ReportLab/PDFKit 或宿主文档工具。默认不得使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF；除非用户明确允许浏览器渲染。若无法确认中文字体、表格、图形和源码残留检查，不得报告“PDF 已完成”，而应在 `plan.md` 和会话中标记 blocked。
+优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器导出方式。可用路径包括 Pandoc+DOCX-to-PDF、Pandoc+XeLaTeX、WeasyPrint、wkhtmltopdf、ReportLab/PDFKit、根目录 `tools/render_report_pdf.py` 或宿主文档工具。可用 styled HTML 路径时，优先引用或内联 `assets/legal-report.css`，形成白底卡片、蓝紫青强调、编号胶囊、浅色数据表、双语导航、风险/来源提示区块的 PDF。若使用根目录渲染器，输入目录即输出目录，只在事项文件夹生成同名 PDF，不复制脚本或样式文件。默认不得使用 Chrome headless、Chromium、Edge、Playwright、Puppeteer、Selenium 或系统浏览器打印生成 PDF；除非用户明确允许浏览器渲染。若用户已要求 PDF，但无法确认中文字体、表格、图形和源码残留检查，不得报告“PDF 已完成”，而应在 `plan.md` 和会话中标记 blocked。
 
 ## 8. 禁止事项
 
