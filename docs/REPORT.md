@@ -16,10 +16,10 @@
 最终汇总前，按存在情况逐项读取：
 
 ```text
-CAPABILITIES.md
-CASE_WORKBENCH.md
-LEGAL_REASONING.md
-PDF_RENDERING.md
+docs/CAPABILITIES.md
+docs/CASE_WORKBENCH.md
+docs/LEGAL_REASONING.md
+docs/PDF_RENDERING.md
 plan.md
 case.md
 skill_outputs.md
@@ -45,7 +45,7 @@ contract_draft.md
 
 缺失文件不阻塞报告，但必须在报告附录说明“未见/待补/不适用”。
 
-复杂争议报告必须按 `LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付只在用户明确要求 PDF 时触发；触发后必须按 `PDF_RENDERING.md` 渲染，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统；不得把 Markdown 原文直接导出为 PDF。
+复杂争议报告必须按 `docs/LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付只在用户明确要求 PDF 时触发；触发后必须按 `docs/PDF_RENDERING.md` 渲染，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统；不得把 Markdown 原文直接导出为 PDF。
 
 ### 2A. 复核版报告规则
 

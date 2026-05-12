@@ -1,6 +1,6 @@
 # 输出模板总览
 
-本文件提供 Legal-Assistant_agent 的可复用输出结构。最终报告结构以根目录 `REPORT.md` 为准；本文件用于阶段输出和快速复用。
+本文件提供 Legal-Assistant_agent 的可复用输出结构。最终报告结构以 `docs/REPORT.md` 为准；本文件用于阶段输出和快速复用。
 
 ## 0. 通用 i18n、记忆与来源规则
 
@@ -8,8 +8,8 @@
 - 复杂事项默认目录为 `work/<date>_<本地化事项名>/`，事项文件夹必须直接位于 `work/` 下。
 - 工作底稿文件名保持稳定英文，例如 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`。
 - 每执行一个 skill，必须更新对应主题文件，并在 `skill_outputs.md` 记录触发原因、读取文件、更新文件、关键发现、待补问题、来源使用和最终报告章节。
-- 复杂事项必须先依据 `CAPABILITIES.md` 确定事项类型、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具要求和 gate。
-- 纠纷、仲裁、诉讼、投诉、索赔、赔偿、返还、解除或听证类事项，默认按 `CASE_WORKBENCH.md` 生成或更新 `case_dashboard.md` 和 `consultation_note.md`。
+- 复杂事项必须先依据 `docs/CAPABILITIES.md` 确定事项类型、必跑 skill、条件必跑 skill、可选 skill、必备文件、工具要求和 gate。
+- 纠纷、仲裁、诉讼、投诉、索赔、赔偿、返还、解除或听证类事项，默认按 `docs/CASE_WORKBENCH.md` 生成或更新 `case_dashboard.md` 和 `consultation_note.md`。
 - 引用法律、案例、政策、网页或“已核验来源”时，必须写入 `sources.md`；未检索时也要说明原因和引用风险。
 - 最终报告不是概述，必须逐项读取并串联工作底稿中的事实、证据、来源、分析和建议。
 - 复杂争议必须包含争点树、推断链条和法条适用边界。

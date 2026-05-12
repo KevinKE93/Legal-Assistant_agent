@@ -78,7 +78,7 @@
 
 ## 3. 能力矩阵与 gate
 
-目的：根据 `CAPABILITIES.md` 确定这次事项属于什么法律工作场景、哪些角色参与、哪些 skill 必跑、哪些工具和文件必备，以及哪些 gate 必须通过。
+目的：根据 `docs/CAPABILITIES.md` 确定这次事项属于什么法律工作场景、哪些角色参与、哪些 skill 必跑、哪些工具和文件必备，以及哪些 gate 必须通过。
 
 检查项：
 
@@ -302,7 +302,7 @@
 要求：
 
 - 读取同一事项文件夹中的工作文件。
-- 读取 `CAPABILITIES.md` 和 `plan.md`，确认能力覆盖和 gate 状态。
+- 读取 `docs/CAPABILITIES.md` 和 `plan.md`，确认能力覆盖和 gate 状态。
 - 读取 `plan.md` 的 PDCA 阶段、Check 结果和 Act 动作，用于内部状态判断。
 - 读取 `skill_outputs.md`，逐项吸收已执行 skill 的关键发现。
 - 按用户输入语言命名和撰写。
