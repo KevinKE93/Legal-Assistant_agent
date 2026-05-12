@@ -7,7 +7,7 @@ description: 将用户叙述转化为事实清单、程序信息、诉求目标�
 
 ## 事项记忆要求
 
-- 执行本技能后，必须按根目录 `SKILLS.md` 的映射更新事项文件夹中的主题文件，并追加或更新 `skill_outputs.md`。
+- 执行本技能后，必须按 `docs/SKILLS.md` 的映射更新事项文件夹中的主题文件，并追加或更新 `skill_outputs.md`。
 - `skill_outputs.md` 至少记录：skill 名称、触发原因、读取文件、更新文件、关键发现、待补问题、来源使用、对应最终报告章节。
 - 如果本技能没有实际执行，不能在最终报告中声称已执行；如果执行但信息不足，仍要记录缺口、影响和下一步。
 
@@ -21,8 +21,8 @@ description: 将用户叙述转化为事实清单、程序信息、诉求目标�
 1. 把叙述转化为结构化案件概要。
 2. 区分事实、推测、评价和法律结论。
 3. 初步识别请求、抗辩、争点和证据缺口。
-4. 对复杂纠纷按根目录 `LEGAL_REASONING.md` 形成母命题、条件命题和反制命题雏形。
-5. 对案件工作台事项按根目录 `CASE_WORKBENCH.md` 生成或更新 `case_dashboard.md` 和 `consultation_note.md`。
+4. 对复杂纠纷按 `docs/LEGAL_REASONING.md` 形成母命题、条件命题和反制命题雏形。
+5. 对案件工作台事项按 `docs/CASE_WORKBENCH.md` 生成或更新 `case_dashboard.md` 和 `consultation_note.md`。
 6. 为后续证据台账、要件矩阵和策略分析提供基础。
 
 ## 输入

@@ -4,22 +4,23 @@
 
 ## 1. 触发条件
 
-出现以下任一情况，必须生成或更新专业最终报告：
+本文件约束“最终汇总”和“专业报告文件”两类动作。二者不能混同：
 
-- 用户要求“总结、汇总、最终报告、给我一份文件、生成 PDF”。若用户只是要求分析，默认先输出会话汇总结论，不自动生成 PDF。
-- 复杂案件、合同审查、合同起草或法律研究完成一个阶段。
-- 已完成多个阶段的事实整理、证据分析、法律研究或策略设计，需要合并成可交付成果。
-- 出现新证据、新程序节点、新合同版本、新报价，需要复盘后重新交付。
+- 用户要求“分析、总结、汇总、阶段性结论”时，必须执行最终汇总逻辑，在会话界面展示实质性结论，但不默认生成报告文件。
+- 用户要求“最终报告、给我一份文件、Markdown 报告、正式归档、阶段交付文件”时，才生成或更新专业报告 `.md`。
+- 用户明确要求“PDF、可下载 PDF、正式报告 PDF”时，才在 Markdown 同源基础上生成或更新 `.pdf`。
+- 复杂案件、合同审查、合同起草或法律研究完成一个阶段时，必须执行最终汇总逻辑；是否生成文件取决于用户是否要求报告文件或正式归档。
+- 出现新证据、新程序节点、新合同版本、新报价时，先复盘并更新事项工作文件；用户要求报告文件时，再同步更新专业报告。
 
 ## 2. 必读文件
 
 最终汇总前，按存在情况逐项读取：
 
 ```text
-CAPABILITIES.md
-CASE_WORKBENCH.md
-LEGAL_REASONING.md
-PDF_RENDERING.md
+docs/CAPABILITIES.md
+docs/CASE_WORKBENCH.md
+docs/LEGAL_REASONING.md
+docs/PDF_RENDERING.md
 plan.md
 case.md
 skill_outputs.md
@@ -45,7 +46,7 @@ contract_draft.md
 
 缺失文件不阻塞报告，但必须在报告附录说明“未见/待补/不适用”。
 
-复杂争议报告必须按 `LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付只在用户明确要求 PDF 时触发；触发后必须按 `PDF_RENDERING.md` 渲染，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统；不得把 Markdown 原文直接导出为 PDF。
+复杂争议报告必须按 `docs/LEGAL_REASONING.md` 展示争点树、推断链条和法条适用边界。PDF 交付只在用户明确要求 PDF 时触发；触发后必须按 `docs/PDF_RENDERING.md` 渲染，并默认参考 `assets/legal-report-style-reference.png` 与 `assets/legal-report.css` 的现代法律报告视觉系统；不得把 Markdown 原文直接导出为 PDF。
 
 ### 2A. 复核版报告规则
 
