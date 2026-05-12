@@ -25,10 +25,16 @@
 全局或 `/` 指令调用：
 
 ```text
+/legal assistant 分析这个法律事项……
+```
+
+兼容调用：
+
+```text
 /legal-assistant 分析这个法律事项……
 ```
 
-如果宿主客户端支持自定义命令，将命令内容配置为“读取并遵循本仓库的 AGENTS.md”。本仓库不提供安装脚本；宿主客户端如何绑定 `/` 指令由客户端自行配置。
+`/legal assistant` 是推荐的用户可见入口名；如果宿主客户端不支持带空格的 slash command，可使用 `/legal-assistant`。本仓库提供 `native/legal-assistant/` 作为 native skill 入口包，并提供 `tools/install_native_skill.sh` 将其安装到 `$CODEX_HOME/skills/legal-assistant`。
 
 ## 3. 必读规范
 
