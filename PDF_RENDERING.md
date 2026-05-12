@@ -1,6 +1,6 @@
 # PDF_RENDERING.md
 
-本文件定义 Legal-Assistant_agent 的 PDF 渲染和版式质量规则。PDF 不能只是把 Markdown 原文塞进页面；必须先把 Markdown 结构渲染成可读版式，再导出 PDF。
+本文件定义 Legal-Assistant_agent 的按需 PDF 渲染和版式质量规则。PDF 不是默认输出；只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才进入本文件的渲染流程。PDF 不能只是把 Markdown 原文塞进页面；必须先把 Markdown 结构渲染成可读版式，再导出 PDF。
 
 ## 1. 目标
 
@@ -14,7 +14,7 @@
 
 ## 2. 渲染流程
 
-生成 PDF 前必须按以下流程处理：
+用户已明确要求 PDF 时，生成 PDF 前必须按以下流程处理：
 
 ```text
 Markdown 报告
@@ -25,11 +25,11 @@ Markdown 报告
 → 质量检查
 ```
 
-允许使用宿主环境可用的文档/PDF工具，例如 Pandoc、XeLaTeX、文档工具、DOCX-to-PDF、WeasyPrint、wkhtmltopdf、ReportLab、PDFKit 或其他可靠渲染能力。本仓库不内置脚本；工具选择由运行环境决定。PDF 生成默认不得依赖外部浏览器、Chrome headless、Chromium、Edge、Playwright 浏览器或浏览器打印。
+允许使用宿主环境可用的文档/PDF工具，例如 Pandoc、XeLaTeX、文档工具、DOCX-to-PDF、WeasyPrint、wkhtmltopdf、ReportLab、PDFKit、根目录可选渲染器或其他可靠渲染能力。工具选择由运行环境决定。PDF 生成默认不得依赖外部浏览器、Chrome headless、Chromium、Edge、Playwright 浏览器或浏览器打印。
 
 ### 2A. 工具探测与降级顺序
 
-生成 PDF 前，应先探测当前环境实际可用的渲染能力，不要假设某个工具存在：
+用户已请求 PDF 后，应先探测当前环境实际可用的渲染能力，不要假设某个工具存在：
 
 1. 优先使用宿主提供的文档/PDF运行时、Pandoc、XeLaTeX、WeasyPrint、wkhtmltopdf、DOCX-to-PDF、ReportLab、PDFKit 或其他可渲染表格和中文字体的非浏览器工具。
 2. 如果默认 Python/Node 环境缺少依赖，但宿主提供 bundled runtime，可以优先使用 bundled runtime 中已有的 PDF/文档库。
@@ -37,11 +37,13 @@ Markdown 报告
 4. 若 Mermaid、flowchart 或其他图形无法渲染为图片，应在 PDF 版删除源码并改写为关系表、编号链条或说明文字。
 5. 如果没有任何可靠渲染能力，标记 `PDF status: blocked`，交付 Markdown，并说明下一步需要的转换工具。
 
+如果用户未请求 PDF，`PDF status` 应写为 `not requested`，`PDF Gate` 写为 `skipped / not requested`，不得标记 blocked。
+
 不得为了生成文件而把 Markdown 纯文本直接写入 PDF；这类文件视为 PDF gate 未通过。
 
 ### 2B. 推荐执行路径
 
-本仓库保持纯文档工作流，不内置渲染脚本。运行环境具备相应工具时，优先按以下顺序选择一种路径；只要任一步无法确认质量，就标记 `PDF status: blocked`，不要生成伪成功文件。
+本仓库保持纯文档工作流，根目录渲染器仅作为可选辅助工具。运行环境具备相应工具时，优先按以下顺序选择一种路径；只要任一步无法确认质量，就标记 `PDF status: blocked`，不要生成伪成功文件。
 
 #### 路径 A：Markdown → DOCX → PDF
 
@@ -78,6 +80,8 @@ pandoc "<报告.md>" \
 
 适合需要 CSS 视觉系统但不能使用外部浏览器的环境。WeasyPrint 和 wkhtmltopdf 属于无浏览器 HTML-to-PDF 引擎；不得替换为 Chrome、Chromium、Edge、Playwright 或浏览器打印。
 
+默认样式以根目录 `assets/legal-report.css` 为准，并以 `assets/legal-report-style-reference.png` 作为视觉参考。该 CSS 定义现代白底卡片、蓝/紫/青强调色、双语标题、编号胶囊、浅色数据表、指标卡、时间线/证据/行动模块和可打印 A4 间距。渲染时应优先引用或内联根目录样式，不要每次把样式和脚本复制到 `work/` 事项文件夹。
+
 ```sh
 pandoc "<报告.md>" --from gfm --to html5 --standalone --toc --css "<报告样式.css>" --output "<报告.html>"
 weasyprint "<报告.html>" "<报告.pdf>"
@@ -94,6 +98,22 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 #### 路径 D：Markdown → PDF-native 文档对象 → PDF
 
 适合宿主没有 Pandoc、LaTeX 或 DOCX-to-PDF，但有可用 PDF 生成库的环境，例如 ReportLab、PDFKit、pdfmake、Prawn 或宿主文档运行时。
+
+本仓库提供一个可选的根目录渲染器，适合“输入目录 = 输出目录”的事项文件夹用法：
+
+```sh
+python tools/render_report_pdf.py "work/<date>_<事项名>"
+```
+
+默认自动查找该目录下的专业报告 Markdown，并在同一目录生成同名 PDF。若报告文件名特殊，可指定：
+
+```sh
+python tools/render_report_pdf.py "work/<date>_<事项名>" --report "<报告.md>"
+```
+
+该路径依赖 `reportlab`。若系统默认 Python 缺少依赖，应使用宿主或 Codex 提供的文档/PDF bundled Python 运行时，或在执行脚本的 Python 环境中安装 `reportlab`。
+
+该脚本属于可选辅助工具，不应复制到事项文件夹；事项文件夹只保留报告 Markdown、PDF、工作底稿和必要附件。
 
 要求：
 
@@ -118,7 +138,7 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 ### 2C. 阻塞判定
 
-以下情况应立即停止 PDF 交付并写入 `plan.md`：
+用户已请求 PDF 后，以下情况应立即停止 PDF 交付并写入 `plan.md`：
 
 | 阻塞原因 | PDF status | Report status 影响 | 下一步 |
 |---|---|---|---|
@@ -128,11 +148,11 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 | Markdown 已更新但 PDF 未重渲染 | blocked | 不得沿用旧 PDF 状态 | 用同一 Markdown 重新生成 PDF |
 | Source Gate 或 Evidence Gate 同时 blocked | blocked | 报告通常为 `draft` 或 `incomplete`，不是 `complete_except_pdf` | 先完成来源/证据核验或明确阶段性限制 |
 
-`complete_except_pdf` 只能用于“内容、来源、证据、报告和会话 gate 均通过，唯独 PDF 渲染环境或质量检查失败”的情况。
+`complete_except_pdf` 只能用于“用户已请求 PDF，且内容、来源、证据、报告和会话 gate 均通过，唯独 PDF 渲染环境或质量检查失败”的情况。未请求 PDF 时不使用 `complete_except_pdf`。
 
 ## 3. 禁止的 PDF 交付
 
-以下情况必须标记为 `PDF status: blocked`，不能声称 PDF 已完成：
+用户已请求 PDF 时，以下情况必须标记为 `PDF status: blocked`，不能声称 PDF 已完成：
 
 - PDF 中出现 Markdown 表格管道符：`|---|---|`。
 - Mermaid、flowchart、HTML 或 Markdown 代码块以原始文本形式出现在正文。
@@ -164,7 +184,7 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 ### 表格
 
-- 表头使用浅色底和加粗。
+- 表头使用浅蓝或浅青底色、深色文字和加粗；若工具限制，也必须使用清晰表头底色和边界线。
 - 单元格允许自动换行。
 - 宽表可拆分为多张窄表，或改成卡片式列表。
 - 金额、概率、时间线、证据链、争点矩阵应优先表格化。
@@ -181,21 +201,36 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 ### 4A. 视觉系统
 
-推荐使用克制、清晰、专业的法律备忘录风格，不使用夸张装饰、法律锤/天平等陈词滥调图形，也不使用深色背景或高饱和渐变。
+PDF 视觉系统以 `assets/legal-report-style-reference.png` 和 `assets/legal-report.css` 为 canonical 样式：专业、可信、清晰、高效、数据驱动、一致规范。整体应像面向律师、当事人和决策层的现代法律分析产品报告，而不是普通 Markdown 打印稿或传统备忘录。允许使用克制的徽标、编号、卡片、指标和浅色抽象背景；不得使用夸张法律锤/天平、深色整页正文或高饱和大面积渐变。
 
 设计基调：
 
 | 项目 | 建议 |
 |---|---|
-| 纸张背景 | `#F8FAFC` 页面底，正文卡片/纸张使用 `#FFFFFF` |
-| 主文字 | `#102033` 深蓝黑 |
-| 次级文字 | `#53657A` 灰蓝 |
-| 边框 | `#D8E0EA` 浅灰蓝 |
-| 表头底色 | `#EEF4FA` |
-| 主强调色 | `#1E4A8A` 稳重蓝 |
-| 风险强调 | `#B7791F` 琥珀色，仅用于风险、待核验、注意事项 |
-| 已核验强调 | `#2F7D57` 绿色，仅用于已核验来源或完成状态 |
-| 字体 | 中文优先 `PingFang SC`、`Source Han Sans SC`、`Noto Sans CJK SC`、`Microsoft YaHei`、`Heiti SC` 等现代无衬线字体；标题和正文保持同一字体体系 |
+| Ink / 主文字 | `#101936` 深蓝黑，用于标题、正文和关键判断 |
+| Primary / 主强调 | `#1677FF` 明亮专业蓝，用于编号胶囊、章节强调、链接和主线 |
+| Purple / 辅助强调 | `#635BFF` 蓝紫色，用于封面视觉、目录编号和模块渐变 |
+| Cyan / 数据强调 | `#14B8A6` 青绿色，用于证据强度、数据驱动、已核验状态 |
+| Steel / 次级文字 | `#64748B` 灰蓝，用于页码、元信息、图例和弱提示 |
+| Page / 页面底 | `#F6FAFF` 极浅蓝白，用于页面背景 |
+| Card / 卡片底 | `#FFFFFF` 用于章节、摘要、数据、证据、行动模块 |
+| Border / 分割线 | `#DDE8F7` 浅蓝灰，用于表格、卡片、页眉页脚分割 |
+| Warning / 风险强调 | `#F59E0B` 琥珀色，仅用于风险、待核验、重要提示 |
+| 标题字体 | 中文优先现代黑体，例如 `PingFang SC`、`Source Han Sans SC`、`Noto Sans CJK SC` |
+| 正文字体 | 中文优先 `PingFang SC`、`Source Han Sans SC`、`Noto Sans CJK SC`、`Microsoft YaHei`、`Heiti SC`；英文可用 `Inter` |
+
+版式组件：
+
+| 组件 | 视觉要求 | 内容要求 |
+|---|---|---|
+| 封面 | 白底主卡片，左侧报告标题与元信息，右侧蓝紫视觉面板；使用品牌徽标、双语副标题和模块化信息区 | 必须能一眼识别报告主题、状态、日期、版本和限制 |
+| 目录 | `01/02/03` 编号胶囊 + 章节卡片 + 页码/序号 | 长报告必须生成可扫描目录页，避免普通长列表 |
+| 执行摘要 | 使用卡片、编号结论、关键指标和风险概览，而不是纯段落 | 每条结论绑定依据、证据状态、风险和下一步 |
+| 事实与证据 | 使用时间线、证据清单、强度条或状态字段 | 证据强弱和缺口必须可视化或表格化 |
+| 争点矩阵 | 浅蓝表头、浅色交替行、固定列宽、可重复表头 | 超过 6 列优先拆分或降级为卡片式窄表 |
+| 法律依据与论证 | 法律依据、论证路径、适用边界分区展示 | 不把法条和结论挤成单段 |
+| 行动清单 | 表格 + 进度/状态 + 风险提示 + 附件/材料模块 | 行动必须有目的、责任方、触发条件或产物 |
+| 交付检查 | 使用小型清单或状态表 | 明确 PDF 可读、表格已渲染、来源列明、风险披露 |
 
 排版原则：
 
@@ -204,6 +239,8 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 - 正文段落控制在 3-6 行，长段落拆成小标题、表格或清单。
 - 表格不追求“一张表装下所有问题”；超过 6 列的宽表优先拆分。
 - 关键判断、最大风险、待补材料和引用风险必须用醒目的提示区块，不埋在正文中。
+- 页眉页脚保持轻量：页眉放报告类型或章节提示，页脚放页码、保密/草稿提示或事项简称。
+- 双语不是逐句翻译全文，而是关键标题、封面、指标标签、交付检查等高层导航保持中英并列。
 
 ### 4B. 推荐 CSS 样式
 
@@ -222,15 +259,17 @@ wkhtmltopdf --enable-local-file-access "<报告.html>" "<报告.pdf>"
 
 :root {
   --paper: #ffffff;
-  --page-bg: #f8fafc;
-  --ink: #102033;
-  --muted: #53657a;
-  --line: #d8e0ea;
-  --soft: #eef4fa;
-  --brand: #1e4a8a;
-  --risk: #b7791f;
-  --ok: #2f7d57;
-  --danger: #9f2d2d;
+  --page-bg: #f6faff;
+  --ink: #101936;
+  --muted: #64748b;
+  --line: #dde8f7;
+  --soft: #f1f7ff;
+  --brand: #1677ff;
+  --purple: #635bff;
+  --cyan: #14b8a6;
+  --risk: #f59e0b;
+  --ok: #10b981;
+  --danger: #a33a35;
 }
 
 body {
@@ -253,17 +292,31 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 25pt;
+  font-family: "Inter", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  font-size: 26pt;
   line-height: 1.18;
   margin: 0 0 16pt;
   letter-spacing: 0;
 }
 
 h2 {
-  font-size: 16pt;
-  margin: 22pt 0 9pt;
-  padding-bottom: 5pt;
-  border-bottom: 1px solid var(--line);
+  font-size: 15pt;
+  margin: 22pt 0 10pt;
+  padding: 8pt 10pt;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+h2::before {
+  content: "";
+  display: inline-block;
+  width: 18pt;
+  height: 18pt;
+  margin-right: 7pt;
+  vertical-align: middle;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--brand), var(--purple));
 }
 
 h3 {
@@ -314,9 +367,10 @@ blockquote,
 .callout {
   margin: 12pt 0;
   padding: 10pt 12pt;
+  border: 1px solid var(--line);
   border-left: 4px solid var(--brand);
-  background: #f5f8fc;
-  border-radius: 6px;
+  background: var(--paper);
+  border-radius: 8px;
 }
 
 .callout.core {
@@ -329,8 +383,8 @@ blockquote,
 }
 
 .callout.source {
-  border-left-color: var(--ok);
-  background: #f1f8f4;
+  border-left-color: var(--cyan);
+  background: #ecfeff;
 }
 
 .callout.danger {
@@ -350,16 +404,44 @@ pre {
   padding: 10pt;
 }
 
-.cover {
-  min-height: 230mm;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.report-cover {
+  min-height: 252mm;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 12mm;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 8px;
+  padding: 22mm 18mm;
+  break-after: page;
 }
 
-.cover-meta {
-  color: var(--muted);
-  font-size: 10pt;
+.report-cover__body {
+  padding: 0;
+}
+
+.report-cover__visual {
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--brand), var(--purple));
+  min-height: 110mm;
+}
+
+.cover-meta,
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8pt;
+}
+
+.metric-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.metric-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8pt 9pt;
 }
 
 .toc a {
@@ -375,7 +457,7 @@ Markdown 源文档应当是语义清晰的报告，不是渲染后的视觉稿�
 |---|---|---|
 | `#` 一级标题 | 封面标题或章节首页标题 | 每页重复超大标题 |
 | `##` 二级标题 | 主要章节标题 | 标题与正文挤在一起 |
-| 表格 | 真实表格，表头浅色底，单元格自动换行 | 显示 `|---|---|` |
+| 表格 | 真实表格，浅蓝/浅青表头或清晰表头底色，单元格自动换行 | 显示 `|---|---|` |
 | 引用块 | 提示区块或判断框 | 与普通正文无区分 |
 | 代码块 | 仅用于真实代码或命令；报告正文不应出现 Mermaid 源码 | 把流程图源码放进 PDF |
 | 长列表 | 分组列表、步骤表或行动清单 | 连续 20 行项目符号 |
@@ -446,18 +528,18 @@ Markdown 源文档应当是语义清晰的报告，不是渲染后的视觉稿�
 theme: base
 themeVariables:
   fontFamily: "PingFang SC, Source Han Sans SC, Noto Sans CJK SC, Inter, sans-serif"
-  primaryColor: "#EEF4FA"
-  primaryTextColor: "#102033"
-  primaryBorderColor: "#1E4A8A"
-  lineColor: "#587FA6"
-  secondaryColor: "#FFF8EB"
-  secondaryTextColor: "#102033"
-  secondaryBorderColor: "#B7791F"
-  tertiaryColor: "#F1F8F4"
-  tertiaryTextColor: "#102033"
-  tertiaryBorderColor: "#2F7D57"
-  noteBkgColor: "#FFF8EB"
-  noteTextColor: "#102033"
+  primaryColor: "#F1F7FF"
+  primaryTextColor: "#101936"
+  primaryBorderColor: "#1677FF"
+  lineColor: "#64748B"
+  secondaryColor: "#F4F2FF"
+  secondaryTextColor: "#101936"
+  secondaryBorderColor: "#635BFF"
+  tertiaryColor: "#ECFEFF"
+  tertiaryTextColor: "#101936"
+  tertiaryBorderColor: "#14B8A6"
+  noteBkgColor: "#FFF7E6"
+  noteTextColor: "#101936"
 ```
 
 流程图规范：
@@ -483,7 +565,7 @@ PDF 生成后至少检查：
 | 长表处理 | 宽表没有严重截断或溢出 |
 | 内容一致 | PDF 与 Markdown 报告同源 |
 
-若任一关键项不通过，在 `plan.md` 或内部交付记录以及会话回复中说明 PDF blocked，并交付 Markdown 作为主文件。
+若任一关键项不通过，在 `plan.md` 或内部交付记录以及会话回复中说明 PDF blocked，并交付 Markdown 作为主文件。若用户未请求 PDF，不执行本检查，状态写为 `not requested`。
 
 ### 6A. 可执行检查建议
 
@@ -498,9 +580,11 @@ PDF 生成后至少检查：
 
 ## 7. 最低交付要求
 
-最终回复不能只说“PDF 已生成”。必须说明：
+用户已请求 PDF 时，最终回复不能只说“PDF 已生成”。必须说明：
 
 - Markdown 报告路径。
 - PDF 路径或 blocked 原因。
 - PDF 是否经过基础可读性检查。
 - 如果 blocked，下一步应使用哪类渲染工具转换。
+
+用户未请求 PDF 时，最终回复应以实质汇总结论为主，并提示：“如需正式 PDF 专业报告，可以继续提出。”

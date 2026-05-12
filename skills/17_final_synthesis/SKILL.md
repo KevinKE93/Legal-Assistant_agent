@@ -1,6 +1,6 @@
 ---
 name: final_synthesis
-description: 在复杂法律事项、案件分析、合同审查、合同起草或法律研究需要阶段性收口、专业报告、PDF 交付或会话实质汇总时使用。
+description: 在复杂法律事项、案件分析、合同审查、合同起草或法律研究需要阶段性收口、会话实质汇总、专业报告或按需 PDF 交付时使用。
 ---
 
 # Skill：最终汇总与专业报告交付
@@ -17,8 +17,9 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 2. 逐项吸收 `skill_outputs.md` 中已沉淀的关键发现，确保事实、证据、来源、分析和建议进入报告；不要把 skill 执行表直接展示给阅读对象。
 3. 在会话界面展示实质性汇总内容：核心结论、争点关系、证据缺口、来源核验、最大风险和下一步。
 4. 按 `LEGAL_REASONING.md` 检查争点树、推断链和法条适用边界是否进入报告。
-5. 输出本地化命名的专业报告 `.md`，再按 `PDF_RENDERING.md` 渲染为可读 PDF。
-6. 对 PDF 做基本质量检查；若不合格，明确标记 blocked。
+5. 默认先在会话界面输出结构化汇总结论，并提示用户如需正式 PDF 专业报告可以继续提出。
+6. 只有用户要求报告文件、阶段交付或正式归档时，才输出本地化命名的专业报告 `.md`。
+7. 只有用户明确要求 PDF 时，才按 `PDF_RENDERING.md` 渲染为可读 PDF，并做基本质量检查；若不合格，明确标记 blocked。
 
 ## 输入
 
@@ -32,7 +33,7 @@ description: 在复杂法律事项、案件分析、合同审查、合同起草�
 - `plan.md` 中的 PDCA 阶段、Check 结果和 Act 动作。
 - `skill_outputs.md` 中的执行索引。
 - `sources.md` 中的来源记录。
-- 宿主环境是否具备可靠 PDF 导出能力。
+- 用户是否明确要求 PDF；若已要求，再判断宿主环境是否具备可靠 PDF 导出能力。
 
 ## 必读文件
 
@@ -70,10 +71,10 @@ contract_draft.md
 
 ## 命名
 
-- 中文复杂纠纷：`<法律问题主题>专业报告.md` 和 `<法律问题主题>专业报告.pdf`。
-- 中文合同审查：`<合同主题>合同审查专业报告.md` 和 `<合同主题>合同审查专业报告.pdf`。
-- 中文合同起草：`<合同主题>合同草案.md` 和 `<合同主题>合同草案.pdf`。
-- 中文法律研究：`<主题>法律研究报告.md` 和 `<主题>法律研究报告.pdf`。
+- 中文复杂纠纷：默认会话汇总结论；用户要求报告文件时生成 `<法律问题主题>专业报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
+- 中文合同审查：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同审查专业报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
+- 中文合同起草：默认会话汇总结论；用户要求报告文件时生成 `<合同主题>合同草案.md`；用户明确要求 PDF 时生成同名 `.pdf`。
+- 中文法律研究：默认会话汇总结论；用户要求报告文件时生成 `<主题>法律研究报告.md`；用户明确要求 PDF 时生成同名 `.pdf`。
 - 英文事项使用英文对应名称。
 - 事项文件夹必须直接位于 `work/` 下。
 
@@ -86,8 +87,8 @@ contract_draft.md
 1. 读取既有 `plan.md`、`case.md`、`skill_outputs.md`、`sources.md`、`analysis.md`、`advice.md` 和旧报告。
 2. 判断本轮输入是否属于同一事项；如复用，在 `plan.md` 写明 `Reuse check: reused existing folder` 和复用理由。
 3. 把新事实写入 `case.md` 的 `Update Log`；如没有原始证据，保持“用户陈述/待证明事实”。
-4. 若涉及最新法律、政策、期限、来源或 PDF 状态，重新核验并更新 `sources.md`、`plan.md` 和报告质量检查。
-5. 更新 Markdown 后必须重新生成同名 PDF；无法生成合格 PDF 时，标记 blocked，不得继续把旧 PDF 当作本轮交付成果。
+4. 若涉及最新法律、政策、期限、来源或已请求的 PDF 状态，重新核验并更新 `sources.md`、`plan.md` 和报告质量检查。
+5. 用户已请求 PDF 时，更新 Markdown 后必须重新生成同名 PDF；无法生成合格 PDF 时，标记 blocked，不得继续把旧 PDF 当作本轮交付成果。未请求 PDF 时，PDF Gate 写为 `skipped / not requested`。
 
 ### 1. 文件覆盖表
 
@@ -115,7 +116,7 @@ contract_draft.md
 | Skill | Required / Conditional / Optional | Status | 关键发现 | 待补问题 | 对应报告章节 | 是否已纳入 |
 |---|---|---|---|---|---|---|
 
-每个已执行 skill 的关键发现至少进入一个实体章节或子章节，但不要以内部产物索引、覆盖表或“某内部阶段未执行”等形式面向读者展示。必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于内容、来源、证据、报告和会话 gate 全部通过、仅 PDF Gate 阻塞的情况；Source Gate blocked 时不得标记为 complete_except_pdf。
+每个已执行 skill 的关键发现至少进入一个实体章节或子章节，但不要以内部产物索引、覆盖表或“某内部阶段未执行”等形式面向读者展示。必跑或条件必跑 skill 未 `done` 的，报告状态不能标记为 complete；若该缺口影响实质分析，应标记为 draft 或 incomplete。complete_except_pdf 只适用于用户已请求 PDF，且内容、来源、证据、报告和会话 gate 全部通过、仅 PDF Gate 阻塞的情况；Source Gate blocked 时不得标记为 complete_except_pdf。未请求 PDF 时，PDF Gate 为 `skipped / not requested`。
 
 如果内部检查发现缺口，只在专业报告中转化为读者可理解的可靠性限制，例如：
 
@@ -163,7 +164,9 @@ contract_draft.md
 
 写入事项文件夹中的本地化专业报告文件。报告不得只是复制 `analysis.md`；必须串联 `case.md`、`case_dashboard.md`、`consultation_note.md`、`case_package.md`、`timeline.md`、`evidence.md`、`sources.md`、`advice.md` 和 `skill_outputs.md`。某些工作台文件不存在时，要说明是“不适用、未生成、待补材料后生成”，不能暗示已经覆盖。
 
-### 7. 渲染 PDF
+### 7. 按需渲染 PDF
+
+默认不要渲染 PDF。只有用户明确要求 PDF、可下载 PDF、正式报告 PDF 或阶段交付 PDF 时，才执行本节。
 
 先将 Markdown 报告转换为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML，再导出同名 PDF。优先使用支持 CJK 字体、表格、页眉页脚和分页的非浏览器渲染能力。
 
@@ -179,16 +182,16 @@ contract_draft.md
 - PDF 中不得出现 Markdown 管道符、未渲染代码块、Mermaid 源码或 HTML 残留。
 - 如果 Mermaid/flowchart 不能渲染为图片，PDF 版必须改写为关系表、编号链条或说明文字，不能保留源码。
 
-不得假称已生成 PDF。若当前环境无法导出合格 PDF：
+不得假称已生成 PDF。若用户已要求 PDF，但当前环境无法导出合格 PDF：
 
 - 在 `plan.md` 标记 `PDF status: blocked`。
 - 在 `plan.md` 或内部交付记录写明阻塞原因。
 - 在会话中说明 Markdown 已生成、PDF 待转换。
-- 如果同时存在 Source Gate、Evidence Gate 或必跑 skill blocked，报告状态应为 `draft` 或 `incomplete`；只有 PDF 是唯一阻塞项时，才可标记 `complete_except_pdf`。
+- 如果同时存在 Source Gate、Evidence Gate 或必跑 skill blocked，报告状态应为 `draft` 或 `incomplete`；只有用户已请求 PDF 且 PDF 是唯一阻塞项时，才可标记 `complete_except_pdf`。
 
 ### 8. PDF 质量检查
 
-合格 PDF 必须满足：
+用户已请求 PDF 时，合格 PDF 必须满足：
 
 - 文件存在且大小非空。
 - 中文、英文、数字、表格基本可读。
@@ -254,7 +257,7 @@ contract_draft.md
 
 ### 已生成文件
 - Markdown:
-- PDF:
+- PDF: 未请求 / 已生成 / blocked
 ```
 
 ## 质量检查
@@ -267,5 +270,6 @@ contract_draft.md
 - 不把工作底稿直接复制为最终报告。
 - 中文输入不得输出英文目录名或英文总结文件名。
 - 引用来源必须进入 `sources.md` 和报告参考文献表。
-- PDF 路径必须真实存在且质量合格；否则明确说明未生成及原因。
+- 用户未请求 PDF 时，必须在会话结尾提示：如需正式 PDF 专业报告，可以继续提出。
+- 用户已请求 PDF 时，PDF 路径必须真实存在且质量合格；否则明确说明未生成及原因。
 - PDF 不得包含未渲染 Markdown 表格、Mermaid 源码或代码块。
