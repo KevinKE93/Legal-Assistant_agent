@@ -169,5 +169,5 @@ description: 起草、改写或审查法律相关文本，包括沟通信、事�
 - 不编造法条和案例。
 - 专业报告必须综合 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md`、`advice.md`、`sources.md` 等工作文件，不得只复制底稿。
 - 文件名和正文语言默认跟随用户输入语言。
-- 复杂事项专业报告应交给 `skills/17_final_synthesis/` 执行；默认输出会话汇总结论，用户要求报告文件时输出 `.md`，用户明确要求 PDF 时才输出同名 `.pdf`。
+- 复杂事项专业报告应交给 `skills/17_final_synthesis/` 执行，并输出 `.md` 与同名 `.pdf`。
 - 进入程序或准备提交材料时，先更新 `pleading_framework.md`；材料不足时不得输出看似可直接提交的正式文书。

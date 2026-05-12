@@ -23,7 +23,7 @@ description: 在新证据、新陈述、新合同版本、新程序节点、新�
 3. 更新事项状态、下一步行动和责任方。
 4. 将本轮关键分析写入对应 markdown 文件。
 5. 生成或更新 `review_delta.md`，明确新旧判断差异、受影响争点和需重跑文件。
-6. 按用户要求更新面向用户的专业报告 Markdown；只有用户明确要求 PDF 时才同步更新 PDF。
+6. 更新面向用户的专业报告 Markdown 和 PDF。
 7. 保持事项记忆连续，不从空白分析重新开始。
 
 ## 输入
@@ -85,8 +85,7 @@ work/<date>_<本地化事项名>/
 - `skill_outputs.md`：记录本轮复盘读取了什么、改变了什么、哪些 skill 需要重做、对应最终报告章节。
 - `review_delta.md`：新信息、受影响事实、受影响争点、变化判断、对请求/抗辩/策略的影响、需要更新的文件和需要重跑的 skill。
 - 相关专题文件：例如 `analysis.md`、`advice.md`、`timeline.md`、`evidence.md`、`sources.md`、`contract.md`、`clause_review.md`、`contract_draft.md`。
-- 面向用户的专业报告 Markdown：在用户要求报告文件、阶段交付或正式归档时，根据最新状态重写摘要、关键结论、风险、来源和下一步。
-- 面向用户的专业报告 PDF：只有用户明确要求 PDF 时才同步重渲染；未请求 PDF 时标记为 `not requested`。
+- 面向用户的专业报告 Markdown 和 PDF：根据最新状态重写摘要、关键结论、风险、来源和下一步。
 
 ### 6. 经验沉淀
 
@@ -106,7 +105,7 @@ work/<date>_<本地化事项名>/
 - 新增信息来源：
 - 事项文件夹：
 - 专业报告 Markdown：
-- 专业报告 PDF：not requested / requested / ready / blocked
+- 专业报告 PDF：
 - 当前阶段：
 
 ## 新旧变化
@@ -139,7 +138,7 @@ work/<date>_<本地化事项名>/
 - 已更新 skill_outputs.md：
 - 已更新其他文件：
 - 已更新专业报告 Markdown：
-- 已更新专业报告 PDF：未请求 / 已更新 / blocked
+- 已更新专业报告 PDF：
 
 ## 经验记录
 ```
@@ -153,5 +152,5 @@ work/<date>_<本地化事项名>/
 - 每次复盘都记录责任方和下一步。
 - 每次实质复盘都维护 `review_delta.md`，不能只在对话里说明“有变化”。
 - 不把聊天记录当作唯一记忆，必须更新事项文件夹。
-- 若本轮变化会影响用户可读结论，必须同步更新会话汇总；用户已要求报告文件时更新专业报告 Markdown；用户明确要求 PDF 时才更新 PDF。
+- 若本轮变化会影响用户可读结论，必须同步更新专业报告 Markdown 和 PDF。
 - 经验记录保持抽象，不包含隐私。

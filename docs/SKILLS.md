@@ -51,7 +51,7 @@
 | `review_learning_loop` | 新证据、新程序、新报价、新合同版本 | `plan.md`、`case.md`、`review_delta.md`、相关主题文件、`skill_outputs.md` | 复盘更新与变化说明 |
 | `contract_review` | 审查合同、协议、补充协议、条款清单 | `contract.md`、`clause_review.md`、`advice.md`、`skill_outputs.md` | 合同条款摘要与风险清单 |
 | `contract_drafting` | 起草合同、补充协议、和解协议、条款清单 | `term_sheet.md`、`contract_draft.md`、`advice.md`、`skill_outputs.md` | 合同草案与条款选择 |
-| `final_synthesis` | 阶段完成、用户要总结/报告/PDF、复杂事项收口 | 适用时的 `case_package.md`、用户要求报告文件时的专业报告 `.md`、用户要求 PDF 时的专业报告 `.pdf`、`plan.md`、`skill_outputs.md` | 会话汇总结论、案件包与全部报告章节 |
+| `final_synthesis` | 阶段完成、用户要总结/报告/PDF、复杂事项收口 | `case_package.md`、专业报告 `.md`、专业报告 `.pdf`、`plan.md`、`skill_outputs.md` | 案件包与全部报告章节 |
 
 ## 3. 必跑、可选和跳过规则
 

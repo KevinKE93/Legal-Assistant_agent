@@ -24,16 +24,16 @@
 | Adjudicator | 法官、仲裁员、调解员或审稿律师视角 | `analysis.md`、`advice.md` |
 | Strategist | 谈判、投诉、仲裁、诉讼、执行和行动路径 | `advice.md`、`plan.md` |
 | Drafter | 文书、函件、合同、条款和提纲 | `drafts.md`、`contract_draft.md` |
-| Final Editor / QA | 串联所有产物，检查完整性，默认输出会话汇总结论；按用户要求生成专业报告和 PDF | 会话汇总结论；按需专业报告 `.md` 和 `.pdf` |
+| Final Editor / QA | 串联所有产物，检查完整性，默认输出会话汇总结论；按用户要求生成专业报告和 PDF | 专业报告 `.md`，按需 `.pdf` |
 
 ## 2. 能力覆盖矩阵
 
 | 事项类型 | 触发信号 | 必跑角色 | 必跑 skill | 可选 skill | 必备文件 | 工具要求 | 最终报告重点 |
 |---|---|---|---|---|---|---|---|
-| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Case Navigator, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `case_dashboard.md`, `consultation_note.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`; 深度阶段按需 `case_package.md`；报告文件按需生成 | 涉及法律依据时必须检索官方/权威来源 | 案件驾驶舱、争点树、推断链、证明责任、证据链、来源、对方视角、裁判视角、策略 |
-| 合同审查 | 审合同、能不能签、条款风险、补充协议风险 | Intake, Matter, Research, Contract Reviewer, Strategist, Editor | 01,10,15,11,17 | 12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `contract.md`, `clause_review.md`, `sources.md`, `advice.md`; 报告文件按需生成 | 涉及强制性规定、行业监管、管辖时检索 | 条款摘要、风险分级、缺失条款、修改建议、谈判优先级 |
+| 纠纷/案件分析 | 维权、赔偿、仲裁、诉讼、投诉、对方主张、风险评估 | Intake, Matter, Case Navigator, Evidence, Issue, Research, Red Team, Adjudicator, Strategist, Editor | 01,02,03,04,08,09,10,11,17 | 05,06,07,12,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `case_dashboard.md`, `consultation_note.md`, `timeline.md`, `evidence.md`, `sources.md`, `analysis.md`, `advice.md`, `case_package.md`, 专业报告 | 涉及法律依据时必须检索官方/权威来源 | 案件驾驶舱、争点树、推断链、证明责任、证据链、来源、对方视角、裁判视角、策略 |
+| 合同审查 | 审合同、能不能签、条款风险、补充协议风险 | Intake, Matter, Research, Contract Reviewer, Strategist, Editor | 01,10,15,11,17 | 12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `contract.md`, `clause_review.md`, `sources.md`, `advice.md`, 专业报告 | 涉及强制性规定、行业监管、管辖时检索 | 条款摘要、风险分级、缺失条款、修改建议、谈判优先级 |
 | 合同起草 | 写合同、拟协议、补充协议、和解协议、条款清单 | Intake, Matter, Research, Deal Architect, Drafter, Editor | 01,10,16,17 | 11,12,14 | `plan.md`, `case.md`, `skill_outputs.md`, `term_sheet.md`, `contract_draft.md`, `sources.md`, `advice.md` | 涉及监管、格式条款、行业规则时检索 | 交易结构、条款框架、合同草案、可谈判条款、签署清单 |
-| 法律研究 | 查法律、找案例、政策依据、规则适用、引用来源 | Intake, Matter, Research, Issue, Editor | 01,10,17 | 04,09,11 | `plan.md`, `case.md`, `skill_outputs.md`, `sources.md`, `analysis.md`; 研究报告文件按需生成 | 必须检索官方/权威来源；未联网则只能输出待核验研究框架 | 法律问题、来源表、规则摘要、适用条件、引用风险 |
+| 法律研究 | 查法律、找案例、政策依据、规则适用、引用来源 | Intake, Matter, Research, Issue, Editor | 01,10,17 | 04,09,11 | `plan.md`, `case.md`, `skill_outputs.md`, `sources.md`, `analysis.md`, 研究报告 | 必须检索官方/权威来源；未联网则只能输出待核验研究框架 | 法律问题、来源表、规则摘要、适用条件、引用风险 |
 | 文书草拟 | 写函、投诉、起诉状框架、答辩、沟通话术、证据目录 | Intake, Matter, Drafter, Strategist, Editor | 01,12,11,17 | 03,04,07,10,13,14 | `plan.md`, `case.md`, `skill_outputs.md`, `drafts.md`, `advice.md`, 必要时 `sources.md` | 文书引用法律或官方口径时检索 | 用途、对象、事实依据、请求、措辞风险、使用前核验 |
 | 谈判/和解 | 怎么谈、报价、底线、让步、对方压价、和解协议 | Intake, Matter, Evidence, Red Team, Strategist, Drafter, Editor | 01,03,08,11,12,17 | 04,07,09,10,14 | `plan.md`, `case.md`, `skill_outputs.md`, `evidence.md`, `advice.md`, `drafts.md` | 需要法律筹码时检索 | 筹码、底线、让步顺序、交换条件、话术和禁忌 |
 | 庭审/听证准备 | 开庭、仲裁庭、调解、质证、法官追问、听证 | Intake, Matter, Evidence, Issue, Red Team, Adjudicator, Drafter, Editor | 01,03,04,08,09,13,17 | 05,07,10,11,14 | `plan.md`, `case.md`, `skill_outputs.md`, `timeline.md`, `evidence.md`, `hearing.md`, `hearing_playbook.md`, `drafts.md` | 涉及法律依据和裁判规则时检索 | 庭审主线、证据使用、质证意见、发问清单、追问回答 |
