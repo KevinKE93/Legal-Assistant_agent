@@ -5,195 +5,148 @@
 ![Safety](https://img.shields.io/badge/safety-privacy--first-success)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 一个面向法律事项分析、合同工作、法律研究、策略推演和专业交付的 AI 法律工作台。
+> 面向法律事项分析、合同工作、法律研究、策略推演和专业交付的 AI 法律工作台。
 
-**作者：Kevin KE / [laoke.ai](https://laoke.ai)**
+**作者：Kevin KE / [laoke.ai](https://laoke.ai)**  
+[English Version](#english-version)
 
 ![Legal Assistant Agent feature overview](assets/legal-assistant-intro.png)
 
-> 功能总览图使用虚构信息，仅展示输入层、方法轮、功能模块、输出层和工作流闭环，不包含真实案件信息。The overview uses fictional information only.
+> 功能总览图使用虚构信息，仅展示工作流能力，不包含真实案件信息。
 
----
+## 中文说明
 
-## 中文
+**法律助手智能体 Legal-Assistant_agent** 让大模型不只是“回答法律问题”，而是按法律工作者的方式处理一件事：先看材料、识别目标，再拆争点、看证据、查来源、评估风险，最后形成可执行的结论、策略和交付文件。
 
-### 项目简介
+它适合用于法律纠纷分析、合同审查与起草、法律研究、谈判准备、文书草拟、庭审/听证准备和案件复盘。默认情况下，Agent 会先在对话中输出结构化汇总结论；如果你需要正式归档、发给律师或用于内部讨论，可以继续要求生成 Markdown 报告或样式化 PDF 报告。
 
-**法律助手智能体 Legal-Assistant_agent** 是一套面向真实法律工作的 AI 法律工作台。它以 `AGENTS.md` 为入口，让 AI 助手在处理法律事项时不只是即时回答，而是按法律工作者的方式持续推进：识别事项类型、法域和目标，整理事实、证据、争点、来源、风险和行动路径，并形成可复盘、可更新、可交付的分析成果。
+> 本项目不替代律师，不承诺案件结果。涉及期限、诉讼时效、程序规则、最新法规、关键证据或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
 
-它适用于法律纠纷分析、合同审查、合同起草、法律研究、谈判准备、文书草拟和阶段性复盘。复杂案件会先形成面向法律工作者的案件驾驶舱和面向用户的咨询纪要，再根据材料成熟度沉淀证据台账、争点分析、案件包、文书框架、庭审准备和专业报告。默认回答会先在对话中给出结构化汇总结论；如需正式交付，可继续要求导出 Markdown 或样式化 PDF 报告。
+## 工作台逻辑
 
-> 本项目不替代律师，不承诺案件结果。涉及诉讼时效、程序期限、关键证据、最新法规或高风险行动时，应核验官方/权威来源，并在必要时咨询相关法域的合格律师。
+| 层级 | 作用 | 典型内容 |
+|---|---|---|
+| 输入层 | 把零散材料变成可分析对象 | 事实材料、证据材料、程序进度、用户目标 |
+| 核心方法轮 | 建立法律推理主线 | 争议点识别、矛盾分析、因果推理、换位思考、法官视角、反证/自证路径 |
+| 功能模块层 | 按任务推进法律工作 | 案情梳理、证据映射、法条与案例检索、风险评估、诉讼/仲裁策略、谈判方案、文书生成、庭审问答准备 |
+| 输出层 | 形成可行动成果 | 案情摘要、证据清单、法律分析、行动清单、谈判话术、文书模板 |
+| 闭环迭代 | 新材料出现后继续更新 | 输入、分析、推理、方案、输出、复盘迭代 |
 
-### 工作方式
+## 推荐使用方式
 
-```text
-用户输入法律事项
-→ 识别语言、法域、事项类型和用户目标
-→ 创建或复用本地事项文件夹
-→ 生成案件驾驶舱和咨询纪要
-→ 整理事实、证据、争点、来源和风险
-→ 按需要生成案件包、文书框架或庭审手册
-→ 输出分析结论、行动建议和必要文书
-→ 在对话中汇总结论，按需生成专业报告 Markdown / 样式化 PDF
-→ 后续新证据或新进展继续更新同一事项
-```
-
-复杂事项会在本地工作目录中生成独立事项文件夹，用于保存阶段记录、分析底稿、参考来源、行动建议和按需生成的交付报告。
-
-### 主要产物
-
-常见输出包括：
-
-- `plan.md`：事项阶段、下一步、责任方、待补信息和执行记录。
-- `case.md`：案件或事项的关键事实、争点、程序状态和核心记忆。
-- `case_dashboard.md`：一页式案件驾驶舱，呈现案件主线、胜败关键、争点树、证明责任和可信度。
-- `consultation_note.md`：面向用户或客户的咨询纪要，说明当前判断、限制、风险和补充材料。
-- `analysis.md`：完整法律分析底稿。
-- `advice.md`：面向用户的策略、行动建议和表达风险。
-- `sources.md`：法律、案例、政策、网页等来源及核验状态。
-- `<主题>专业报告.md`：用户要求正式报告文件时生成的法律分析报告。
-- `<主题>专业报告.pdf`：用户明确要求 PDF 时生成；与 Markdown 报告一致，并经过版式渲染和可读性检查。
-
-成熟案件还可以继续生成 `case_package.md`、`pleading_framework.md`、`hearing_playbook.md` 和 `review_delta.md`，用于内部案件包、文书准备、开庭/听证准备和新材料复盘。
-
-### 报告导出
-
-默认分析不自动生成 PDF，避免每次咨询都产出不必要的文件。当你需要正式归档、发送给律师或用于内部讨论时，可以要求生成 Markdown 报告或样式化 PDF。
-
-PDF 样式和渲染工具在项目根目录统一管理，不需要复制到每个事项文件夹：
-
-- `assets/legal-report.css`：Legal-Assistant_agent 的专业报告视觉系统。
-- `tools/render_report_pdf.py`：可选 PDF-native 渲染器，默认“输入目录 = 输出目录”。
-
-示例：
-
-```sh
-python tools/render_report_pdf.py "work/<date>_<事项名>"
-```
-
-该命令会自动查找事项目录下的专业报告 Markdown，并在同一目录生成同名 PDF。
-
-### 使用方式
-
-推荐使用方式：
+把下面这句话复制到你常用的大模型对话框里，然后补充你的事实、合同文本或问题：
 
 ```text
 请参考这个 https://github.com/KevinKE93/Legal-Assistant_agent ，帮我分析下面这个法律事项/合同/问题……
 ```
 
-临时调用：
+如果你在支持项目规则或 `/` 指令的 AI 客户端中使用，也可以让客户端读取并遵循本仓库的 `AGENTS.md`。
 
-```text
-请按照 Legal-Assistant_agent 的工作流分析下面这个法律事项，并先给出结构化汇总结论。如果我需要正式 PDF 报告，会另行提出。
-```
+## 你会得到什么
 
-全局或 `/` 指令调用：
+普通咨询会优先得到一份对话内 briefing，通常包括：
 
-```text
-/legal-assistant 分析这个法律事项……
-```
+- 核心结论与主要限制。
+- 争议焦点或条款风险之间的关系。
+- 关键证据缺口与补充材料清单。
+- 法律依据、来源核验状态和引用风险。
+- 对方可能主张、裁判者视角和策略路径。
+- 下一步行动建议。
 
-如果你的 AI 客户端支持自定义命令，可以将命令配置为“读取并遵循本仓库的 `AGENTS.md`”。本仓库不提供安装脚本，适合通过提示词、项目规则或自定义命令直接接入。
+当你要求正式交付时，可以继续生成：
 
-### 适用场景
+- 专业 Markdown 报告。
+- 样式化 PDF 报告。
+- 沟通函、投诉材料、合同草案、诉讼/仲裁框架、庭审提纲等文书草稿。
 
-- 劳动争议、合同纠纷、消费纠纷、租赁纠纷等复杂事项分析。
-- 合同、补充协议、和解协议、服务协议等文本审查。
-- 合同草案、沟通函、投诉材料、仲裁/诉讼框架和庭审提纲准备。
-- 法律规则、案例、政策和官方网页的检索记录与引用风险整理。
-- 新证据、新报价、新程序节点出现后的持续复盘。
+## 适用场景
 
-### 安全边界
+| 场景 | 适合解决的问题 |
+|---|---|
+| 纠纷分析 | 劳动争议、合同纠纷、消费纠纷、租赁纠纷、赔偿/返还争议 |
+| 合同工作 | 审查合同风险、补充关键条款、起草协议或和解方案 |
+| 法律研究 | 梳理法律依据、案例、政策和引用风险 |
+| 策略准备 | 谈判方案、投诉路径、仲裁/诉讼思路、证据补强 |
+| 阶段复盘 | 新证据、新报价、新程序节点出现后的判断更新 |
+
+## 安全边界
 
 Legal-Assistant_agent 不会：
 
 - 替代律师或承诺案件结果。
 - 编造法条、案例、案号、法院、证据或裁判观点。
+- 把用户单方陈述直接当作已证明事实。
 - 指导伪造、篡改、隐藏、销毁或歪曲证据。
-- 指导虚假陈述、诱导他人作虚假陈述或非法取证。
-- 指导骚扰、威胁、盗号、定位、跟踪或公开隐私。
-- 在未审查证据的情况下，把用户单方陈述当作已证明事实。
+- 指导虚假陈述、非法取证、骚扰、威胁、跟踪或公开隐私。
 
 ---
 
-## English
+## English Version
 
-### Overview
+**Legal-Assistant_agent** is an AI legal workbench for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and professional delivery.
 
-**Legal-Assistant_agent** is an AI legal workbench for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and professional delivery. It uses `AGENTS.md` as the main entrypoint and guides an AI assistant to work like a structured legal matter workspace rather than a one-off Q&A assistant.
+Instead of answering a legal question once and stopping there, it guides an AI assistant to work more like a legal professional: understand the materials, identify the goal, map issues, examine evidence, verify sources, assess risks, and produce actionable conclusions, strategies, and deliverables.
 
-For complex matters, the agent creates or reuses a local matter folder, first builds a case dashboard and consultation note, then records facts and evidence, maps issue trees and proof burdens, tracks source verification, explains legal-rule applicability boundaries, prepares strategy or draft documents, and gives a structured briefing in the conversation by default. A professional Markdown report or styled PDF can be generated when the user explicitly asks for a formal deliverable.
+It can support dispute analysis, contract review and drafting, legal research, negotiation preparation, document drafting, hearing preparation, and matter updates. By default, the agent provides a structured briefing in chat first. If you need a formal deliverable, you can ask for a Markdown report or a styled PDF report.
 
-This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-stakes actions should be verified against authoritative sources and reviewed by qualified counsel in the relevant jurisdiction.
+> This project is not a substitute for licensed legal counsel and does not promise outcomes. Deadlines, limitation periods, procedural rules, current law, key evidence, and high-risk actions should be checked against authoritative sources and reviewed by qualified counsel when needed.
 
-### How It Works
+## Workbench Model
 
-```text
-User provides a legal matter
-→ Identify language, jurisdiction, matter type, and user goal
-→ Create or reuse a local matter folder
-→ Produce a case dashboard and consultation note
-→ Organize facts, evidence, issues, sources, and risks
-→ Prepare a case package, pleading framework, or hearing playbook when needed
-→ Produce analysis, guidance, and draft documents when needed
-→ Summarize conclusions in chat, then generate a professional Markdown / styled PDF report on request
-→ Continue updating the same matter when new information appears
-```
+| Layer | Purpose | Typical Content |
+|---|---|---|
+| Input Layer | Turn scattered materials into an analyzable matter | Facts, evidence, procedural status, user goals |
+| Reasoning Engine | Build the legal reasoning path | Issue spotting, contradiction analysis, causation, role reversal, adjudicator view, proof and counter-proof paths |
+| Functional Modules | Move the legal work forward | Matter timeline, evidence mapping, legal research, risk assessment, litigation/arbitration strategy, negotiation support, drafting, hearing Q&A preparation |
+| Output Layer | Produce actionable work product | Matter summary, evidence list, legal analysis, action list, negotiation language, drafting templates |
+| Workflow Loop | Keep the matter updated as new information appears | Input, analysis, reasoning, strategy, output, review iteration |
 
-For complex matters, the agent keeps a dedicated local matter folder for stage notes, working analysis, source records, action guidance, and on-request deliverables.
+## Recommended Use
 
-### Deliverables
-
-- `plan.md`: stage plan, next actions, owner, missing information, and execution notes.
-- `case.md`: matter memory, key facts, issues, procedural status, and conclusions.
-- `case_dashboard.md`: one-page case map for legal workers.
-- `consultation_note.md`: user-facing consultation summary, limits, risks, and material requests.
-- `analysis.md`: working legal analysis.
-- `advice.md`: user-facing strategy and action guidance.
-- `sources.md`: statutes, cases, policies, URLs, verification status, and citation risks.
-- `<topic> Professional Report.md`: final or stage-based professional report when the user requests a file deliverable.
-- `<topic> Professional Report.pdf`: rendered PDF version when the user explicitly requests PDF and the environment can generate a readable, styled PDF.
-
-### Report Export
-
-PDF is not generated by default for ordinary analysis. When you need a formal deliverable for archiving, lawyer review, or internal discussion, ask for a Markdown report or styled PDF.
-
-PDF rendering assets are managed at the project root and are not copied into each matter folder:
-
-- `assets/legal-report.css`: the canonical legal report visual system.
-- `tools/render_report_pdf.py`: an optional PDF-native renderer; by default, the input directory is also the output directory.
-
-Example:
-
-```sh
-python tools/render_report_pdf.py "work/<date>_<matter>"
-```
-
-The command auto-detects the professional report Markdown and writes the PDF next to it.
-
-### Usage
-
-Recommended use:
+Paste this prompt into your AI chat, then add your facts, contract text, or question:
 
 ```text
-Paste https://github.com/KevinKE93/Legal-Assistant_agent into your AI chat and say:
-"Please refer to this Legal-Assistant_agent workflow and help me analyze the following legal matter, contract, or question..."
+Please refer to this https://github.com/KevinKE93/Legal-Assistant_agent and help me analyze the following legal matter, contract, or question...
 ```
 
-Temporary invocation:
+If your AI client supports project rules or slash commands, configure it to read and follow this repository's `AGENTS.md`.
 
-```text
-Use Legal-Assistant_agent to analyze this legal matter and first provide a structured conclusion briefing. If I need a formal PDF report, I will ask for it separately.
-```
+## What You Get
 
-Slash-command style:
+For ordinary analysis, the agent first returns a structured briefing in chat, usually covering:
 
-```text
-/legal-assistant analyze this matter...
-```
+- Core conclusions and major limitations.
+- Relationships between issues or contract risks.
+- Key evidence gaps and requested materials.
+- Legal-source status and citation risks.
+- Opponent arguments, adjudicator view, and strategy path.
+- Next recommended actions.
 
-If your AI client supports custom commands, configure the command to read and follow this repository's `AGENTS.md`. This repository does not ship an installer; it is designed to be used through prompts, project rules, or custom commands.
+When you request a formal deliverable, it can also generate:
+
+- A professional Markdown report.
+- A styled PDF report.
+- Draft letters, complaints, contract drafts, litigation/arbitration frameworks, hearing outlines, and similar legal work products.
+
+## Common Use Cases
+
+| Scenario | Suitable For |
+|---|---|
+| Dispute analysis | Employment, contract, consumer, lease, compensation, and restitution disputes |
+| Contract work | Reviewing risk, adding missing clauses, drafting agreements or settlement terms |
+| Legal research | Summarizing legal rules, cases, policies, and citation risks |
+| Strategy preparation | Negotiation plans, complaint routes, arbitration/litigation thinking, evidence strengthening |
+| Matter updates | Updating analysis after new evidence, offers, or procedural events |
+
+## Safety Boundaries
+
+Legal-Assistant_agent will not:
+
+- Replace a lawyer or promise case outcomes.
+- Fabricate statutes, cases, docket numbers, courts, evidence, or judicial views.
+- Treat one-sided user statements as proven facts.
+- Help forge, alter, hide, destroy, or distort evidence.
+- Help with false statements, illegal evidence collection, harassment, threats, tracking, or privacy exposure.
 
 ## Author
 
