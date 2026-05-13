@@ -18,11 +18,11 @@
 
 - [适用场景](#适用场景)
 - [我为你做什么](#我为你做什么)
-- [工作台逻辑](#工作台逻辑)
+- [轻量工作方式](#轻量工作方式)
 - [使用方式](#使用方式)
 - [安全边界](#安全边界)
 
-**法律助手智能体 Legal-Assistant_agent** 让大模型不只是“回答法律问题”，而是按法律工作者的方式处理一件事：先看材料、识别目标，再拆争议焦点、看证据、查来源、评估风险，最后形成可执行的结论、策略和交付文件。
+**法律助手智能体 Legal-Assistant_agent** 让大模型不只是“回答法律问题”，而是按当前目标选择最小可靠路径：能在对话中回答就直接回答，需要持续记忆才落盘，需要报告或文书才生成文件，复杂案件才展开案件工作台。
 
 它适合用于法律纠纷分析、合同审查与起草、法律研究、谈判准备、文书草拟、庭审/听证准备和案件复盘。默认情况下，Agent 会先在对话中输出结构化汇总结论；如果你需要归档、发给律师或用于内部讨论，可以继续要求生成 Markdown 报告或 PDF 报告。
 
@@ -55,15 +55,14 @@
 - PDF 报告。
 - 沟通函、投诉材料、合同草案、诉讼/仲裁框架、庭审提纲等文书草稿。
 
-## 工作台逻辑
+## 轻量工作方式
 
-| 层级 | 作用 | 典型内容 |
+| 模式 | 何时使用 | 典型输出 |
 |---|---|---|
-| 输入层 | 把零散材料变成可分析对象 | 事实材料、证据材料、程序进度、用户目标 |
-| 核心方法轮 | 建立法律推理主线 | 争议焦点识别、矛盾分析、因果推理、换位思考、法官视角、反证/自证路径 |
-| 功能模块层 | 按任务推进法律工作 | 案情梳理、证据映射、法条与案例检索、风险评估、诉讼/仲裁策略、谈判方案、文书生成、庭审问答准备 |
-| 输出层 | 形成可行动成果 | 案情摘要、证据清单、法律分析、行动清单、谈判沟通口径、文书模板 |
-| 闭环迭代 | 新材料出现后继续更新 | 输入、分析、推理、方案、输出、复盘迭代 |
+| Quick Answer | 简单问题、短条款疑问、一次性咨询 | 会话内结论、限制和下一步 |
+| Matter Note | 同一事项可能继续追问，但暂不需要正式文件 | `matter.md` |
+| Deliverable | 明确需要合同审查意见、合同草案、函件、投诉材料或报告 | `matter.md` + 目标交付文件 |
+| Deep Case | 多争议焦点、多程序、听证/仲裁/诉讼或长期案件 | 按需案件工作台、证据文件、文书框架 |
 
 ## 使用方式
 
@@ -78,12 +77,6 @@
 ```
 
 安装后重启 Codex，然后使用：
-
-```text
-/legal assistant 分析这个法律事项……
-```
-
-如果你的客户端不识别带空格的指令，可以使用兼容写法：
 
 ```text
 /legal-assistant 分析这个法律事项……
@@ -123,15 +116,15 @@ Legal-Assistant_agent 不会：
 
 - [Common Use Cases](#common-use-cases)
 - [What I Do For You](#what-i-do-for-you)
-- [Workbench Model](#workbench-model)
+- [Working Model](#working-model)
 - [How To Use](#how-to-use)
 - [Safety Boundaries](#safety-boundaries)
 - [Author](#author)
 - [License](#license)
 
-**Legal-Assistant_agent** is an AI legal workbench for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and report delivery.
+**Legal-Assistant_agent** is an AI legal assistant for legal matter analysis, contract work, legal research, strategy planning, drafting, negotiation preparation, and report delivery.
 
-Instead of answering a legal question once and stopping there, it guides an AI assistant to work more like a legal professional: understand the materials, identify the goal, map issues, examine evidence, verify sources, assess risks, and produce actionable conclusions, strategies, and deliverables.
+Instead of forcing every matter into a heavy workflow, it chooses the smallest reliable path: answer in chat when that is enough, keep a matter note when continuity matters, generate files only when requested, and expand into a case workbench only for complex matters.
 
 It can support dispute analysis, contract review and drafting, legal research, negotiation preparation, document drafting, hearing preparation, and matter updates. By default, the agent provides a structured briefing in chat first. If you need a report file, you can ask for a Markdown report or PDF report.
 
@@ -164,15 +157,14 @@ When you request a report or draft, it can also generate:
 - A PDF report.
 - Draft letters, complaints, contract drafts, litigation/arbitration frameworks, hearing outlines, and similar legal work products.
 
-## Workbench Model
+## Working Model
 
-| Layer | Purpose | Typical Content |
+| Mode | When To Use | Typical Output |
 |---|---|---|
-| Input Layer | Turn scattered materials into an analyzable matter | Facts, evidence, procedural status, user goals |
-| Reasoning Engine | Build the legal reasoning path | Issue spotting, contradiction analysis, causation, role reversal, adjudicator view, proof and counter-proof paths |
-| Functional Modules | Move the legal work forward | Matter timeline, evidence mapping, legal research, risk assessment, litigation/arbitration strategy, negotiation support, drafting, hearing Q&A preparation |
-| Output Layer | Produce actionable work product | Matter summary, evidence list, legal analysis, action list, negotiation language, drafting templates |
-| Workflow Loop | Keep the matter updated as new information appears | Input, analysis, reasoning, strategy, output, review iteration |
+| Quick Answer | Simple questions, short clause questions, one-off consultations | In-chat conclusion, limits, and next steps |
+| Matter Note | A matter may continue, but no formal file is needed yet | `matter.md` |
+| Deliverable | The user asks for a contract review, draft, letter, complaint, memo, or report | `matter.md` plus the requested file |
+| Deep Case | Multi-issue, multi-procedure, hearing, arbitration, litigation, or long-running matters | Case workbench files only as needed |
 
 ## How To Use
 
@@ -187,12 +179,6 @@ Run this command from the repository folder:
 ```
 
 Restart Codex, then use:
-
-```text
-/legal assistant analyze this legal matter...
-```
-
-If your client does not recognize commands with spaces, use:
 
 ```text
 /legal-assistant analyze this legal matter...
