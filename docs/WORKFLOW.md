@@ -1,10 +1,34 @@
 # WORKFLOW.md
 
-本文件定义 Legal-Assistant_agent 的事项工作台规则。`AGENTS.md` 是入口，本文件是执行流程标准；事项类型、角色、必跑 skill 和 gate 以 `docs/CAPABILITIES.md` 为准；纠纷、仲裁、诉讼、听证和持续复盘事项的案件工作台输出以 `docs/CASE_WORKBENCH.md` 为准。
+本文件定义 Legal-Assistant_agent 的轻量执行方式。默认先解决用户当前问题；只有任务确实需要持续记忆、文件交付或复杂案件协作时，才创建事项文件夹和更多产物。
 
-## 1. 事项文件夹
+## 1. 四种执行模式
 
-复杂、多争议焦点、多程序、合同审查、合同起草或需要持续推进的法律事项，默认创建或复用：
+| 模式 | 适用场景 | 是否落盘 | 默认产物 |
+|---|---|---:|---|
+| Quick Answer | 简单法律问题、短条款疑问、初步风险判断、一次性咨询 | 否 | 会话回复 |
+| Matter Note | 同一事项可能继续追问，但暂不需要报告或正式文书 | 是 | `matter.md` |
+| Deliverable | 用户明确要求合同审查意见、合同草案、函件、投诉材料、研究报告或 Markdown 报告 | 是 | `matter.md` + `<交付物>.md` |
+| Deep Case | 多争议焦点、多程序、诉讼/仲裁/听证、长期案件、证据链复杂或团队协作 | 是 | `matter.md` + 按需案件文件 |
+
+选择规则：使用能可靠完成用户目标的最小模式。不要为了“流程完整”生成文件。
+
+## 2. 路由顺序
+
+1. 做隐私、合法性和安全边界检查。
+2. 判断用户主语言、法域、事项类型、当前目标和是否需要文件交付。
+3. 按 `docs/SKILLS.md` 选择必要的分析镜头和最小产物。
+4. 判断执行模式：
+   - 能在会话里清楚回答：`Quick Answer`。
+   - 需要持续记忆但没有交付文件：`Matter Note`。
+   - 用户要具体文件：`Deliverable`。
+   - 事实、证据、程序或争议结构复杂：`Deep Case`。
+5. 只读取与当前模式相关的规范；不要一次性加载全部文档。
+6. 信息不足、来源无法核验、工具不可用或目标冲突时，返回 `Blocked`，交由用户或上一级流程决策。
+
+## 3. 文件规则
+
+只有 `Matter Note`、`Deliverable`、`Deep Case` 创建或复用事项文件夹：
 
 ```text
 work/<date>_<本地化事项名>/
@@ -12,74 +36,70 @@ work/<date>_<本地化事项名>/
 
 规则：
 
-- `<date>` 使用当前日期，格式 `YYYY-MM-DD`。
-- `<本地化事项名>` 使用用户输入的主语言命名。中文输入必须使用中文名；英文输入使用英文名；混合输入按主语言命名。
-- 名称用 2-6 个关键词概括法律主题，不写真实姓名、身份证号、完整公司名、地址等敏感信息。
-- 同一事项只维护一个文件夹；后续输入新事实、新证据、新合同版本或新程序进展时，继续更新旧文件夹。
-- 创建新文件夹前，先查看 `work/` 下是否已有同一事项文件夹。判断依据包括事项类型、关键词、当事人角色、合同主题、程序阶段和用户目标；不确定时在 `plan.md` 写 `Reuse check: uncertain`，并向用户确认或选择最保守的复用方案。
-- 事项文件夹必须直接位于 `work/` 下，不增加任何中间分类层。
+- 事项文件夹必须直接位于 `work/` 下。
+- `<date>` 使用 `YYYY-MM-DD`。
+- `<本地化事项名>` 跟随用户主语言，用 2-6 个关键词概括主题，避免真实姓名、身份证号、完整公司名、地址等敏感信息。
+- 同一事项复用同一文件夹；不确定是否同一事项时，先在会话中说明判断并请求确认。
 - 不提交 `work/` 下真实案件数据。
 
-### 1A. 复用既有事项后的更新规则
+## 4. matter.md
 
-复用既有事项文件夹时，不得只沿用旧结论。必须做一次“复用复核”：
+`matter.md` 是默认唯一的持续记忆文件，替代普通任务里的 `plan.md`、`case.md`、`skill_outputs.md`、`analysis.md` 和 `advice.md`。
 
-- 读取既有 `plan.md`、`case.md`、`skill_outputs.md`、`sources.md`、`analysis.md`、`advice.md` 和已生成报告。
-- 判断本轮输入是同一事项的新事实、同一事项的补充说明，还是应新建事项；判断理由写入 `plan.md` 的 `Reuse check`。
-- 若本轮仅补充事实但没有原始证据，保持相关事实为“用户陈述/待证明事实”，不得把报告状态升级为 `complete`。
-- 若本轮涉及日期、期限、最新法规、政策、案例或来源状态，必须重新核验或在 `sources.md` 标明“本轮未复核/待核验/影响”。
-- 更新 `case.md` 的 `Update Log`，说明新增信息、判断是否变化、下一步动作。
-- 更新 `plan.md` 的 `PDCA Log`，新增一轮复核记录，而不是覆盖旧记录。
-- 若用户已请求 PDF，更新 Markdown 报告后 PDF 必须同源重渲染；无法重渲染时把 `PDF status` 改为 `blocked` 或说明 PDF 仍为旧版，不得暗示 PDF 已同步。未请求 PDF 时，`PDF status` 写为 `not requested`，不得标记 blocked。
+建议结构：
 
-## 2. i18n 规则
+```markdown
+# Matter
 
-- 默认使用用户主语言输出目录名、面向用户的文件名、标题、表格字段和行动建议。
-- 中文输入时，报告文件名必须使用中文法律主题。
-- 英文输入时，使用英文主题和英文报告名，例如 `Split Payroll Overtime Dispute Report.md`。
-- 法律规则名称、合同原文、证据备注、对方原话、用户输入的特定短语保留原文，并用用户语言解释。
-- 内部工作文件名保持稳定英文，便于跨工具复盘。
+## Current Goal
 
-### 2A. 术语与输出口径
+## Jurisdiction And Stage
 
-为避免不同 skill、会话回复、Markdown 报告和 PDF 报告出现口径不一致，所有面向用户的文档默认使用以下术语：
+## Known Facts Or Clauses
+| Item | Status: user-stated / evidenced / disputed / unknown | Evidence / Source | Impact |
+|---|---|---|---|
 
-| 统一术语 | 使用场景 | 避免使用 |
-|---|---|---|
-| 争议焦点 | 需要裁判、谈判或审查的核心问题 | 争点、争议点 |
-| 争议焦点矩阵 | 多个争议焦点的列表化分析 | 争点表、争议点清单 |
-| 争议焦点关系图 | 母命题、条件命题、反制命题之间的依赖关系 | 争点树、争议点图 |
-| 争议焦点展开 | 对单个争议焦点的事实、证据、规则和反方解释展开 | 争点深挖 |
-| 法律规则适用边界 | 法律、司法解释、案例、政策或监管规则的适用条件和限制 | 法条适用边界 |
-| 关键判断变量 | 对结果、金额、谈判或程序有决定性影响的因素 | 胜败关键、胜败因素 |
-| 结果倾向 | 对结果方向的条件性评估 | 胜率、结果概率 |
-| 不宜采取的动作 | 可能削弱主张、增加风险或违法违规的行为 | 禁忌动作 |
-| 表达风险 | 文书、谈判、庭审或沟通中的高风险措辞 | 禁忌表达 |
-| Markdown 报告 | 用户要求报告文件时生成的 Markdown 交付文件 | 报告.md、总结.md 的泛称 |
-| PDF 报告 | 用户明确要求 PDF 时生成的排版交付文件 | 把 Markdown 原文塞进 PDF |
+## Core Issues Or Risks
+| Issue | Why It Matters | Current View | Uncertainty |
+|---|---|---|---|
 
-如果工作文件中必须保留用户原话、合同原文、证据备注或法律条文标题，可以保留原文；但报告正文和会话汇总应使用上述统一术语解释。
+## Evidence And Source Status
 
-## 3. 默认文件
+## Advice And Next Actions
 
-复杂事项至少维护：
-
-```text
-plan.md
-case.md
-skill_outputs.md
-analysis.md
-advice.md
-<本地化主题>报告.md
+## Update Log
+| Date | New Input | Changed View | Next Step |
+|---|---|---|---|
 ```
 
-PDF 不是默认产物。只有用户明确要求 PDF、可下载 PDF 报告或阶段交付 PDF 时，才增加：
+复杂案件需要更细文件时，再从 `matter.md` 拆出 `timeline.md`、`evidence.md`、`case_dashboard.md`、`hearing_playbook.md` 等。
 
-```text
-<本地化主题>报告.pdf
-```
+## 5. 交付文件
 
-按场景增加：
+用户明确要求文件时才生成 `<交付物>.md`。常见文件：
+
+| 场景 | 交付文件 |
+|---|---|
+| 合同审查 | `合同审查意见.md` 或 `clause_review.md` |
+| 合同起草 | `合同草案.md` 或 `contract_draft.md` |
+| 法律研究 | `法律研究报告.md` |
+| 函件/投诉/诉状框架 | `drafts.md` 或本地化文件名 |
+| 阶段报告 | `<本地化主题>报告.md` |
+
+PDF 只在用户明确要求 PDF、可下载 PDF 报告或阶段交付 PDF 时生成，并按 `docs/REPORT.md` 的 PDF 按需交付规则检查。
+
+## 6. 来源规则
+
+引用法律、案例、政策、网页或“已核验来源”时，必须说明来源状态。
+
+- `Quick Answer`：可以在会话中列出来源；若没有检索，明确写“未核验/待核验”。
+- 其他模式：创建或更新 `sources.md`。
+- 涉及最新法规、期限、诉讼时效、证据规则、程序规则或具体法域规则时，优先使用官方或权威来源。
+- 不能核验时，不得写成确定法律依据。
+
+## 7. Deep Case 扩展
+
+只有进入 `Deep Case` 时，才按需要使用以下文件：
 
 ```text
 timeline.md
@@ -100,282 +120,40 @@ term_sheet.md
 contract_draft.md
 ```
 
-## 4. 文件职责
+`plan.md` 和 `skill_outputs.md` 不再是默认文件。仅在以下情况启用：
 
-| 文件 | 职责 |
-|---|---|
-| `plan.md` | 当前阶段、已完成、进行中、下一步、责任方、待用户补充信息、PDF 请求和状态 |
-| `case.md` | 事项核心记忆、事实/条款分层、争议焦点、证据状态、程序进展、关键结论 |
-| `skill_outputs.md` | 每个已执行 skill 的输入、输出、关键发现、来源使用和报告章节映射 |
-| `timeline.md` | 事件时间线、合同版本流转或程序节点 |
-| `evidence.md` | 证据台账、证明对象、三性风险、证据缺口和补强动作 |
-| `sources.md` | 官方或权威来源、网页、法规、案例、访问日期、核验状态、引用风险 |
-| `case_dashboard.md` | 面向法律工作者的一页式案件地图、关键判断变量、争议焦点关系图、证明责任和可信度 |
-| `consultation_note.md` | 面向用户或客户的咨询纪要、当前判断、限制、补证材料和不宜采取的动作 |
-| `case_package.md` | 法律团队使用的完整案件包，串联事实、证据、争议焦点、来源、攻防和策略 |
-| `pleading_framework.md` | 文书、仲裁申请、起诉状、答辩、代理意见或投诉材料的结构框架 |
-| `hearing_playbook.md` | 调解、仲裁、庭审或听证准备：举证、质证、发问和裁判者追问 |
-| `review_delta.md` | 新证据、新程序、新报价或新材料导致的变化复盘和需重跑内容 |
-| `analysis.md` | 工作底稿型完整分析，保留完整推理过程 |
-| `advice.md` | 面向用户的策略、行动路径、谈判建议和不宜采取的动作 |
-| `drafts.md` | 沟通函、投诉材料、仲裁/诉讼框架、庭审提纲 |
-| `contract.md` | 合同背景、版本、条款摘要 |
-| `clause_review.md` | 条款风险、缺失条款、修改建议、谈判点 |
-| `term_sheet.md` | 合同起草前的交易要点和条款结构 |
-| `contract_draft.md` | 合同、补充协议或和解协议草案 |
+- 用户需要审计轨迹或团队协作状态。
+- 事项进入长期、多轮、多人协作。
+- 需要证明哪些分析镜头已执行、哪些被阻塞。
 
-## 5. 路由与 gate 规则
+## 8. Blocked 返回
 
-复杂事项不能直接进入汇总。必须先完成：
+处理不了时不要硬做。使用以下结构返回：
 
 ```text
-识别事项类型
-→ 查 docs/CAPABILITIES.md
-→ 确定必跑 skill / 条件必跑 skill / 可选 skill / 必备文件 / 工具要求
-→ 写入 plan.md 和 skill_outputs.md
-→ 执行必跑和条件必跑 skill
-→ 检查 gates
-→ final_synthesis
+Blocked
+- 原因：
+- 缺少的信息/资源：
+- 当前最多能做到：
+- 需要用户或上一级流程决定：
 ```
 
-`plan.md` 必须记录：
+常见阻塞：
 
-- 主事项类型和子任务类型。
-- 必跑 skill 清单。
-- 条件必跑 skill 清单。
-- 可选 skill 清单。
-- 每个 gate 的状态：`pass / pending / blocked / skipped`。
-- 报告状态：`complete / complete_except_pdf / draft / incomplete`。
-- PDF 请求状态：`not requested / requested`。
-- 当前 PDCA 阶段和 Check 结论。
+- 法域、身份、程序阶段或目标缺失且会影响结论。
+- 关键证据未提供。
+- 需要最新法律/案例/政策但无法核验。
+- PDF 或文件转换工具不可用。
+- 用户目标存在违法、虚假陈述、非法取证或隐私侵害风险。
 
-`skill_outputs.md` 必须记录每个必跑和条件必跑 skill 的状态：`done / pending / blocked / skipped`。必跑或条件必跑 skill 若为 `pending`、`blocked` 或无理由缺失，报告只能标记为 `draft` 或 `incomplete`；若为 `skipped`，必须说明为什么不适用，以及是否影响完整交付。面向阅读对象的报告不展示 skill 执行表，应把影响结论的缺口写成材料限制、来源限制或证据限制。
+## 9. 会话回复
 
-Source Gate blocked 时，报告状态通常为 `draft` 或 `incomplete`，不得因为已生成 Markdown 而标记 `complete_except_pdf`。`complete_except_pdf` 只适用于用户已请求 PDF，且内容、来源、证据、报告和会话 gate 均通过，唯独 PDF Gate blocked 的情况。未请求 PDF 时，PDF Gate 应标记 `skipped / not requested`，不影响报告状态。
+默认回复要让用户直接获得价值，而不是只列文件路径。根据任务复杂度展示：
 
-合同审查、合同起草或纯法律研究等非争议事项，Workbench Gate 可标记为 `skipped / not applicable`，但必须写明“不触发案件工作台”的理由和后续触发条件。
-
-## 6. PDCA 闭环
-
-复杂事项必须通过 PDCA 传递：
-
-| PDCA | Agent 动作 | 文件落点 |
-|---|---|---|
-| Plan | 判断语言、法域、事项类型、复用文件夹、必跑/条件必跑 skill、gate、用户目标 | `plan.md`、`case.md` |
-| Do | 执行 skill，沉淀事实、时间线、证据、来源、分析、建议、文书或合同草案 | 主题文件、`skill_outputs.md` |
-| Check | 检查 skill 覆盖、来源、证据、报告、会话展示、i18n 和目录规则；仅在用户请求 PDF 时检查 PDF | `plan.md`、报告 |
-| Act | 输出下一步、补证、重跑 skill、升级/降级报告状态，或触发 `review_learning_loop` | `plan.md`、`case.md`、相关主题文件 |
-
-`plan.md` 是 PDCA 控制面板。每次阶段推进后都要更新当前 PDCA 阶段、Check 结果和 Act 动作，不能只更新报告。
-
-## 7. plan.md 标准结构
-
-```markdown
-# Plan
-
-- Matter folder:
-- Matter type:
-- Required skills:
-- Conditional required skills:
-- Optional skills:
-- Output language:
-- Workbench mode: yes / no / not applicable
-- Workbench files:
-- Markdown report:
-- PDF report:
-- PDF requested: yes / no
-- PDF status: not requested / pending / ready / blocked
-- Report status: complete / complete_except_pdf / draft / incomplete
-- PDCA stage: Plan / Do / Check / Act
-- Reuse check: new folder / reused existing folder / uncertain
-- Current stage:
-- Updated at:
-
-## Gate Status
-| Gate | Status | Reason / Evidence | Next Step |
-|---|---|---|---|
-| Routing Gate |  |  |  |
-| Folder Gate |  |  |  |
-| Workbench Gate |  |  |  |
-| Skill Gate |  |  |  |
-| Source Gate |  |  |  |
-| Evidence Gate |  |  |  |
-| Report Gate |  |  |  |
-| Conversation Gate |  |  |  |
-| PDF Gate | skipped / not requested | 用户未要求 PDF，本轮默认只输出会话汇总结论或 Markdown 报告。 | 如用户要求 PDF 报告，再按 docs/PDF_RENDERING.md 渲染并检查。 |
-
-## Done
--
-
-## In Progress
--
-
-## Next Actions
-| Priority | Owner | Action | Purpose | Due / Trigger | Output |
-|---|---|---|---|---|---|
-
-## PDCA Log
-| Cycle | Plan | Do | Check | Act | Status |
-|---|---|---|---|---|---|
-
-## Open Questions For User
-1.
-
-## Agent Notes
--
-```
-
-每完成一个主要阶段，都更新 `plan.md`。下一步必须有责任方：`user`、`agent`、`lawyer`、`court/arbitrator`、`agency`、`opponent`。
-
-### 7A. plan.md gate 示例
-
-合同审查事项：
-
-```markdown
-| Workbench Gate | skipped / not applicable | 本事项为签署前合同审查，无既有争议、对方抗辩、程序节点或听证准备；按合同审查路径输出 `contract.md`、`clause_review.md` 和合同审查报告。 | 若后续出现违约争议、谈判僵局或程序节点，再触发案件工作台。 |
-```
-
-未完成来源核验：
-
-```markdown
-| Source Gate | blocked | 本轮未联网或未取得官方或权威来源，法律规则仅为待核验分析假设。 | 检索官方法规、司法解释、案例或监管口径后更新 `sources.md` 和报告。 |
-```
-
-此时应写：
-
-```markdown
-- Report status: draft
-- PDF status: blocked / pending / ready
-```
-
-不得写成：
-
-```markdown
-- Report status: complete_except_pdf
-```
-
-## 8. case.md 标准结构
-
-```markdown
-# Case
-
-## One-Line Matter Map
-
-## Basic Information
-| Field | Value | Evidence / Source | Status |
-|---|---|---|---|
-
-## Facts Or Clauses
-| ID | Content | Type: proven / alleged / disputed / inferred / clause | Evidence / Source | Impact |
-|---|---|---|---|---|
-
-## Core Issues
-| ID | Issue | Type | Burden / Owner | User Position | Opponent Position | Evidence | Gap | Impact |
-|---|---|---|---|---|---|---|---|---|
-
-## Evidence Status
-| Evidence | Holder | Proves | Strength | Authenticity / Legality / Relevance Risk | Next Step |
-|---|---|---|---|---|---|
-
-## Legal Analysis Notes
--
-
-## Risk And Strategy Notes
--
-
-## Final Deliverable Notes
-- 文件名：
-- 当前状态：not started / draft / ready for user review / needs evidence update
-- 必须纳入的主题：
-
-## Update Log
-| Date | New Information | Changed Judgment | Next Step |
-|---|---|---|---|
-```
-
-## 9. skill_outputs.md 标准结构
-
-```markdown
-# Skill Outputs
-
-## Execution Index
-| Seq | Skill | Required / Conditional / Optional | Status | Trigger | Files Read | Files Updated | Key Findings | Open Questions | Sources Used | Report Section |
-|---:|---|---|---|---|---|---|---|---|---|---|
-
-## Detailed Notes
-
-### <Seq>. <skill_name>
-- Trigger:
-- Required / conditional / optional:
-- Status: done / pending / blocked / skipped
-- User goal:
-- Inputs read:
-- Files updated:
-- Key findings:
-- Evidence or source status:
-- Open questions:
-- Next action:
-- Must appear in report section:
-```
-
-规则：
-
-- 每执行一个 skill，必须追加或更新一条记录。
-- 如果必跑或条件必跑 skill 被跳过或阻塞，必须在内部记录理由、影响和下一步，不能在报告中暗示相关分析已经完成；对读者只展示由此产生的材料、来源或证据限制。
-- 如果执行时信息不足，仍要记录“信息不足、影响、下一步补充”。
-- 报告必须吸收 `Execution Index` 中所有已执行 skill 的关键发现，并转化为事实、证据、争议焦点、来源、风险或行动建议。
-
-## 10. 来源记录规则
-
-需要法律条文、司法解释、案例、判决、行政规则、合同监管规则、网页或最新政策时：
-
-- 优先检索所属国家/管辖区的官方来源、法院官网、政府官网、官方法规库或权威数据库。
-- 允许使用浏览器、搜索引擎、法律数据库、官方网页或宿主环境提供的外部工具。
-- 每条可引用来源写入 `sources.md`，至少包含标题、机构/来源、URL、访问日期、核验状态、可用规则、引用风险。
-- 未核验来源只能作为线索，不能当作确定法律依据。
-- 若本轮未联网检索，必须在 `sources.md` 写明“未检索/待核验/原因/影响”。
-- 报告和会话回复必须展示来源数量、来源类型、核心可用规则和引用风险。
-
-### 10A. 来源复核规则
-
-来源可能随时间变化或出现更权威版本时，应优先复核：
-
-- 法律、司法解释、行政规则、地方政策、诉讼/仲裁期限、社保公积金基数、裁判规则和案例。
-- 旧报告中使用“新闻发布会、转载版本、问答、实务文章”作为来源，而本轮可找到正式条文、主管机关页面或更权威来源时，应补入新来源并保留引用风险。
-- 复核时必须写明访问/复核日期；新增来源使用新的编号或子编号，不覆盖旧来源导致上下文丢失。
-- 如果复核不改变结论，也要在 `plan.md` 或 `sources.md` 中写明“核心判断不变”的理由。
-
-## 11. 默认阶段流程
-
-1. 隐私与范围守门。
-2. 语言与事项类型路由。
-3. 查 `docs/CAPABILITIES.md`，确定必跑 skill、条件必跑 skill、可选 skill、必备文件和 gate。
-4. 事项摄入，拆分事实、推测、评价、法律结论、条款和目标。
-5. 创建或复用事项文件夹，初始化 `plan.md`、`case.md`、`skill_outputs.md`。
-6. 对案件工作台事项，先输出或更新 `case_dashboard.md` 与 `consultation_note.md`。
-7. 时间线、条款、证据台账。
-8. 争议焦点、条款风险、请求权基础、证明责任。
-9. 按 `docs/LEGAL_REASONING.md` 深挖母命题、条件命题、反制命题、推断链条和法律规则适用边界。
-10. 矛盾、因果、对方视角、裁判视角。
-11. 官方或权威来源检索，写入 `sources.md`。
-12. 策略行动、文书或合同草案；必要时生成 `case_package.md`、`pleading_framework.md` 或 `hearing_playbook.md`。
-13. Gate 与 PDCA Check 检查，标记 `complete / complete_except_pdf / draft / incomplete`；未请求 PDF 时，PDF Gate 为 `skipped / not requested`。
-14. 默认汇总以会话中的实质结论为主，说明核心结论、争议焦点关系、证据缺口、来源状态、最大风险和下一步，并提示用户如需 PDF 报告可以提出。
-15. 用户要求报告文件时，逐项读取所有工作文件，输出 Markdown 报告；用户明确要求 PDF 时，再按 `docs/PDF_RENDERING.md` 将报告渲染为 DOCX、XeLaTeX、PDF-native 文档对象，或由无浏览器 HTML-to-PDF 引擎处理的 styled HTML 后导出 PDF；可用根目录 `tools/render_report_pdf.py` 时，输入目录即输出目录，不把渲染脚本复制到事项文件夹。
-16. 会话界面展示实质汇总。
-17. 后续新信息触发 `review_delta.md`、Act 和复盘，更新既有事项文件夹。
-
-## 12. 信息不足时如何处理
-
-只在缺口会明显影响结论、金额、期限、管辖、证明责任或行动选择时提问。用户暂时无法补充时，继续分析，但必须把缺口写入 `plan.md`、`case.md` 和 `skill_outputs.md`。
-
-优先追问：
-
-- 法域和城市/地区。
-- 纠纷类型和程序阶段。
-- 用户身份与目标。
-- 关键日期和期限。
-- 已有证据清单。
-- 对方主张或已提交材料。
-- 是否已经仲裁、起诉、答辩、调解或投诉。
-- 合同类事项的合同版本、交易背景、签署状态、谈判空间、不可接受条款和用户立场。
+- 核心结论或当前判断。
+- 关键风险、争议焦点或条款问题。
+- 证据缺口和来源核验状态。
+- 最大风险。
+- 下一步 1-3 项动作。
+- 已生成/更新的文件路径。
+- 若需要 PDF 报告，可以继续提出。
