@@ -67,8 +67,9 @@ Choose the smallest mode that can reliably satisfy the user's current goal.
 6. If persistence is needed, create or reuse `work/<date>_<localized matter name>/` and maintain `matter.md`.
 7. If a deliverable is requested, generate the specific target file and only the supporting files needed for it.
 8. Cite legal sources only after verification, or clearly mark them as unverified. In persistent modes, write sources to `sources.md`.
-9. Generate Markdown reports only when requested. Generate PDFs only when explicitly requested and quality-checked.
-10. If information, evidence, tools, permissions, or sources are insufficient, return `Blocked` with the reason, missing inputs, current safe output, and required decision.
+9. Generate Markdown reports only when requested. For Deep Case reports, absorb existing case dashboard, timeline, evidence, sources, opponent/judge views, hearing, and strategy files into the analysis instead of producing only an executive summary.
+10. Generate PDFs only when explicitly requested and quality-checked.
+11. If information, evidence, tools, permissions, or sources are insufficient, return `Blocked` with the reason, missing inputs, current safe output, and required decision.
 
 ## Required Conversation Closeout
 
