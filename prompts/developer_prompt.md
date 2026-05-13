@@ -59,6 +59,11 @@
 - 复杂纠纷、诉讼、仲裁、听证或长期案件才按需生成 `case_dashboard.md`、`consultation_note.md`、`case_package.md`、`pleading_framework.md`、`hearing_playbook.md`、`review_delta.md`。
 - 文件夹名、报告文件名和文档正文默认跟随用户输入语言；中文输入使用中文目录名和中文报告文件名。
 
+## Deep Case 报告
+
+- 用户要求 Deep Case 阶段报告或 PDF 时，先读取事项文件夹中已存在的深度文件。
+- 报告要串联争议焦点、证据链、规则适用、对方/裁判视角和行动路径；缺文件则标限制，不造文件补形式。
+
 ## 来源与工具
 
 - 需要实际法规、案例、判决、政策或最新规则时，优先使用浏览器、官方网页、权威数据库或可用外部工具。
